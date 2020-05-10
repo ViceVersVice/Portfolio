@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     libpq-dev \
     postgresql \
-    postgresql-contrib
+    postgresql-contrib \
+    npm
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
@@ -24,7 +25,7 @@ COPY requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . /usr/src/app/
-RUN node --version
+RUN cd portfolio/frontend && npm run build
 RUN cd docker_config && ls -a
 
 ENTRYPOINT ["/usr/src/app/docker_config/db_entrypoint.sh"]
