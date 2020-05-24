@@ -2,3 +2,7 @@
 **/*.pyc
 **/env.dev
 venv
+
+# FE
+node_modules
+package-lock.json

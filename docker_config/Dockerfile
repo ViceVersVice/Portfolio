@@ -25,7 +25,6 @@ COPY requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . /usr/src/app/
-RUN cd portfolio/frontend && npm run build
-RUN cd docker_config && ls -a
+RUN cd portfolio && npm run build
 
 ENTRYPOINT ["/usr/src/app/docker_config/db_entrypoint.sh"]

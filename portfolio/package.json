@@ -1,0 +1,12 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "copy_first_fe": "rm -Rf main_app/static/js && mkdir -p main_app/static/js && cp -Rfa frontend/first_fe_app/dist/. main_app/static/js/",
+    "build": "cd frontend/first_fe_app && npm install && npm run build && cd ../.. && npm run copy_first_fe"
+  },
+  "author": "",
+  "license": "ISC"
+}

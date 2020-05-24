@@ -3,3 +3,6 @@ venv
 .git
 .idea
 .gitignore
+*.pyc
+
+node_modules/
