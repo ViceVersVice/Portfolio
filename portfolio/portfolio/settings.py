@@ -23,12 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', '123456')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG", default=1))
 
 try:
     ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 except:
-    ALLOWED_HOSTS = 'localhost'
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -86,11 +86,11 @@ with open('db_password.txt', 'r') as f:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('SQL_DB_NAME'),
-        'USER': os.environ.get('SQL_USER'),
-        'PASSWORD': os.environ.get('SQL_PASSWORD'),
-        'HOST': os.environ.get('SQL_HOST'),
-        'PORT': os.environ.get('SQL_PORT')
+        'NAME': os.environ.get('SQL_DB_NAME', 'portfolio'),
+        'USER': os.environ.get('SQL_USER', 'botadd'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD', 'botadd'),
+        'HOST': os.environ.get('SQL_HOST', ''),
+        'PORT': os.environ.get('SQL_PORT', '5432')
     }
 }
 
