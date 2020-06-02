@@ -2,41 +2,40 @@ import _ from 'lodash';
 import React from 'react';
 import ReactDom from 'react-dom';
 
+const baseUrl = window.location.origin
+const skillApiBaseNameUrl = 'skill_api/skills/'
 
-class Clock extends React.Component {
+class SkillTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {'date': new Date()};
-    }
+    };
 
-    componentDidMount() {
-        this.timerId = setInterval(
-            () => this.tick(),
-            1000
+    render () {
+        const skillsData = fetch(`${baseUrl}/${skillApiBaseNameUrl}`)
+            .then(response => response.json())
+            .then(data => console.log("DATATA!!", data));
+
+        return (
+            <SkillElement/>
         );
     }
+}
 
-    componentWillUnmount() {
-        clearInterval(this.timerId)
+
+class SkillElement extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-    tick() {
-        this.setState({
-            'date': new Date()
-        });
-    }
-
-    render() {
-        return(
-        <div>
-            <h1>It is {this.state.date.toLocaleTimeString()}</h1>
-        </div>
+    render () {
+        return (
+            <p>Skill Descr...</p>
         );
     }
 }
 
 
 ReactDom.render(
-    <Clock />,
+    <SkillTable />,
     document.getElementById('root')
 );
