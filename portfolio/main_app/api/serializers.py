@@ -6,4 +6,4 @@ from main_app.models import Skill
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
-        fields = '__all__'
+        fields = ['name', 'description', 'level']

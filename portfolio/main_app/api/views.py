@@ -12,6 +12,14 @@ class SkillViewSet(ModelViewSet):
     def get_queryset(self):
         return Skill.objects.all()
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, args, kwargs)
+        import time
+        print('LOOOOOOOOOOO!!!')
+        time.sleep(10)
+        return response
+
+
     # def get(self, request, *args, **kwargs):
     #     response_data = SkillSerializer(self.get_queryset(), many=True).data
     #     return Response(response_data)
