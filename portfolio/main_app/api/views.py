@@ -14,9 +14,9 @@ class SkillViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, args, kwargs)
-        import time
-        print('LOOOOOOOOOOO!!!')
-        time.sleep(10)
+        # import time
+        # print('LOOOOOOOOOOO!!!')
+        # time.sleep(10)
         return response
 
 

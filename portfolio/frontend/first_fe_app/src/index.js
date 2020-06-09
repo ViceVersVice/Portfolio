@@ -18,14 +18,38 @@ class SkillTable extends React.Component {
             .then(data => this.setState({data: data}))
     }
 
+    getRow(chunk) {
+        console.log('CHUNK!!', chunk);
+        return (
+            <div className="row">
+                {chunk.map((skillData) => <SkillElement key={skillData.id} {...skillData}/>)}
+            </div>
+        )
+    }
+
+    getRows(skillsList) {
+        let skillsListLength = skillsList.length
+        let maxElementsInRow = 3
+        let rows = []
+
+        for (let i=0; i <= (Math.floor(skillsList.length / maxElementsInRow) + 1); i++) {
+            let start = i * maxElementsInRow;
+            let end = (i + 1) * maxElementsInRow;
+            let chunk = skillsList.slice(start, end);
+            rows.push(this.getRow(chunk));
+        };
+
+        return rows;
+    }
+
     render () {
-        console.log('LOOL', this.state.data, this)
         
-        if (this.state.data.length) {
-            const lol = this.state.data.map((skill) => <SkillElement {...skill}/>);
-            return lol;
+        let data = this.state.data
+        console.log('LOOL', data, this)
+        if (data.length) {
+            return this.getRows(data).map((e) => e);
         } else {
-            return <h1>ERRR!</h1>;
+            return <h1>Please wait...</h1>;
         }
 
     }
@@ -39,11 +63,13 @@ class SkillElement extends React.Component {
 
     render () {
         return (
-            <div>
-                <p>Skill Descr...</p>
-                <p>{this.props.name}</p>
-                <p>{this.props.description}</p>
-                <p>{this.props.level}</p>
+            <div className="column">
+                <div className="card">
+                    <p>Skill Descr...</p>
+                    <p>{this.props.name}</p>
+                    <p>{this.props.description}</p>
+                    <p>{this.props.level}</p>
+                </div>
             </div>
         );
     }
