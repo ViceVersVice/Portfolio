@@ -18,36 +18,24 @@ class SkillTable extends React.Component {
             .then(data => this.setState({data: data}))
     }
 
-    getRow(chunk) {
-        console.log('CHUNK!!', chunk);
-        return (
-            <div className="row">
-                {chunk.map((skillData) => <SkillElement key={skillData.id} {...skillData}/>)}
-            </div>
-        )
-    }
-
-    getRows(skillsList) {
-        let skillsListLength = skillsList.length
-        let maxElementsInRow = 3
-        let rows = []
-
-        for (let i=0; i <= (Math.floor(skillsList.length / maxElementsInRow) + 1); i++) {
-            let start = i * maxElementsInRow;
-            let end = (i + 1) * maxElementsInRow;
-            let chunk = skillsList.slice(start, end);
-            rows.push(this.getRow(chunk));
-        };
-
-        return rows;
-    }
-
     render () {
-        
         let data = this.state.data
-        console.log('LOOL', data, this)
-        if (data.length) {
-            return this.getRows(data).map((e) => e);
+        let skillsListLength = data.length
+
+        if (skillsListLength) {
+            let maxElementsInRow = 3
+            let rows = []
+
+            for (let i=0; i <= (Math.floor(skillsListLength / maxElementsInRow) + 1); i++) {
+                let start = i * maxElementsInRow;
+                let end = (i + 1) * maxElementsInRow;
+                let rowData = data.slice(start, end);
+                console.log('ROW KEY??', i);
+                rows.push(<SkillRow key={i} rowData={rowData}/>);
+            };
+
+            return rows.map((e) => e);
+
         } else {
             return <h1>Please wait...</h1>;
         }
@@ -56,7 +44,22 @@ class SkillTable extends React.Component {
 }
 
 
-class SkillElement extends React.Component {
+class SkillRow extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="row">
+                {this.props.rowData.map((skillData) => <SkillColumn key={skillData.id} {...skillData} />)}
+            </div>
+        );
+    }
+}
+
+
+class SkillColumn extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -64,12 +67,25 @@ class SkillElement extends React.Component {
     render () {
         return (
             <div className="column">
-                <div className="card">
-                    <p>Skill Descr...</p>
-                    <p>{this.props.name}</p>
-                    <p>{this.props.description}</p>
-                    <p>{this.props.level}</p>
-                </div>
+                <SkillCard key={this.props.id} {...this.props}/>
+            </div>
+        );
+    }
+}
+
+
+class SkillCard extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render () {
+        return (
+            <div className="card">
+                <p>Skill Descr...</p>
+                <p>{this.props.name}</p>
+                <p>{this.props.description}</p>
+                <p>{this.props.level}</p>
             </div>
         );
     }
