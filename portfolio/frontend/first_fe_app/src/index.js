@@ -1,9 +1,27 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactDom from 'react-dom';
+import styled from 'styled-components';
 
 const baseUrl = window.location.origin
 const skillApiBaseNameUrl = 'skill_api/skills/'
+
+
+
+const StyledRow = styled.div`
+    background-color: #FFF;
+    margin: 50px;
+    display: flex;
+`
+
+
+const StyledRowEelement = styled.div`
+    background-color: yellow;
+    flex: 1;
+    margin: 30px;
+
+`
+
 
 class SkillTable extends React.Component {
     constructor(props) {
@@ -30,12 +48,26 @@ class SkillTable extends React.Component {
                 let start = i * maxElementsInRow;
                 let end = (i + 1) * maxElementsInRow;
                 let rowData = data.slice(start, end);
-                console.log('ROW KEY??', i);
-                rows.push(<SkillRow key={i} rowData={rowData}/>);
+                console.log('ROW DATA', rowData);
+                rows.push(
+                    <StyledRow>
+                        {rowData.map(function(skillData){
+                            return(
+                                <StyledRowEelement key={i}>
+                                    <p>Skill Descr...</p>
+                                    <p>{skillData.name}</p>
+                                    <p>{skillData.description}</p>
+                                    <p>{skillData.level}</p>
+                                </StyledRowEelement>
+                            )
+                        })}      
+                    </StyledRow>
+                );
             };
 
-            return rows.map((e) => e);
-
+            return (
+                rows.map((e) => e)
+            )
         } else {
             return <h1>Please wait...</h1>;
         }
@@ -43,53 +75,6 @@ class SkillTable extends React.Component {
     }
 }
 
-
-class SkillRow extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className="row">
-                {this.props.rowData.map((skillData) => <SkillColumn key={skillData.id} {...skillData} />)}
-            </div>
-        );
-    }
-}
-
-
-class SkillColumn extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render () {
-        return (
-            <div className="column">
-                <SkillCard key={this.props.id} {...this.props}/>
-            </div>
-        );
-    }
-}
-
-
-class SkillCard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render () {
-        return (
-            <div className="card">
-                <p>Skill Descr...</p>
-                <p>{this.props.name}</p>
-                <p>{this.props.description}</p>
-                <p>{this.props.level}</p>
-            </div>
-        );
-    }
-}
 
 
 ReactDom.render(
