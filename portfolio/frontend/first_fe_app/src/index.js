@@ -9,7 +9,6 @@ const skillApiBaseNameUrl = 'skill_api/skills/'
 
 
 const StyledRow = styled.div`
-    background-color: #FFF;
     margin: 50px;
     display: flex;
 `
@@ -20,6 +19,11 @@ const StyledRowEelement = styled.div`
     flex: 1;
     margin: 30px;
 
+`
+
+
+const BlankRowElement = styled.div`
+    flex: 1;
 `
 
 
@@ -36,37 +40,60 @@ class SkillTable extends React.Component {
             .then(data => this.setState({data: data}))
     }
 
+    getBlankColumns(blanksCount) {
+        let blankColumns = [];
+        
+        for (let i=0; i < blanksCount; i++) {
+            blankColumns.push(<BlankRowElement></BlankRowElement>);
+        };
+
+        return blankColumns;
+    }
+
+        
+
     render () {
         let data = this.state.data
         let skillsListLength = data.length
 
         if (skillsListLength) {
             let maxElementsInRow = 3
+            let maxRowsCount = Math.floor(skillsListLength / maxElementsInRow) + 1
             let rows = []
 
-            for (let i=0; i <= (Math.floor(skillsListLength / maxElementsInRow) + 1); i++) {
-                let start = i * maxElementsInRow;
-                let end = (i + 1) * maxElementsInRow;
+            for (let rowNumber=0; rowNumber < (maxRowsCount); rowNumber++) {
+                let start = rowNumber * maxElementsInRow;
+                let end = (rowNumber + 1) * maxElementsInRow;
                 let rowData = data.slice(start, end);
-                console.log('ROW DATA', rowData);
+                
+                let columns = rowData.map(
+                    function(skillData){
+                        return(
+                            <StyledRowEelement key={rowNumber}>
+                                <p>Skill Descr...</p>
+                                <p>{skillData.name}</p>
+                                <p>{skillData.description}</p>
+                                <p>{skillData.level}</p>
+                            </StyledRowEelement>
+                        )
+                    }
+                )
+                
+                if (rowNumber + 1 == maxRowsCount && rowData.length < maxElementsInRow) {
+                    let blanksCount = maxElementsInRow - rowData.length;
+                    columns.push(this.getBlankColumns(blanksCount));
+                };
+
                 rows.push(
                     <StyledRow>
-                        {rowData.map(function(skillData){
-                            return(
-                                <StyledRowEelement key={i}>
-                                    <p>Skill Descr...</p>
-                                    <p>{skillData.name}</p>
-                                    <p>{skillData.description}</p>
-                                    <p>{skillData.level}</p>
-                                </StyledRowEelement>
-                            )
-                        })}      
+                        {columns}
                     </StyledRow>
                 );
+                
             };
 
             return (
-                rows.map((e) => e)
+                rows
             )
         } else {
             return <h1>Please wait...</h1>;
