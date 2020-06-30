@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {SkillPopup} from '../popup/skill_popup.js';
 
 const baseUrl = window.location.origin
-const skillApiBaseNameUrl = 'skill_api/skills/'
+const skillApiBaseNameUrl = 'skill_api/skills'
 
 
 
@@ -14,7 +14,7 @@ const StyledRow = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 40px;
+    margin: 30px;
 `
 
 
@@ -28,6 +28,7 @@ const StyledFlexInlineRow = styled(StyledRow)`
     background-color: yellow;
     flex: 1;
     margin: 30px;
+    height: 400px;
 `
 
 
@@ -37,7 +38,11 @@ const BlankColumn = styled.div`
 `
 
 
-class FlexInlineRow extends React.Component {
+const CloseButton = styled.button`
+`
+
+
+class PopupFlexRow extends React.Component {
     constructor(props) {
         super(props);
         this.togglePopup = this.togglePopup.bind(this);
@@ -60,10 +65,12 @@ class SkillTable extends React.Component {
         super(props);
         this.state = {data: [], showPopup: false, popupData: {}};
         this.togglePopup = this.togglePopup.bind(this);
+        this.closePopup = this.closePopup.bind(this);
     };
 
     componentDidMount() {
-        fetch(`${baseUrl}/${skillApiBaseNameUrl}`)
+        const [start, count] = [0, 9];
+        fetch(`${baseUrl}/${skillApiBaseNameUrl}?start=${0}&count=${count}`)
             .then(response => response.json())
             .then(data => this.setState({data: data}))
     }
@@ -83,6 +90,10 @@ class SkillTable extends React.Component {
         this.setState({showPopup: true, popupData: skillData});
         console.log('STT:', this.state);
     }
+
+    closePopup() {
+        this.setState({showPopup: false})
+    }
         
 
     render () {
@@ -100,14 +111,14 @@ class SkillTable extends React.Component {
                 let columns = rowData.map(
                     (skillData, i) => {
                         return(                         
-                            <FlexInlineRow skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
-                                <StyledFlexColumn>
+                            <PopupFlexRow skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
+                                <StyledFlexColumn key={1}>
                                     <p>Skill Descr...</p>
                                     <p>{skillData.name}</p>
                                     <p>{skillData.level}</p>
                                     <p>{skillData.description}</p>
                                 </StyledFlexColumn>
-                            </FlexInlineRow>
+                            </PopupFlexRow>
 
                         )
                     }
@@ -127,7 +138,8 @@ class SkillTable extends React.Component {
             };
 
             if (this.state.showPopup) {
-                rows.push(<SkillPopup data={this.state.popupData}></SkillPopup>);
+                const closePopupButton = <CloseButton onClick={this.closePopup}>Close</CloseButton>
+                rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton}></SkillPopup>);
             }
 
             return (

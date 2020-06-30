@@ -16,9 +16,6 @@ const PopupContainer = styled.div`
 `
 
 
-const CloseButton = styled.button`
-`
-
 
 const PopupFlexDiv = styled.div`
 	margin: ${props => props.margin || '10px'};
@@ -35,7 +32,7 @@ class SkillPopup extends React.Component {
 		let popup = (
 			<PopupContainer>
 				<PopupFlexDiv alignSelf={'flex-end'} margin='none'>
-					<CloseButton>Close</CloseButton>
+					{this.props.closeButton}
 				</PopupFlexDiv>
 				<PopupFlexDiv>
 					<h1>{this.props.data.name}</h1>
