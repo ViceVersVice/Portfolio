@@ -63,16 +63,46 @@ class PopupFlexRow extends React.Component {
 class SkillTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: [], showPopup: false, popupData: {}};
+        this.state = {
+            data: [], 
+            showPopup: false, 
+            popupData: {},
+            dataCountStart: 0,
+        };
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
+        this.getNextPage = this.getNextPage.bind(this);
     };
 
-    componentDidMount() {
-        const [start, count] = [0, 9];
-        fetch(`${baseUrl}/${skillApiBaseNameUrl}?start=${0}&count=${count}`)
+    getAPIData(getNextPage) {
+        const start = getNextPage ? this.state.dataCountStart + 9: this.state.dataCountStart;
+        const count = 9;
+        
+        fetch(`${baseUrl}/${skillApiBaseNameUrl}/?start=${start}&count=${count}`)
             .then(response => response.json())
-            .then(data => this.setState({data: data}))
+            .then(data => this.setState({
+                data: [...this.state.data, ...data],
+                dataCountStart: start,
+            }))
+    }
+
+    handlePaginationObserver() {
+        return '';
+    }
+
+    componentDidMount() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0
+        };
+
+        this.paginationObserver = new IntersectionObserver(
+            this.handlePaginationObserver.bind(this),
+            observerOptions,
+        );
+        // this.paginationObserver.observe(this.loadingRef);
+        this.getAPIData();
     }
 
     getBlankColumns(start, blanksCount) {
@@ -88,11 +118,14 @@ class SkillTable extends React.Component {
 
     togglePopup(skillData) {
         this.setState({showPopup: true, popupData: skillData});
-        console.log('STT:', this.state);
     }
 
     closePopup() {
         this.setState({showPopup: false})
+    }
+
+    getNextPage() {
+        this.getAPIData(true);
     }
         
 
@@ -143,7 +176,10 @@ class SkillTable extends React.Component {
             }
 
             return (
-                rows
+                <>
+                    {rows}
+                    <CloseButton onClick={this.getNextPage}>fgfgfgf</CloseButton>
+                </>
             )
         } else {
             return <h1>Please wait...</h1>;
