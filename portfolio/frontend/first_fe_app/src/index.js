@@ -1,49 +1,22 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components';
-
+import {StyledRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage} from './styledComponents.js';
 import {SkillPopup} from '../popup/skill_popup.js';
 
 const baseUrl = window.location.origin
 const skillApiBaseNameUrl = 'skill_api/skills'
+const staticFolderUrl = `${baseUrl}/static/`
 
-
-
-const StyledRow = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 30px;
-`
-
-
-const StyledFlexColumn = styled.div`
-`
-
-
-const StyledFlexInlineRow = styled(StyledRow)`
-    display: inline-flex;
-    justify-content: center;
-    background-color: yellow;
-    flex: 1;
-    margin: 30px;
-    height: 400px;
-`
-
-
-const BlankColumn = styled.div`
-    flex: 1;
-    margin: 30px;
-`
-
-
-const CloseButton = styled.button`
-`
 
 class EndOfPage extends React.Component {
     render() {
-        return ReactDOM.createPortal(<div ref={this.props.innerRef}><h1>Loading data.....</h1></div>, document.body);
+        let isVisible = this.props.dataIsLoading ? 'visible': 'hidden';
+        return ReactDOM.createPortal(
+            <StyledEndOfPage ref={this.props.innerRef} isVisible={isVisible}>
+                <h1>Loading data.....</h1>
+                <img src={`${staticFolderUrl}/gifs/loading1.gif`}></img>
+            </StyledEndOfPage>, document.body);
     }
 }
 
@@ -77,6 +50,7 @@ class SkillTable extends React.Component {
             popupData: {},
             dataCountStart: 0,
             loadNewPage: false,
+            dataIsLoading: true
         };
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
@@ -103,19 +77,21 @@ class SkillTable extends React.Component {
     }
 
     getAPIData(getNextPage) {
+        // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
+        this.setState({ dataIsLoading: true });
         const count = 4;
         const start = getNextPage ? this.state.dataCountStart + count: this.state.dataCountStart;
-        
         fetch(`${baseUrl}/${skillApiBaseNameUrl}/?start=${start}&count=${count}`)
             .then(response => response.json())
             .then(data => this.setState({
                 data: [...this.state.data, ...data],
                 dataCountStart: start,
+                dataIsLoading: false
             }))
     }
 
     handlePaginationObserver(entities, observer) {
-        // Tracks viewport of EndOfPage element and fetches additional data if EndOfPage is in viewport
+        // Tracks visibility of EndOfPage element and fetches additional data if EndOfPage becomes visible
         if (this.state.data.length && entities.length && entities[0].isIntersecting) {
             this.getAPIData(true);
         };
@@ -146,7 +122,7 @@ class SkillTable extends React.Component {
         let skillsListLength = data.length
         // Keys is must be here, and must be unique, to prevent React from re-rendering this component 
         // and fail of paginationObserver to track endOfPage position`
-        const endOfPage = <EndOfPageRef key={-1} ref={endOfPage => this.endOfPage = endOfPage}></EndOfPageRef>;
+        const endOfPage = <EndOfPageRef key={-1} ref={endOfPage => this.endOfPage = endOfPage} dataIsLoading={this.state.dataIsLoading}></EndOfPageRef>;
         
         if (skillsListLength) {
             let maxElementsInRow = 2;
@@ -162,10 +138,10 @@ class SkillTable extends React.Component {
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
                                 <StyledFlexColumn key={1}>
-                                    <p>Skill Descr...</p>
-                                    <p>{skillData.name}</p>
-                                    <p>{skillData.level}</p>
-                                    <p>{skillData.description}</p>
+                                    <StyledSkillCardText>Skill Descr...</StyledSkillCardText>
+                                    <StyledSkillCardText>{skillData.name}</StyledSkillCardText>
+                                    <StyledSkillCardText>{skillData.level}</StyledSkillCardText>
+                                    <StyledSkillCardText>{skillData.description}</StyledSkillCardText>
                                 </StyledFlexColumn>
                             </SkillCard>
 

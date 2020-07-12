@@ -21,9 +21,8 @@ class SkillViewSet(ModelViewSet):
     def list(self, request, *args, **kwargs):
         print(self.paginator)
         response = super().list(request, args, kwargs)
-        # import time
+        import time
         # print('LOOOOOOOOOOO!!!')
-        # time.sleep(10)
         return response
 
 
