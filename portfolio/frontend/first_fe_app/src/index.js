@@ -41,8 +41,16 @@ const BlankColumn = styled.div`
 const CloseButton = styled.button`
 `
 
+class EndOfPage extends React.Component {
+    render() {
+        return ReactDOM.createPortal(<div ref={this.props.innerRef}><h1>Loading data.....</h1></div>, document.body);
+    }
+}
 
-class PopupFlexRow extends React.Component {
+const EndOfPageRef = React.forwardRef((props, ref) => <EndOfPage {...props} innerRef={ref}></EndOfPage>)
+
+
+class SkillCard extends React.Component {
     constructor(props) {
         super(props);
         this.togglePopup = this.togglePopup.bind(this);
@@ -68,27 +76,12 @@ class SkillTable extends React.Component {
             showPopup: false, 
             popupData: {},
             dataCountStart: 0,
+            loadNewPage: false,
         };
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
-        this.getNextPage = this.getNextPage.bind(this);
+        this.endOfPage = React.createRef();
     };
-
-    getAPIData(getNextPage) {
-        const start = getNextPage ? this.state.dataCountStart + 9: this.state.dataCountStart;
-        const count = 9;
-        
-        fetch(`${baseUrl}/${skillApiBaseNameUrl}/?start=${start}&count=${count}`)
-            .then(response => response.json())
-            .then(data => this.setState({
-                data: [...this.state.data, ...data],
-                dataCountStart: start,
-            }))
-    }
-
-    handlePaginationObserver() {
-        return '';
-    }
 
     componentDidMount() {
         const observerOptions = {
@@ -101,9 +94,32 @@ class SkillTable extends React.Component {
             this.handlePaginationObserver.bind(this),
             observerOptions,
         );
-        // this.paginationObserver.observe(this.loadingRef);
+        
+        if (this.endOfPage) {
+            this.paginationObserver.observe(this.endOfPage);
+        }
+        
         this.getAPIData();
     }
+
+    getAPIData(getNextPage) {
+        const count = 4;
+        const start = getNextPage ? this.state.dataCountStart + count: this.state.dataCountStart;
+        
+        fetch(`${baseUrl}/${skillApiBaseNameUrl}/?start=${start}&count=${count}`)
+            .then(response => response.json())
+            .then(data => this.setState({
+                data: [...this.state.data, ...data],
+                dataCountStart: start,
+            }))
+    }
+
+    handlePaginationObserver(entities, observer) {
+        // Tracks viewport of EndOfPage element and fetches additional data if EndOfPage is in viewport
+        if (this.state.data.length && entities.length && entities[0].isIntersecting) {
+            this.getAPIData(true);
+        };
+    } 
 
     getBlankColumns(start, blanksCount) {
         let blankColumns = [];
@@ -123,19 +139,19 @@ class SkillTable extends React.Component {
     closePopup() {
         this.setState({showPopup: false})
     }
-
-    getNextPage() {
-        this.getAPIData(true);
-    }
         
 
     render () {
         let data = this.state.data
         let skillsListLength = data.length
+        // Keys is must be here, and must be unique, to prevent React from re-rendering this component 
+        // and fail of paginationObserver to track endOfPage position`
+        const endOfPage = <EndOfPageRef key={-1} ref={endOfPage => this.endOfPage = endOfPage}></EndOfPageRef>;
+        
         if (skillsListLength) {
-            let maxElementsInRow = 3
-            let maxRowsCount = Math.floor(skillsListLength / maxElementsInRow) + 1
-            let rows = []
+            let maxElementsInRow = 2;
+            let maxRowsCount = Math.floor(skillsListLength / maxElementsInRow) + 1;
+            let rows = [];
 
             for (let rowNumber=0; rowNumber < (maxRowsCount); rowNumber++) {
                 let start = rowNumber * maxElementsInRow;
@@ -144,14 +160,14 @@ class SkillTable extends React.Component {
                 let columns = rowData.map(
                     (skillData, i) => {
                         return(                         
-                            <PopupFlexRow skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
+                            <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
                                 <StyledFlexColumn key={1}>
                                     <p>Skill Descr...</p>
                                     <p>{skillData.name}</p>
                                     <p>{skillData.level}</p>
                                     <p>{skillData.description}</p>
                                 </StyledFlexColumn>
-                            </PopupFlexRow>
+                            </SkillCard>
 
                         )
                     }
@@ -161,28 +177,21 @@ class SkillTable extends React.Component {
                     let blanksCount = maxElementsInRow - rowData.length;
                     columns.push(this.getBlankColumns(skillsListLength, blanksCount));
                 };
-
                 rows.push(
                     <StyledRow key={rowNumber}>
                         {columns}
                     </StyledRow>
                 );
-                
             };
 
             if (this.state.showPopup) {
-                const closePopupButton = <CloseButton onClick={this.closePopup}>Close</CloseButton>
+                const closePopupButton = <CloseButton onClick={this.closePopup}>Close</CloseButton>;
                 rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton}></SkillPopup>);
             }
-
-            return (
-                <>
-                    {rows}
-                    <CloseButton onClick={this.getNextPage}>fgfgfgf</CloseButton>
-                </>
-            )
+            rows.push(endOfPage);
+            return rows;
         } else {
-            return <h1>Please wait...</h1>;
+            return endOfPage
         }
 
     }
