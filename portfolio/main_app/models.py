@@ -21,6 +21,10 @@ class Skill(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(max_length=500, blank=True)
     level = models.IntegerField(choices=SKILL_LEVEL_CHOICES, default=ENTRY)
+    image = models.FileField(upload_to='skill_images/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.name} - {self.level}'
+
+    class Meta:
+        ordering = ['pk']

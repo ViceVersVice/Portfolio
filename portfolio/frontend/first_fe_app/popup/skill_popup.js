@@ -8,11 +8,12 @@ const PopupContainer = styled.div`
 	flex-direction: column;
 	width: 1000px;
     padding: 20px;
-    background: #fff;
+    background: #d8e1f4;
     position: fixed;
     left: 50%;
   	top: 50%;
   	transform: translate(-50%, -50%);
+  	border: 0.2rem solid black;
 `
 
 

@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {StyledRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage} from './styledComponents.js';
+import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage, StyledImage} from './styledComponents.js';
 import {SkillPopup} from '../popup/skill_popup.js';
 
 const baseUrl = window.location.origin
 const skillApiBaseNameUrl = 'skill_api/skills'
 const staticFolderUrl = `${baseUrl}/static/`
+const mediaFolderUrl = `${baseUrl}/media/`
 
 
 class EndOfPage extends React.Component {
@@ -36,7 +37,7 @@ class SkillCard extends React.Component {
     }
 
     render() {
-        return <StyledFlexInlineRow onClick={this.togglePopup}>{this.props.children}</StyledFlexInlineRow>
+        return <StyledFlexCardInlineRow onClick={this.togglePopup} borderStyle={'0.2rem solid blue'} borderRadius={'25px'}>{this.props.children}</StyledFlexCardInlineRow>
     }
 }
 
@@ -137,12 +138,17 @@ class SkillTable extends React.Component {
                     (skillData, i) => {
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
-                                <StyledFlexColumn key={1}>
-                                    <StyledSkillCardText>Skill Descr...</StyledSkillCardText>
-                                    <StyledSkillCardText>{skillData.name}</StyledSkillCardText>
-                                    <StyledSkillCardText>{skillData.level}</StyledSkillCardText>
-                                    <StyledSkillCardText>{skillData.description}</StyledSkillCardText>
-                                </StyledFlexColumn>
+                                <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'}>
+                                    <StyledFlexColumn alignSelf={'center'}><h2>{skillData.name}</h2></StyledFlexColumn>
+                                    <StyledFlexInlineRow justifyContent={'space-evenly'}>
+                                        <StyledImage src={skillData.image}></StyledImage>
+                                        <StyledFlexColumn key={1}>
+                                            <StyledSkillCardText>Skill Descr...</StyledSkillCardText>
+                                            <StyledSkillCardText>{skillData.name}</StyledSkillCardText>
+                                            <StyledSkillCardText>{skillData.description}</StyledSkillCardText>
+                                        </StyledFlexColumn>
+                                    </StyledFlexInlineRow>
+                                </StyledFlexInlineRow>
                             </SkillCard>
 
                         )
@@ -161,7 +167,7 @@ class SkillTable extends React.Component {
             };
 
             if (this.state.showPopup) {
-                const closePopupButton = <CloseButton onClick={this.closePopup}>Close</CloseButton>;
+                const closePopupButton = <button onClick={this.closePopup}>Close</button>;
                 rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton}></SkillPopup>);
             }
             rows.push(endOfPage);
