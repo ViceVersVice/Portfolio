@@ -1,19 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-
+import {StyledSkillCardText} from '../src/styledComponents.js';
 
 const PopupContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 1000px;
     padding: 20px;
-    background: #d8e1f4;
+    background: #ffffff;
     position: fixed;
     left: 50%;
   	top: 50%;
   	transform: translate(-50%, -50%);
   	border: 0.2rem solid black;
+  	border-radius: 10px;
 `
 
 
@@ -37,6 +38,7 @@ class SkillPopup extends React.Component {
 				</PopupFlexDiv>
 				<PopupFlexDiv>
 					<h1>{this.props.data.name}</h1>
+					<StyledSkillCardText>{this.props.data.description}</StyledSkillCardText>
 				</PopupFlexDiv>
 			</PopupContainer>
 		);

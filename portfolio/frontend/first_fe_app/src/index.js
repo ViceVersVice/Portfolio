@@ -37,7 +37,7 @@ class SkillCard extends React.Component {
     }
 
     render() {
-        return <StyledFlexCardInlineRow onClick={this.togglePopup} borderStyle={'0.2rem solid blue'} borderRadius={'25px'}>{this.props.children}</StyledFlexCardInlineRow>
+        return <StyledFlexCardInlineRow onClick={this.togglePopup} borderStyle={'0.2rem solid #d8e1f4'} borderRadius={'5px'}>{this.props.children}</StyledFlexCardInlineRow>
     }
 }
 
@@ -136,16 +136,19 @@ class SkillTable extends React.Component {
                 let rowData = data.slice(start, end);
                 let columns = rowData.map(
                     (skillData, i) => {
+                        const truncatedDescription = `${skillData.description.slice(0, 80)}...`
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'}>
-                                    <StyledFlexColumn alignSelf={'center'}><h2>{skillData.name}</h2></StyledFlexColumn>
-                                    <StyledFlexInlineRow justifyContent={'space-evenly'}>
+                                    <StyledFlexColumn alignSelf={'center'}>
+                                        <h2>
+                                            <StyledSkillCardText>{skillData.name}</StyledSkillCardText>
+                                        </h2>
+                                    </StyledFlexColumn>
+                                    <StyledFlexInlineRow justifyContent={'space-around'} flexGrow={1}>
                                         <StyledImage src={skillData.image}></StyledImage>
                                         <StyledFlexColumn key={1}>
-                                            <StyledSkillCardText>Skill Descr...</StyledSkillCardText>
-                                            <StyledSkillCardText>{skillData.name}</StyledSkillCardText>
-                                            <StyledSkillCardText>{skillData.description}</StyledSkillCardText>
+                                            <StyledSkillCardText>{truncatedDescription}</StyledSkillCardText>
                                         </StyledFlexColumn>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
