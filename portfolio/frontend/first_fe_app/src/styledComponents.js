@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 
 // Animations
@@ -32,15 +32,38 @@ const StyledRow = styled.div`
 `
 
 
+const backgroundCss = css`
+    background-color: ${props => props.borderStyle};
+    border-radius: ${props => props.borderRadius};
+    border-left: ${props => props.borderLeft};
+    border-right: ${props => props.borderRight};
+`
+
+
+const borderedCss = css`
+    border: ${props => props.borderStyle};
+    border-radius: ${props => props.borderRadius};
+    border-left: ${props => props.borderLeft};
+    border-right: ${props => props.borderRight};
+`
+
+const marginCss = css`
+    margin-top: ${props => props.marginTop || '0'};
+    margin-bottom: ${props => props.marginBot || '0'};
+    margin-left: ${props => props.marginLeft || '0'};
+    margin-right: ${props => props.marginRight || '0'};
+`
+
+
 const StyledFlexColumn = styled.div`
+    ${borderedCss};
+    ${marginCss};
     align-self: ${props => props.alignSelf || 'auto'};
     flex-shrink: ${props => props.flexShrink || '1'};
     flex-grow: ${props => props.flexGrow || '1'};
-    margin: ${props => props.margin || 'auto'};
-    margin-top: ${props => props.marginTop || 'auto'};
-    margin-bot: ${props => props.marginBot || 'auto'};
-    margin-left: ${props => props.marginLeft || 'auto'};
-    margin-right: ${props => props.marginRight || 'auto'};
+    background: ${props => props.backgroundColor || 'auto'};
+    background-position: 100px 5px;
+    box-shadow: -25px 0px 0px -22px black;
 `
 
 const StyledFlexInlineRow = styled.div`
@@ -53,6 +76,7 @@ const StyledFlexInlineRow = styled.div`
 
 
 const StyledFlexCardInlineRow = styled.div`
+    ${borderedCss};
     display: inline-flex;
     justify-content: space-evenly;
     background-color: #d8e1f4;
@@ -60,13 +84,12 @@ const StyledFlexCardInlineRow = styled.div`
     margin: 30px;
     height: 400px;
     animation: ${appearElement} 1s linear;
-    border: ${props => props.borderStyle};
-    border-radius: ${props => props.borderRadius};
     box-shadow: 10px 10px 4px 1px #e5e5e5;
 `
 
 
 const StyledSkillCardText = styled.p`
+    ${marginCss};
     font-family: 'Lato', sans-serif;
     font-size: 20px;
 `
@@ -82,11 +105,18 @@ const StyledEndOfPage = styled.div`
     text-align: center;
     visibility: ${props => props.isVisible};
 `
+
+
 const StyledImage = styled.img`
-    max-width: 50%;
-    max-height: 80%;
+    width: 30%;
+    height: 200px;
     margin-right: 30px;
     margin-left: 20px;
+    margin-top: 30px;
 `
 
-export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage, StyledImage}
+const StyledHeader = styled.h1`
+    ${marginCss};
+`
+
+export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage, StyledImage, StyledHeader}

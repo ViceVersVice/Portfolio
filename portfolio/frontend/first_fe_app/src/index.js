@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage, StyledImage} from './styledComponents.js';
+import styled, { keyframes } from 'styled-components';
+
+import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
+        StyledEndOfPage, StyledImage, StyledHeader} from './styledComponents.js';
 import {SkillPopup} from '../popup/skill_popup.js';
 
 const baseUrl = window.location.origin
@@ -134,21 +137,28 @@ class SkillTable extends React.Component {
                 let start = rowNumber * maxElementsInRow;
                 let end = (rowNumber + 1) * maxElementsInRow;
                 let rowData = data.slice(start, end);
+                const Sss = styled.div`
+                    background-position: 100px 50px;
+                    background-color: red;
+                    background-size: 300px 100px;
+                    background-origin: border-box;
+                    background-clip: padding-box;
+                `
                 let columns = rowData.map(
                     (skillData, i) => {
                         const truncatedDescription = `${skillData.description.slice(0, 80)}...`
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'}>
-                                    <StyledFlexColumn alignSelf={'center'}>
-                                        <h2>
-                                            <StyledSkillCardText>{skillData.name}</StyledSkillCardText>
-                                        </h2>
+                                    <StyledFlexColumn backgroundColor={'#f9f9f9'} margin-right={'0'}>
+                                        <StyledHeader marginLeft={'30px'} marginTop={'20px'}>
+                                            {skillData.name}
+                                        </StyledHeader>
                                     </StyledFlexColumn>
-                                    <StyledFlexInlineRow justifyContent={'space-around'} flexGrow={1}>
+                                    <StyledFlexInlineRow justifyContent={'space-around'} flexGrow={'4'}>
                                         <StyledImage src={skillData.image}></StyledImage>
                                         <StyledFlexColumn key={1}>
-                                            <StyledSkillCardText>{truncatedDescription}</StyledSkillCardText>
+                                            <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'}>{truncatedDescription}</StyledSkillCardText>
                                         </StyledFlexColumn>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
