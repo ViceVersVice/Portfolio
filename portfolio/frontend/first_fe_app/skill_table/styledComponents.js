@@ -1,4 +1,6 @@
 import styled, { keyframes, css } from 'styled-components';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss} from '../base/baseStyles.js';
+
 
 
 // Animations
@@ -32,33 +34,10 @@ const StyledRow = styled.div`
 `
 
 
-const backgroundCss = css`
-    background-color: ${props => props.borderStyle};
-    border-radius: ${props => props.borderRadius};
-    border-left: ${props => props.borderLeft};
-    border-right: ${props => props.borderRight};
-`
-
-
-const borderedCss = css`
-    border: ${props => props.borderStyle};
-    border-radius: ${props => props.borderRadius};
-    border-left: ${props => props.borderLeft};
-    border-right: ${props => props.borderRight};
-`
-
-const marginCss = css`
-    margin-top: ${props => props.marginTop || '0'};
-    margin-bottom: ${props => props.marginBot || '0'};
-    margin-left: ${props => props.marginLeft || '0'};
-    margin-right: ${props => props.marginRight || '0'};
-`
-
-
 const StyledFlexColumn = styled.div`
     ${borderedCss};
-    ${marginCss};
-    align-self: ${props => props.alignSelf || 'auto'};
+    ${borderedCss};
+    ${flexBoxCss};
     flex-shrink: ${props => props.flexShrink || '1'};
     flex-grow: ${props => props.flexGrow || '1'};
     background: ${props => props.backgroundColor || 'auto'};
@@ -67,9 +46,8 @@ const StyledFlexColumn = styled.div`
 `
 
 const StyledFlexInlineRow = styled.div`
+    ${flexBoxCss};
     display: inline-flex;
-    flex-direction: ${props => props.flexDirection || 'row'};
-    justify-content: ${props => props.justifyContent || 'flex-start'};
     flex-grow: ${props => props.flexGrow || '1'};
     overflow: hidden;
 `
@@ -77,10 +55,9 @@ const StyledFlexInlineRow = styled.div`
 
 const StyledFlexCardInlineRow = styled.div`
     ${borderedCss};
+    ${flexBoxCss};
     display: inline-flex;
-    justify-content: space-evenly;
     background-color: #d8e1f4;
-    flex: 1;
     margin: 30px;
     height: 400px;
     animation: ${appearElement} 1s linear;

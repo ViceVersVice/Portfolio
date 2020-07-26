@@ -40,7 +40,11 @@ class SkillCard extends React.Component {
     }
 
     render() {
-        return <StyledFlexCardInlineRow onClick={this.togglePopup} borderStyle={'0.2rem solid #d8e1f4'} borderRadius={'5px'}>{this.props.children}</StyledFlexCardInlineRow>
+        return (
+            <StyledFlexCardInlineRow onClick={this.togglePopup} borderStyle={'0.2rem solid #d8e1f4'} borderRadius={'5px'} justifyContent={'space-evenly'} flex={'1'}>
+                {this.props.children}
+            </StyledFlexCardInlineRow>
+        )
     }
 }
 
