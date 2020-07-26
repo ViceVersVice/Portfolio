@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {SkillTable} from '../skill_table/skill_table.js'
 
 const App = () => {
+    console.log('lool')
     return (
         <SkillTable />
     )
