@@ -32,7 +32,8 @@ const Button = styled.div`
 	${sizeCss};
 	${borderedCss};
 	${backgroundCss};
-	display: inline-flex;	
+	display: inline-flex;
+	cursor: pointer;
 `
 
 const NavbarText = styled.p`

@@ -30,18 +30,41 @@ const EndOfPageRef = React.forwardRef((props, ref) => <EndOfPage {...props} inne
 class SkillCard extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {highlight: false};
         this.togglePopup = this.togglePopup.bind(this);
+        this.highlightCard = this.highlightCard.bind(this);
+        this.unHighlightCard = this.unHighlightCard.bind(this);
     };
 
     togglePopup(e) {
         if (this.props.onClick) {
             this.props.onClick(this.props.skillData);
         };
+    };
+
+    highlightCard(e) {
+        this.setState({highlight: true});
+    };
+
+    unHighlightCard(e) {
+        this.setState({highlight: false});
+    };
+
+    getProps() {
+        const boxShadow = this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5';
+        return {
+           borderStyle: '0.2rem solid #d8e1f4',
+           borderRadius: '5px',
+           justifyContent: 'space-evenly', 
+           flex: '1',
+           boxShadow: boxShadow
+
+        }
     }
 
     render() {
         return (
-            <StyledFlexCardInlineRow onClick={this.togglePopup} borderStyle={'0.2rem solid #d8e1f4'} borderRadius={'5px'} justifyContent={'space-evenly'} flex={'1'}>
+            <StyledFlexCardInlineRow onClick={this.togglePopup} onMouseEnter={this.highlightCard} onMouseLeave={this.unHighlightCard}  {...this.getProps()}>
                 {this.props.children}
             </StyledFlexCardInlineRow>
         )

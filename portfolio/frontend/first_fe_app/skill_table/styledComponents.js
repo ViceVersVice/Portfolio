@@ -61,7 +61,8 @@ const StyledFlexCardInlineRow = styled.div`
     margin: 30px;
     height: 400px;
     animation: ${appearElement} 1s linear;
-    box-shadow: 10px 10px 4px 1px #e5e5e5;
+    box-shadow: ${props => props.boxShadow};
+    cursor: pointer;
 `
 
 
