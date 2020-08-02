@@ -1,23 +1,47 @@
-import React from 'react';
-import {StyledRow, StyledFlexInlineRow, NavbarLogo, NavbarButton} from './styledComponents.js';
+import React, { useState } from 'react';
+import {StyledRow, StyledFlexInlineRow, NavbarLogo, Button, NavbarText} from './styledComponents.js';
 
 
 const baseUrl = window.location.origin
 const staticFolderUrl = `${baseUrl}/static/`
 
 
-const Navbar = () => {
+const NavbarButton = (props) => {
+	const [showDash, setShowDash] = useState(false);
+
 	const navButtonProps = {
-		marginRight: '25px', marginTop: '20px', marginBot: '20px', 
-		width: '80px', justifyContent: 'center', alignItems: 'center',
-		backgroundColor: '#FFFFFF'
+		marginRight: '55px',
+		maxWidth: '200px', 
+		justifyContent: 'center', 
+		alignItems: 'center',
+		borderTop: showDash ? '0.3rem solid red': ''
 	}
+
+	const addDashOnTop = (e) => {
+		setShowDash(true);
+	}
+
+	const removeDashOnTop = (e) => {
+		setShowDash(false);
+	}
+
+
+	return (
+		<Button onMouseEnter={addDashOnTop} onMouseLeave={removeDashOnTop} {...navButtonProps}>
+			<NavbarText fontFamily={"'Rowdies', cursive"} fontSize={'20px'}>{props.children}</NavbarText>
+		</Button>
+	)
+
+}
+
+
+const Navbar = () => {
     return (	
-    	<StyledRow background={'#E8D5D5'} justifyContent={'flex-end'} height={'100px'}>
+    	<StyledRow borderTop={'solid 0.1rem'} borderBottom={'solid 0.1rem'} justifyContent={'flex-end'} height={'100px'}>
     		<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
-    		<NavbarButton {...navButtonProps}>lololo</NavbarButton>
-    		<NavbarButton {...navButtonProps}>lololo</NavbarButton>
-    		<NavbarButton {...navButtonProps}>lololo</NavbarButton>
+    		<NavbarButton>About Me</NavbarButton>
+    		<NavbarButton>Register</NavbarButton>
+    		<NavbarButton>Login</NavbarButton>
  		</StyledRow>
  	)
 }

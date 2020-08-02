@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss} from '../base/baseStyles.js';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss} from '../base/baseStyles.js';
 
 
 
@@ -67,6 +67,7 @@ const StyledFlexCardInlineRow = styled.div`
 
 const StyledSkillCardText = styled.p`
     ${marginCss};
+    ${fontStyleCss};
     font-family: 'Lato', sans-serif;
     font-size: 20px;
 `

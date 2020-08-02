@@ -5,12 +5,19 @@ const backgroundCss = css`
     background-color: ${props => props.backgroundColor};
 `
 
+const fontStyleCss = css`
+    font-family: ${props => props.fontFamily};
+    font-size: ${props => props.fontSize};
+`
+
 
 const borderedCss = css`
     border: ${props => props.borderStyle};
     border-radius: ${props => props.borderRadius};
     border-left: ${props => props.borderLeft};
     border-right: ${props => props.borderRight};
+    border-bottom: ${props => props.borderBottom};
+    border-top: ${props => props.borderTop};
 `
 
 const marginCss = css`
@@ -37,4 +44,4 @@ const flexBoxCss = css`
 `
 
 
-export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss};
+export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss};

@@ -1,10 +1,11 @@
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss} from '../base/baseStyles.js';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss} from '../base/baseStyles.js';
 
 
 const StyledRow = styled.div`
     ${flexBoxCss};
     ${sizeCss};
+    ${borderedCss};
     display: flex;
  	background: ${props => props.background};
 `
@@ -12,6 +13,7 @@ const StyledRow = styled.div`
 
 const StyledFlexInlineRow = styled.div`
 	${flexBoxCss};
+	${borderedCss};
     display: inline-flex;
     overflow: hidden;
     background: ${props => props.background};
@@ -24,15 +26,18 @@ const NavbarLogo = styled.div`
 `
 
 
-const NavbarButton = styled.div`
+const Button = styled.div`
 	${flexBoxCss};
 	${marginCss};
 	${sizeCss};
 	${borderedCss};
 	${backgroundCss};
-	display: inline-flex;
-	
+	display: inline-flex;	
+`
+
+const NavbarText = styled.p`
+	${fontStyleCss};
 `
 
 
-export {StyledRow, StyledFlexInlineRow, NavbarLogo, NavbarButton};
+export {StyledRow, StyledFlexInlineRow, NavbarLogo, Button, NavbarText};
