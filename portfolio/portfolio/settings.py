@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # DRF
     'rest_framework',
     # Default
+    'accounts',
     'main_app',
     'django.contrib.admin',
     'django.contrib.auth',

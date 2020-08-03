@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Create your models here
 
 
 class Skill(models.Model):
@@ -28,3 +28,10 @@ class Skill(models.Model):
 
     class Meta:
         ordering = ['pk']
+
+
+class Comment(models.Model):
+    profile = models.ForeignKey('accounts.UserProfile', related_name='comments', on_delete=models.CASCADE)
+    sub_comments = models.ForeignKey('main_app.Comment', related_name='related_comments', blank=True, null=True, on_delete=models.CASCADE)
+    votes = models.IntegerField()
+    text = models.TextField(max_length=500)
