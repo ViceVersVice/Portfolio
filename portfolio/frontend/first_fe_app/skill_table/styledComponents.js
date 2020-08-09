@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss} from '../base/baseStyles.js';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss} from '../base/baseStyles.js';
 import {staticFolderUrl} from '../base/baseUrls.js';
 
 
@@ -27,10 +27,10 @@ const appearElement = keyframes`
 
 // Components
 const StyledRow = styled.div`
+    ${marginCss};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 30px;
 `
 
 
@@ -40,7 +40,8 @@ const StyledFlexColumn = styled.div`
     ${flexBoxCss};
     flex-shrink: ${props => props.flexShrink || '1'};
     flex-grow: ${props => props.flexGrow || '1'};
-    background: ${props => props.backgroundColor || 'auto'};
+    background: ${props => props.backgroundColor || ''};
+    box-shadow: ${props => props.boxShadow};
     background-position: 100px 5px;
 `
 
@@ -70,11 +71,11 @@ const BaseParagraph = styled.p`
     ${marginCss};
     ${fontStyleCss};
     ${paddingCss};
+    ${fontStyleCss};
 `
 
 const StyledSkillCardText = styled(BaseParagraph)`
     font-family: 'Lato', sans-serif;
-    font-size: 20px;
 `
 
 const BlankColumn = styled.div`
@@ -108,14 +109,14 @@ const StyledCommentButton = styled.div`
     ${paddingCss};
     ${flexBoxCss};
     ${borderedCss};
-    margin: 10% 0% 15% 15%;
-    padding: 15px 50px 15px 50px;
+    ${sizeCss};
+    width: 30%;
+    margin: 0% 0% 10% 5%;
     background-repeat: no-repeat;
     background-size: 25px;
     background-position: 10%;
     background-image: url('${staticFolderUrl}icons/comment.svg');
 `
-// Form components
 
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 

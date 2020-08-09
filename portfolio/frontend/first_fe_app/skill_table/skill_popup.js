@@ -41,7 +41,7 @@ class SkillPopup extends React.Component {
 					<h1>{this.props.data.name}</h1>
 					<StyledSkillCardText>{this.props.data.description}</StyledSkillCardText>
 				</PopupFlexDiv>
-				<MainCommentForm></MainCommentForm>
+				<MainCommentForm skillId={this.props.data.id}></MainCommentForm>
 			</PopupContainer>
 		);
 		return ReactDOM.createPortal(popup, document.body);

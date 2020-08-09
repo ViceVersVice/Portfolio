@@ -96,7 +96,7 @@ class CommentButton extends React.Component {
         }
         return (
             <StyledCommentButton onMouseEnter={this.highlightButton} onMouseLeave={this.unhighlightButton} {...buttonProps}>
-                Comments
+                <StyledSkillCardText margin={'0'} fontSize={'15px'} margin={'5% 5% 5% 35%'}><b>{this.props.commentsCount || 0}</b> Comments</StyledSkillCardText>
             </StyledCommentButton>
         );
     };
@@ -195,6 +195,7 @@ class SkillTable extends React.Component {
                 let start = rowNumber * this.maxElementsInRow;
                 let end = (rowNumber + 1) * this.maxElementsInRow;
                 let rowData = data.slice(start, end);
+                let textColumnRightBorder = '-25px 0px 0px -22px black'
                 let columns = rowData.map(
                     (skillData, i) => {
                         const truncatedDescription = `${skillData.description.slice(0, 80)}...`
@@ -208,11 +209,11 @@ class SkillTable extends React.Component {
                                     </StyledFlexColumn>
                                     <StyledFlexInlineRow justifyContent={'space-around'} flexGrow={'4'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
-                                        <StyledFlexColumn key={1}>
-                                            <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'}>{truncatedDescription}</StyledSkillCardText>
+                                        <StyledFlexColumn key={1} boxShadow={textColumnRightBorder}>
+                                            <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'} fontSize={'20px'}>{truncatedDescription}</StyledSkillCardText>
                                         </StyledFlexColumn>
                                     </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow alignSelf={'flex-start'}>
+                                    <StyledFlexInlineRow justifyContent={'flex-start'} borderTop={'solid 1rem'} flexGrow={'4'}>
                                         <CommentButton></CommentButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
@@ -227,7 +228,7 @@ class SkillTable extends React.Component {
                     columns.push(this.getBlankColumns(skillsListLength, blanksCount));
                 };
                 rows.push(
-                    <StyledRow key={rowNumber}>
+                    <StyledRow key={rowNumber} margin={'30px'}>
                         {columns}
                     </StyledRow>
                 );

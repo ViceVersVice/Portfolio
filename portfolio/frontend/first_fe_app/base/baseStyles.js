@@ -22,7 +22,7 @@ const borderedCss = css`
 `
 
 const marginCss = css`
-    margin: ${props => props.marginTop || ''};
+    margin: ${props => props.margin || ''};
     margin-top: ${props => props.marginTop || ''};
     margin-bottom: ${props => props.marginBot || ''};
     margin-left: ${props => props.marginLeft || ''};
@@ -42,8 +42,8 @@ const paddingCss = css`
 const sizeCss = css`
     width: ${props => props.width || 'auto'};
     height: ${props => props.height || 'auto'};
-    max-width: ${props => props.maxWidth || 'auto'};
-    max-height: ${props => props.maxHeight || 'auto'};
+    max-width: ${props => props.maxWidth || ''};
+    max-height: ${props => props.maxHeight || ''};
 `
 
 

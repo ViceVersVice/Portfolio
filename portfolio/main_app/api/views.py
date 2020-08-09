@@ -1,8 +1,10 @@
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .pagination import StartCountPagination
-from .serializers import SkillSerializer
-from main_app.models import Skill
+from .serializers import SkillSerializer, SkillCommentSerializer
+from main_app.models import Skill, Comment
 
 
 class SkillViewSet(ModelViewSet):
@@ -15,17 +17,16 @@ class SkillViewSet(ModelViewSet):
 
     def get_paginated_response(self, data):
         resp = super().get_paginated_response(data)
-        print(resp.data)
         return resp
 
     def list(self, request, *args, **kwargs):
-        print(self.paginator)
         response = super().list(request, args, kwargs)
         import time
         # print('LOOOOOOOOOOO!!!')
         return response
 
-
-    # def get(self, request, *args, **kwargs):
-    #     response_data = SkillSerializer(self.get_queryset(), many=True).data
-    #     return Response(response_data)
+    @action(detail=True, methods=['post'])
+    def add_comment(self, request, *args, **kwargs):
+        serializer = SkillCommentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({'lol': 'lol'})
