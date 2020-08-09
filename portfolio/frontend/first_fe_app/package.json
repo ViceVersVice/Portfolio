@@ -38,7 +38,7 @@
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "npm-watch": "^0.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

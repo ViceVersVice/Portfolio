@@ -4,13 +4,11 @@ import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledImage, StyledHeader} from './styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph} from './styledComponents.js';
 import {SkillPopup} from './skill_popup.js';
+import {MainCommentForm} from './commentForms.js';
+import {baseUrl, skillApiBaseNameUrl, staticFolderUrl, mediaFolderUrl} from '../base/baseUrls.js';
 
-const baseUrl = window.location.origin
-const skillApiBaseNameUrl = 'skill_api/skills'
-const staticFolderUrl = `${baseUrl}/static/`
-const mediaFolderUrl = `${baseUrl}/media/`
 
 
 class EndOfPage extends React.Component {
@@ -38,7 +36,10 @@ class SkillCard extends React.Component {
 
     togglePopup(e) {
         if (this.props.onClick) {
-            this.props.onClick(this.props.skillData);
+            const isFormRelatedTag = ['FORM', 'INPUT'].indexOf(e.target.tagName) > -1;
+            if (!isFormRelatedTag) {
+                this.props.onClick(this.props.skillData);
+            };
         };
     };
 
@@ -51,24 +52,54 @@ class SkillCard extends React.Component {
     };
 
     getProps() {
-        const boxShadow = this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5';
+        const boxIncreaseShadow = this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5';
         return {
            borderStyle: '0.2rem solid #d8e1f4',
            borderRadius: '5px',
            justifyContent: 'space-evenly', 
            flex: '1',
-           boxShadow: boxShadow
+           boxShadow: boxIncreaseShadow
 
-        }
-    }
+        };
+    };
 
     render() {
         return (
             <StyledFlexCardInlineRow onClick={this.togglePopup} onMouseEnter={this.highlightCard} onMouseLeave={this.unHighlightCard}  {...this.getProps()}>
                 {this.props.children}
             </StyledFlexCardInlineRow>
-        )
+        );
     }
+}
+
+
+class CommentButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {'highlight': false};
+        this.highlightButton = this.highlightButton.bind(this);
+        this.unhighlightButton = this.unhighlightButton.bind(this);
+    };
+
+    highlightButton(e) {
+        this.setState({highlight: true});
+    };
+
+    unhighlightButton(e) {
+        this.setState({highlight: false});
+    };
+
+    render() {
+        const buttonProps = {margin: '4% 5% 0 0', flexShrink: '4', border: 'solid 0.1rem'}
+        if (this.state.highlight) {
+            buttonProps.backgroundColor = '#FFFFFF';
+        }
+        return (
+            <StyledCommentButton onMouseEnter={this.highlightButton} onMouseLeave={this.unhighlightButton} {...buttonProps}>
+                Comments
+            </StyledCommentButton>
+        );
+    };
 }
 
 
@@ -83,6 +114,7 @@ class SkillTable extends React.Component {
             loadNewPage: false,
             dataIsLoading: true
         };
+        this.maxElementsInRow = 2;
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
         this.endOfPage = React.createRef();
@@ -156,26 +188,18 @@ class SkillTable extends React.Component {
         const endOfPage = <EndOfPageRef key={-1} ref={endOfPage => this.endOfPage = endOfPage} dataIsLoading={this.state.dataIsLoading}></EndOfPageRef>;
         
         if (skillsListLength) {
-            let maxElementsInRow = 2;
-            let maxRowsCount = Math.floor(skillsListLength / maxElementsInRow) + 1;
+            let maxRowsCount = Math.floor(skillsListLength / this.maxElementsInRow) + 1;
             let rows = [];
 
             for (let rowNumber=0; rowNumber < (maxRowsCount); rowNumber++) {
-                let start = rowNumber * maxElementsInRow;
-                let end = (rowNumber + 1) * maxElementsInRow;
+                let start = rowNumber * this.maxElementsInRow;
+                let end = (rowNumber + 1) * this.maxElementsInRow;
                 let rowData = data.slice(start, end);
-                const Sss = styled.div`
-                    background-position: 100px 50px;
-                    background-color: red;
-                    background-size: 300px 100px;
-                    background-origin: border-box;
-                    background-clip: padding-box;
-                `
                 let columns = rowData.map(
                     (skillData, i) => {
                         const truncatedDescription = `${skillData.description.slice(0, 80)}...`
                         return(                         
-                            <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * maxElementsInRow + i}>
+                            <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'}>
                                     <StyledFlexColumn backgroundColor={'#f9f9f9'} margin-right={'0'}>
                                         <StyledHeader marginLeft={'30px'} marginTop={'20px'}>
@@ -183,10 +207,13 @@ class SkillTable extends React.Component {
                                         </StyledHeader>
                                     </StyledFlexColumn>
                                     <StyledFlexInlineRow justifyContent={'space-around'} flexGrow={'4'}>
-                                        <StyledImage src={skillData.image}></StyledImage>
+                                        <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
                                         <StyledFlexColumn key={1}>
                                             <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'}>{truncatedDescription}</StyledSkillCardText>
                                         </StyledFlexColumn>
+                                    </StyledFlexInlineRow>
+                                    <StyledFlexInlineRow alignSelf={'flex-start'}>
+                                        <CommentButton></CommentButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>
@@ -195,8 +222,8 @@ class SkillTable extends React.Component {
                     }
                 )
                 
-                if (rowNumber + 1 == maxRowsCount && rowData.length < maxElementsInRow) {
-                    let blanksCount = maxElementsInRow - rowData.length;
+                if (rowNumber + 1 == maxRowsCount && rowData.length < this.maxElementsInRow) {
+                    let blanksCount = this.maxElementsInRow - rowData.length;
                     columns.push(this.getBlankColumns(skillsListLength, blanksCount));
                 };
                 rows.push(

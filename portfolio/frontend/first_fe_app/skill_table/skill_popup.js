@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import {StyledSkillCardText} from './styledComponents.js';
+import {MainCommentForm} from './commentForms.js';
 
 const PopupContainer = styled.div`
 	display: flex;
@@ -40,6 +41,7 @@ class SkillPopup extends React.Component {
 					<h1>{this.props.data.name}</h1>
 					<StyledSkillCardText>{this.props.data.description}</StyledSkillCardText>
 				</PopupFlexDiv>
+				<MainCommentForm></MainCommentForm>
 			</PopupContainer>
 		);
 		return ReactDOM.createPortal(popup, document.body);

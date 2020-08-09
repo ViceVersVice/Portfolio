@@ -1,6 +1,6 @@
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss} from '../base/baseStyles.js';
-
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss} from '../base/baseStyles.js';
+import {staticFolderUrl} from '../base/baseUrls.js';
 
 
 // Animations
@@ -42,20 +42,20 @@ const StyledFlexColumn = styled.div`
     flex-grow: ${props => props.flexGrow || '1'};
     background: ${props => props.backgroundColor || 'auto'};
     background-position: 100px 5px;
-    box-shadow: -25px 0px 0px -22px black;
 `
 
 const StyledFlexInlineRow = styled.div`
     ${flexBoxCss};
     display: inline-flex;
     flex-grow: ${props => props.flexGrow || '1'};
-    overflow: hidden;
+    overflow: ${props => props.overflow || 'visible'};
 `
 
 
 const StyledFlexCardInlineRow = styled.div`
     ${borderedCss};
     ${flexBoxCss};
+    ${paddingCss};
     display: inline-flex;
     background-color: #d8e1f4;
     margin: 30px;
@@ -66,9 +66,13 @@ const StyledFlexCardInlineRow = styled.div`
 `
 
 
-const StyledSkillCardText = styled.p`
+const BaseParagraph = styled.p`
     ${marginCss};
     ${fontStyleCss};
+    ${paddingCss};
+`
+
+const StyledSkillCardText = styled(BaseParagraph)`
     font-family: 'Lato', sans-serif;
     font-size: 20px;
 `
@@ -86,16 +90,33 @@ const StyledEndOfPage = styled.div`
 `
 
 
-const StyledImage = styled.img`
+const StyledSkillCardImage = styled.img`
+    margin: 5%;
     width: 30%;
     height: 200px;
-    margin-right: 30px;
-    margin-left: 20px;
-    margin-top: 30px;
 `
+
 
 const StyledHeader = styled.h1`
     ${marginCss};
 `
 
-export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, StyledEndOfPage, StyledImage, StyledHeader}
+
+const StyledCommentButton = styled.div`
+    ${marginCss};
+    ${backgroundCss};
+    ${paddingCss};
+    ${flexBoxCss};
+    ${borderedCss};
+    margin: 10% 0% 15% 15%;
+    padding: 15px 50px 15px 50px;
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: 10%;
+    background-image: url('${staticFolderUrl}icons/comment.svg');
+`
+// Form components
+
+
+export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
+    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph}

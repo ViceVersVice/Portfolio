@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import {StyledRow, StyledFlexInlineRow, NavbarLogo, Button, NavbarText} from './styledComponents.js';
-
-
-const baseUrl = window.location.origin
-const staticFolderUrl = `${baseUrl}/static/`
+import {baseUrl, staticFolderUrl} from '../base/baseUrls.js';
 
 
 const NavbarButton = (props) => {

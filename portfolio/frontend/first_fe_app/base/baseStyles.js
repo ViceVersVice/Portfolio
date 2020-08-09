@@ -12,7 +12,8 @@ const fontStyleCss = css`
 
 
 const borderedCss = css`
-    border: ${props => props.borderStyle};
+    border: ${props => props.border};
+    border-style: ${props => props.borderStyle};
     border-radius: ${props => props.borderRadius};
     border-left: ${props => props.borderLeft};
     border-right: ${props => props.borderRight};
@@ -21,11 +22,22 @@ const borderedCss = css`
 `
 
 const marginCss = css`
-    margin-top: ${props => props.marginTop || '0'};
-    margin-bottom: ${props => props.marginBot || '0'};
-    margin-left: ${props => props.marginLeft || '0'};
-    margin-right: ${props => props.marginRight || '0'};
+    margin: ${props => props.marginTop || ''};
+    margin-top: ${props => props.marginTop || ''};
+    margin-bottom: ${props => props.marginBot || ''};
+    margin-left: ${props => props.marginLeft || ''};
+    margin-right: ${props => props.marginRight || ''};
 `
+
+
+const paddingCss = css`
+    padding: ${props => props.padding || ''};
+    padding-top: ${props => props.paddingTop || ''};
+    padding-bottom: ${props => props.paddingBot || ''};
+    padding-left: ${props => props.paddingLeft || ''};
+    padding-right: ${props => props.paddingRight || ''};
+`
+
 
 const sizeCss = css`
     width: ${props => props.width || 'auto'};
@@ -44,4 +56,4 @@ const flexBoxCss = css`
 `
 
 
-export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss};
+export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss};
