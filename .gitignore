@@ -3,7 +3,7 @@
 **/env.dev
 venv
 
-**/static
+**/static/js
 **/media
 
 
