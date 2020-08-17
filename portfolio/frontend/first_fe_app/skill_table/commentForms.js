@@ -9,10 +9,6 @@ const MainCommentForm = (props) => {
 
 	const addCommentUrl = `${baseUrl}/${skillApiBaseNameUrl}/${props.skillId}/add_comment/`;
 
-	const handleChange = (e) => {
-
-	}
-
 
 	const BaseInput = (props) => {
 		const inputProps = {type: props.type};
@@ -20,18 +16,17 @@ const MainCommentForm = (props) => {
 			inputProps.value = props.value;
 		};
 
-		return <input {...inputProps}>{props.children}</input>
+		return <input {...inputProps}></input>
 	}
+
+	const formFieldProps = {margin: '0 0 5% 0'}
 
 	return (
 		<>
-			<StyledRow>
-				<label>Add comment:</label>
-			</StyledRow>
-			<StyledRow>
+			<StyledRow {...formFieldProps}>
 				<BaseInput type={'text'}></BaseInput>
 			</StyledRow>
-			<StyledRow>
+			<StyledRow {...formFieldProps}>
 				<button>Add comment</button>
 			</StyledRow>
 		</>

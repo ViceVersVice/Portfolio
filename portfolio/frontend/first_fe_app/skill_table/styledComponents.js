@@ -45,6 +45,7 @@ const StyledFlexColumn = styled.div`
     background-position: 100px 5px;
 `
 
+
 const StyledFlexInlineRow = styled.div`
     ${flexBoxCss};
     display: inline-flex;
@@ -74,9 +75,11 @@ const BaseParagraph = styled.p`
     ${fontStyleCss};
 `
 
+
 const StyledSkillCardText = styled(BaseParagraph)`
     font-family: 'Lato', sans-serif;
 `
+
 
 const BlankColumn = styled.div`
     flex: 1;
@@ -110,8 +113,8 @@ const StyledCommentButton = styled.div`
     ${flexBoxCss};
     ${borderedCss};
     ${sizeCss};
+    cursor: pointer;
     width: 30%;
-    margin: 0% 0% 10% 5%;
     background-repeat: no-repeat;
     background-size: 25px;
     background-position: 10%;

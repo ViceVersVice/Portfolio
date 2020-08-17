@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+
 import {StyledSkillCardText} from './styledComponents.js';
+import {flexBoxCss} from '../base/baseStyles.js';
 import {MainCommentForm} from './commentForms.js';
+import {CommentButton} from './commentButton.js';
+
 
 const PopupContainer = styled.div`
 	display: flex;
@@ -19,9 +23,9 @@ const PopupContainer = styled.div`
 `
 
 
-
 const PopupFlexDiv = styled.div`
-	margin: ${props => props.margin || '10px'};
+	${flexBoxCss};
+	margin: ${props => props.margin || '2%'};
 	align-self: ${props => props.alignSelf || 'center'};
 `
 
@@ -29,10 +33,25 @@ const PopupFlexDiv = styled.div`
 class SkillPopup extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {showCommentForm: false};
+		this.toggleCommentForm = this.toggleCommentForm.bind(this);
 	};
 
+	toggleCommentForm(e) {
+		this.setState({showCommentForm: !this.state.showCommentForm});
+	}
+
+
 	render() {
-		let popup = (
+		const commentForm = this.state.showCommentForm ? (
+			<PopupFlexDiv alignSelf={'flex-start'}>
+				<MainCommentForm skillId={this.props.data.id}></MainCommentForm>
+			</PopupFlexDiv>
+		): null;
+
+		const commentButtonText = this.state.showCommentForm ? 'Close': 'Add comment';
+
+		const popup = (
 			<PopupContainer>
 				<PopupFlexDiv alignSelf={'flex-end'} margin='none'>
 					{this.props.closeButton}
@@ -41,7 +60,10 @@ class SkillPopup extends React.Component {
 					<h1>{this.props.data.name}</h1>
 					<StyledSkillCardText>{this.props.data.description}</StyledSkillCardText>
 				</PopupFlexDiv>
-				<MainCommentForm skillId={this.props.data.id}></MainCommentForm>
+				<CommentButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 0 2%'}>
+					{commentButtonText}
+				</CommentButton>
+				{commentForm}
 			</PopupContainer>
 		);
 		return ReactDOM.createPortal(popup, document.body);

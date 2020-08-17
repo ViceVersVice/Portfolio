@@ -7,8 +7,8 @@ import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColum
         StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph} from './styledComponents.js';
 import {SkillPopup} from './skill_popup.js';
 import {MainCommentForm} from './commentForms.js';
+import {CommentButton} from './commentButton.js';
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl, mediaFolderUrl} from '../base/baseUrls.js';
-
 
 
 class EndOfPage extends React.Component {
@@ -70,36 +70,6 @@ class SkillCard extends React.Component {
             </StyledFlexCardInlineRow>
         );
     }
-}
-
-
-class CommentButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {'highlight': false};
-        this.highlightButton = this.highlightButton.bind(this);
-        this.unhighlightButton = this.unhighlightButton.bind(this);
-    };
-
-    highlightButton(e) {
-        this.setState({highlight: true});
-    };
-
-    unhighlightButton(e) {
-        this.setState({highlight: false});
-    };
-
-    render() {
-        const buttonProps = {margin: '4% 5% 0 0', flexShrink: '4', border: 'solid 0.1rem'}
-        if (this.state.highlight) {
-            buttonProps.backgroundColor = '#FFFFFF';
-        }
-        return (
-            <StyledCommentButton onMouseEnter={this.highlightButton} onMouseLeave={this.unhighlightButton} {...buttonProps}>
-                <StyledSkillCardText margin={'0'} fontSize={'15px'} margin={'5% 5% 5% 35%'}><b>{this.props.commentsCount || 0}</b> Comments</StyledSkillCardText>
-            </StyledCommentButton>
-        );
-    };
 }
 
 
@@ -213,8 +183,8 @@ class SkillTable extends React.Component {
                                             <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'} fontSize={'20px'}>{truncatedDescription}</StyledSkillCardText>
                                         </StyledFlexColumn>
                                     </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow justifyContent={'flex-start'} borderTop={'solid 1rem'} flexGrow={'4'}>
-                                        <CommentButton></CommentButton>
+                                    <StyledFlexInlineRow justifyContent={'flex-start'} borderTop={'solid 1rem'}>
+                                        <CommentButton margin={'0% 0% 10% 5%'}><b>{this.props.commentsCount || 0}</b> Comments</CommentButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>
