@@ -68,11 +68,25 @@ const StyledFlexCardInlineRow = styled.div`
 `
 
 
+const BaseSpan = styled.span`
+    ${fontStyleCss};
+`
+
+
 const BaseParagraph = styled.p`
     ${marginCss};
     ${fontStyleCss};
     ${paddingCss};
     ${fontStyleCss};
+`
+
+const BaseInput = styled.input`
+    ${marginCss};
+    ${backgroundCss};
+    ${paddingCss};
+    ${flexBoxCss};
+    ${borderedCss};
+    ${sizeCss};
 `
 
 
@@ -123,4 +137,4 @@ const StyledCommentButton = styled.div`
 
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
-    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph}
+    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph, BaseSpan, BaseInput}
