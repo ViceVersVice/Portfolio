@@ -8,6 +8,7 @@ const backgroundCss = css`
 const fontStyleCss = css`
     font-family: ${props => props.fontFamily};
     font-size: ${props => props.fontSize};
+    opacity: ${props => props.opacity};
 `
 
 

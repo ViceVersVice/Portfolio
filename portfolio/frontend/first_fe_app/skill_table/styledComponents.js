@@ -74,6 +74,7 @@ const BaseSpan = styled.span`
 
 
 const BaseParagraph = styled.p`
+    ${borderedCss};
     ${marginCss};
     ${fontStyleCss};
     ${paddingCss};
@@ -87,6 +88,7 @@ const BaseInput = styled.input`
     ${flexBoxCss};
     ${borderedCss};
     ${sizeCss};
+    box-sizing: border-box;
 `
 
 
