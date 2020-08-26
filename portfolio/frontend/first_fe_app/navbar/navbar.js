@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {StyledRow, StyledFlexInlineRow, NavbarLogo, Button, NavbarText} from './styledComponents.js';
+import {NavbarLogo, Button, NavbarText} from './styledComponents.js';
+import {StyledRow, StyledFlexInlineRow} from '../skill_table/styledComponents.js'
 import {baseUrl, staticFolderUrl} from '../base/baseUrls.js';
 
 
@@ -20,22 +21,20 @@ const NavbarButton = (props) => {
 
 	const removeDashOnTop = (e) => {
 		setShowDash(false);
-	}
-
+	};
 
 	return (
 		<Button onMouseEnter={addDashOnTop} onMouseLeave={removeDashOnTop} {...navButtonProps}>
 			<NavbarText fontFamily={"'Rowdies', cursive"} fontSize={'20px'}>{props.children}</NavbarText>
 		</Button>
 	)
-
-}
+};
 
 
 const Navbar = () => {
     return (	
-    	<StyledRow borderTop={'solid 0.1rem'} borderBottom={'solid 0.1rem'} justifyContent={'flex-end'} height={'100px'}>
-    		<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
+    	<StyledRow borderTop={'solid 0.1rem'} borderBottom={'solid 0.1rem'} justifyContent={'flex-end'} height={'70px'}>
+    	<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
     		<NavbarButton>About Me</NavbarButton>
     		<NavbarButton>Register</NavbarButton>
     		<NavbarButton>Login</NavbarButton>

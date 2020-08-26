@@ -3,6 +3,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from accounts.models import UserProfile
+from utils.parsers import CamelCaseJsonParser
 from .pagination import StartCountPagination
 from .serializers import SkillSerializer, SkillCommentSerializer
 from main_app.models import Skill, Comment
@@ -14,6 +16,7 @@ class SkillViewSet(ModelViewSet):
     pagination_class = StartCountPagination
     authentication_classes = []
     permission_classes = [AllowAny]
+    parser_classes = [CamelCaseJsonParser]
 
     def get_queryset(self):
         return Skill.objects.all()
@@ -24,12 +27,13 @@ class SkillViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, args, kwargs)
-        import time
-        # print('LOOOOOOOOOOO!!!')
         return response
 
     @action(detail=True, methods=['post'])
     def add_comment(self, request, *args, **kwargs):
-        serializer = SkillCommentSerializer(data=request.data)
-        serializer.is_valid()
+        d = request.data.copy()
+        d.update({'profile': UserProfile.objects.first()})
+        serializer = SkillCommentSerializer(data=d)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response({'lol': 'lol', 'errors': serializer.errors})

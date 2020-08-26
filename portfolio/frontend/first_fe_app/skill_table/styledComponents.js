@@ -26,45 +26,14 @@ const appearElement = keyframes`
 
 
 // Components
-const StyledRow = styled.div`
+const BaseDiv = styled.div`
     ${marginCss};
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`
-
-
-const StyledFlexColumn = styled.div`
-    ${borderedCss};
-    ${borderedCss};
-    ${flexBoxCss};
-    flex-shrink: ${props => props.flexShrink || '1'};
-    flex-grow: ${props => props.flexGrow || '1'};
-    background: ${props => props.backgroundColor || ''};
-    box-shadow: ${props => props.boxShadow};
-    background-position: 100px 5px;
-`
-
-
-const StyledFlexInlineRow = styled.div`
-    ${flexBoxCss};
-    display: inline-flex;
-    flex-grow: ${props => props.flexGrow || '1'};
-    overflow: ${props => props.overflow || 'visible'};
-`
-
-
-const StyledFlexCardInlineRow = styled.div`
-    ${borderedCss};
-    ${flexBoxCss};
+    ${backgroundCss};
     ${paddingCss};
-    display: inline-flex;
-    background-color: #d8e1f4;
-    margin: 30px;
-    height: 400px;
-    animation: ${appearElement} 1s linear;
-    box-shadow: ${props => props.boxShadow};
-    cursor: pointer;
+    ${flexBoxCss};
+    ${borderedCss};
+    ${sizeCss};
+    ${fontStyleCss};
 `
 
 
@@ -92,18 +61,52 @@ const BaseInput = styled.input`
 `
 
 
+const StyledRow = styled(BaseDiv)`
+    display: flex;
+`
+
+
+const StyledFlexColumn = styled(BaseDiv)`
+    flex-shrink: ${props => props.flexShrink || '1'};
+    flex-grow: ${props => props.flexGrow || '1'};
+    background: ${props => props.backgroundColor || ''};
+    box-shadow: ${props => props.boxShadow};
+    background-position: 100px 5px;
+`
+
+
+const StyledFlexInlineRow = styled(BaseDiv)`
+    ${flexBoxCss};
+    display: inline-flex;
+    flex-grow: ${props => props.flexGrow || '1'};
+    overflow: ${props => props.overflow || 'visible'};
+`
+
+
+const StyledFlexCardInlineRow = styled(BaseDiv)`
+    display: inline-flex;
+    background-color: #d8e1f4;
+    margin: 30px;
+    height: 400px;
+    animation: ${appearElement} 1s linear;
+    box-shadow: ${props => props.boxShadow};
+    cursor: pointer;
+`
+
+
 const StyledSkillCardText = styled(BaseParagraph)`
+    display: inline-block;
     font-family: 'Lato', sans-serif;
 `
 
 
-const BlankColumn = styled.div`
+const BlankColumn = styled(BaseDiv)`
     flex: 1;
     margin: 30px;
 `
 
 
-const StyledEndOfPage = styled.div`
+const StyledEndOfPage = styled(BaseDiv)`
     margin: 0 auto;
     text-align: center;
     visibility: ${props => props.isVisible};
@@ -122,13 +125,7 @@ const StyledHeader = styled.h1`
 `
 
 
-const StyledCommentButton = styled.div`
-    ${marginCss};
-    ${backgroundCss};
-    ${paddingCss};
-    ${flexBoxCss};
-    ${borderedCss};
-    ${sizeCss};
+const StyledCommentButton = styled(BaseDiv)`
     cursor: pointer;
     width: 30%;
     background-repeat: no-repeat;
@@ -139,4 +136,4 @@ const StyledCommentButton = styled.div`
 
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
-    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph, BaseSpan, BaseInput}
+    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph, BaseSpan, BaseInput, BaseDiv}

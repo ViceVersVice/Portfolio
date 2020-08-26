@@ -19,8 +19,8 @@ class EndOfPage extends React.Component {
                 <h1>Loading data.....</h1>
                 <img src={`${staticFolderUrl}/gifs/loading1.gif`}></img>
             </StyledEndOfPage>, document.body);
-    }
-}
+    };
+};
 
 const EndOfPageRef = React.forwardRef((props, ref) => <EndOfPage {...props} innerRef={ref}></EndOfPage>)
 
@@ -101,7 +101,7 @@ class SkillTable extends React.Component {
             this.handlePaginationObserver.bind(this),
             observerOptions,
         );
-        
+        console.log('mounted!!', this.endOfPage);
         if (this.endOfPage) {
             this.paginationObserver.observe(this.endOfPage);
         }
@@ -140,7 +140,6 @@ class SkillTable extends React.Component {
         return blankColumns;
     }
 
-
     togglePopup(skillData) {
         this.setState({showPopup: true, popupData: skillData});
     }
@@ -149,7 +148,6 @@ class SkillTable extends React.Component {
         this.setState({showPopup: false})
     }
         
-
     render () {
         let data = this.state.data
         let skillsListLength = data.length
@@ -183,8 +181,9 @@ class SkillTable extends React.Component {
                                             <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'} fontSize={'20px'}>{truncatedDescription}</StyledSkillCardText>
                                         </StyledFlexColumn>
                                     </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow justifyContent={'flex-start'} borderTop={'solid 1rem'}>
-                                        <CommentButton margin={'0% 0% 10% 5%'}><b>{this.props.commentsCount || 0}</b> Comments</CommentButton>
+                                    {/* Abusing box-shadow to create borders....*/}
+                                    <StyledFlexInlineRow justifyContent={'flex-start'} boxShadow={'-1px -36px 0px -33px black'}>
+                                        <CommentButton margin={'5% 0% 10% 5%'}><b>{this.props.commentsCount || 0}</b> Comments</CommentButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>
@@ -197,8 +196,9 @@ class SkillTable extends React.Component {
                     let blanksCount = this.maxElementsInRow - rowData.length;
                     columns.push(this.getBlankColumns(skillsListLength, blanksCount));
                 };
+                
                 rows.push(
-                    <StyledRow key={rowNumber} margin={'30px'}>
+                    <StyledRow key={rowNumber} margin={'5%'}>
                         {columns}
                     </StyledRow>
                 );
@@ -207,14 +207,14 @@ class SkillTable extends React.Component {
             if (this.state.showPopup) {
                 const closePopupButton = <button onClick={this.closePopup}>Close</button>;
                 rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton}></SkillPopup>);
-            }
+            };
             rows.push(endOfPage);
             return rows;
         } else {
-            return endOfPage
-        }
+            return endOfPage;
+        };
 
-    }
-}
+    };
+};
 
 export {SkillTable};

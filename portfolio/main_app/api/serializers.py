@@ -10,6 +10,8 @@ class SkillSerializer(serializers.ModelSerializer):
 
 
 class SkillCommentSerializer(serializers.ModelSerializer):
+    comment_text = serializers.CharField(source='text')
+
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['comment_text']

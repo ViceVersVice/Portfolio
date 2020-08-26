@@ -20,6 +20,7 @@ const borderedCss = css`
     border-right: ${props => props.borderRight};
     border-bottom: ${props => props.borderBottom};
     border-top: ${props => props.borderTop};
+    box-shadow: ${props => props.boxShadow};
 `
 
 const marginCss = css`
