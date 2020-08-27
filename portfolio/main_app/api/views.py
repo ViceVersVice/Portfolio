@@ -5,6 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from accounts.models import UserProfile
 from utils.parsers import CamelCaseJsonParser
+from utils.renderers import CamelCaseJsonRenderer
 from .pagination import StartCountPagination
 from .serializers import SkillSerializer, SkillCommentSerializer
 from main_app.models import Skill, Comment
@@ -17,6 +18,7 @@ class SkillViewSet(ModelViewSet):
     authentication_classes = []
     permission_classes = [AllowAny]
     parser_classes = [CamelCaseJsonParser]
+    renderer_classes = [CamelCaseJsonRenderer]
 
     def get_queryset(self):
         return Skill.objects.all()
