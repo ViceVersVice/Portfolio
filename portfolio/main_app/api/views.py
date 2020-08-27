@@ -34,7 +34,7 @@ class SkillViewSet(ModelViewSet):
     @action(detail=True, methods=['post'])
     def add_comment(self, request, *args, **kwargs):
         d = request.data.copy()
-        d.update({'profile': UserProfile.objects.first()})
+        d.update({'profile': UserProfile.objects.first().pk})
         serializer = SkillCommentSerializer(data=d)
         serializer.is_valid(raise_exception=True)
         serializer.save()

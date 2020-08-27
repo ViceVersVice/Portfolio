@@ -45,11 +45,10 @@ class SkillPopup extends React.Component {
 		this.setState({showCommentForm: !this.state.showCommentForm});
 	}
 
-
 	render() {
 		const commentForm = this.state.showCommentForm ? (
 			<PopupFlexDiv justifyContent={'center'} flexDirection={'column'}>
-				<MainCommentForm skillId={this.props.data.id} margin={'2% 0 2% 0'}></MainCommentForm>
+				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={this.props.data.id} margin={'2% 0 2% 0'}></MainCommentForm>
 			</PopupFlexDiv>
 		): null;
 

@@ -38,6 +38,7 @@ const MainCommentForm = (props) => {
 				body: JSON.stringify(formData)
 			}
 		).then(response => response.json()).then(response => console.log('RES', response))
+		props.hideCommentForm()
 	};
 	
 	const storeFormData = (e) => {
