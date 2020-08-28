@@ -25,9 +25,19 @@ const CommentTextInput = (props) => {
 
 
 const MainCommentForm = (props) => {
-	const [formData, setFormData] = useState({commentText: ''})
+	const [formData, setFormData] = useState({commentText: ''});
+	const [formErrors, setFormErrors] = useState({formErrors: ''});
 
-	const addCommentUrl = `${baseUrl}/${skillApiBaseNameUrl}/${props.skillId}/add_comment/`;
+	const handleResponse = (response) => {
+		response.json().then(data => {
+			if (data.errors) {
+				setFormErrors({formErrors: data.errors});
+			} else {
+				props.hideCommentForm();
+			};
+		}); 
+	};
+
 	const sendFormData = (e) => {
 		fetch(`${baseUrl}/${skillApiBaseNameUrl}/${props.skillId}/add_comment/`,
 			{	
@@ -37,8 +47,7 @@ const MainCommentForm = (props) => {
 				},
 				body: JSON.stringify(formData)
 			}
-		).then(response => response.json()).then(response => console.log('RES', response))
-		props.hideCommentForm()
+		).then(handleResponse);
 	};
 	
 	const storeFormData = (e) => {
@@ -47,10 +56,13 @@ const MainCommentForm = (props) => {
 			[e.target.getAttribute('name')]: e.target.textContent,
 		});
 	};
-
+	
+	const ErrorMessages =  formErrors.formErrors ? <BaseDiv marginBot={'2%'}><BaseSpan color={'red'}>{formErrors.formErrors.join(', ')}</BaseSpan></BaseDiv>: null;
+	
 	return (
 		<>
 			<CommentTextInput name={'commentText'} onInput={storeFormData} borderBottom={'solid 0.1rem'} {...props}></CommentTextInput>
+			{ErrorMessages}
 			<CommentButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'}>
 				<BaseSpan fontSize={'15px'}>Leave comment</BaseSpan>
 			</CommentButton>

@@ -9,6 +9,7 @@ const fontStyleCss = css`
     font-family: ${props => props.fontFamily};
     font-size: ${props => props.fontSize};
     opacity: ${props => props.opacity};
+    color: ${props => props.color};
 `
 
 

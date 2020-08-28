@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -36,6 +37,6 @@ class SkillViewSet(ModelViewSet):
         d = request.data.copy()
         d.update({'profile': UserProfile.objects.first().pk})
         serializer = SkillCommentSerializer(data=d)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'lol': 'lol', 'errors': serializer.errors})
+        if serializer.is_valid():
+            serializer.save()
+        return Response({'errors': ['wtf you done!', 'bby bboi']}, status=status.HTTP_400_BAD_REQUEST)
