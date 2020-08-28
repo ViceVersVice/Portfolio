@@ -101,7 +101,7 @@ class SkillTable extends React.Component {
             this.handlePaginationObserver.bind(this),
             observerOptions,
         );
-        console.log('mounted!!', this.endOfPage);
+        
         if (this.endOfPage) {
             this.paginationObserver.observe(this.endOfPage);
         }
@@ -206,7 +206,7 @@ class SkillTable extends React.Component {
 
             if (this.state.showPopup) {
                 const closePopupButton = <button onClick={this.closePopup}>Close</button>;
-                rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton}></SkillPopup>);
+                rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton} key={this.state.data.length + 1}></SkillPopup>);
             };
             rows.push(endOfPage);
             return rows;
