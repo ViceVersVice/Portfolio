@@ -1,10 +1,10 @@
 import re
+from typing import Union
 
-from rest_framework.parsers import BaseParser, JSONParser
-from rest_framework.utils import json
+from rest_framework.parsers import JSONParser
 
 
-def camel_case_to_snake_case(raw_data):
+def camel_case_to_snake_case(raw_data: Union[dict, list]):
     def format_data(item):
         if not isinstance(item, dict):
             return item

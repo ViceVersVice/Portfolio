@@ -19,8 +19,7 @@ const TextAreaDiv = styled(BaseDiv)`
 
 
 const CommentTextInput = (props) => {
-	const [showPlaceholder, setShowPlaceholder] = useState(true);
-	return <TextAreaDiv role={'textbox'} contentEditable={true} placeholder="Enter weight…" {...props}></TextAreaDiv>
+	return <TextAreaDiv role={'textbox'} contentEditable={true} placeholder="Write comment..." {...props}></TextAreaDiv>
 };
 
 
@@ -35,7 +34,9 @@ const MainCommentForm = (props) => {
 			} else {
 				props.hideCommentForm();
 			};
-		}); 
+		}).catch(
+			setFormErrors({formErrors: ['Server error']})
+		);
 	};
 
 	const sendFormData = (e) => {

@@ -1,14 +1,12 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import styled, { keyframes } from 'styled-components';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
         StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph} from './styledComponents.js';
 import {SkillPopup} from './skill_popup.js';
-import {MainCommentForm} from './commentForms.js';
 import {CommentButton} from './commentButton.js';
-import {baseUrl, skillApiBaseNameUrl, staticFolderUrl, mediaFolderUrl} from '../base/baseUrls.js';
+import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js';
 
 
 class EndOfPage extends React.Component {
@@ -22,7 +20,9 @@ class EndOfPage extends React.Component {
     };
 };
 
-const EndOfPageRef = React.forwardRef((props, ref) => <EndOfPage {...props} innerRef={ref}></EndOfPage>)
+const EndOfPageRef = React.forwardRef((props, ref) => {
+    return <EndOfPage {...props} innerRef={ref}></EndOfPage>
+})
 
 
 class SkillCard extends React.Component {
@@ -73,62 +73,106 @@ class SkillCard extends React.Component {
 }
 
 
+function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef) {
+    return class extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                data: [],
+                dataCountStart: 0,
+                dataIsLoading: false
+            };
+
+            this.observedElement = React.createRef(null);
+            this.getAPIData = this.getAPIData.bind(this);
+
+            this.Reffed = React.forwardRef((props, ref) => {
+                const WrappedProps = {
+                    ...props,
+                    observedElementRef: observedElementRef,
+                    apiData: this.state.data,
+                    dataIsLoading: this.state.dataIsLoading
+                };
+                return <WrappedComponent hocRef={ref} {...WrappedProps}></WrappedComponent>
+            });
+        };
+
+        getAPIData(getNextPage) {
+            // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
+            this.setState({...this.state, dataIsLoading: true });
+            const count = 4;
+            const start = getNextPage ? this.state.dataCountStart + count: this.state.dataCountStart;
+            fetch(`${fetchUrl}/?start=${start}&count=${count}`)
+                .then(response => response.json())
+                .then(data => this.setState({
+                    data: [...this.state.data, ...data],
+                    dataCountStart: start,
+                    dataIsLoading: false
+                }));
+        };
+
+        handlePaginationObserver(entities, observer) {
+            // Tracks visibility of EndOfPage element and fetches additional data if EndOfPage becomes visible
+            if (this.state.data.length && entities.length && entities[0].isIntersecting) {
+                this.getAPIData(true);
+            };
+        }; 
+
+        componentDidMount() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 1.0
+            };
+    
+            this.paginationObserver = new IntersectionObserver(
+                this.handlePaginationObserver.bind(this),
+                observerOptions,
+            );
+            
+            if (this.observedElement) {
+                console.log('LOL', this.observedElement, this.observedElement.current)
+                this.paginationObserver.observe(this.observedElement.current);
+            }
+            
+            this.getAPIData();
+        };
+        
+        render() {
+            return <this.Reffed ref={this.observedElement} {...this.props}></this.Reffed>
+        };
+    };
+};
+
+
 class SkillTable extends React.Component {
     constructor(props) {
         super(props);
+        this.observedElementRef = props.observedElementRef;
+        this.hocRef = props.hocRef;
+        
         this.state = {
-            data: [], 
+            // EndlessPaginationHoc data
+            data: props.apiData,
+            dataIsLoading: props.dataIsLoading,
+            // Own state
             showPopup: false, 
             popupData: {},
-            dataCountStart: 0,
-            loadNewPage: false,
-            dataIsLoading: true
         };
+
         this.maxElementsInRow = 2;
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
-        this.endOfPage = React.createRef();
     };
 
-    componentDidMount() {
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 1.0
-        };
-
-        this.paginationObserver = new IntersectionObserver(
-            this.handlePaginationObserver.bind(this),
-            observerOptions,
-        );
-        
-        if (this.endOfPage) {
-            this.paginationObserver.observe(this.endOfPage);
+    componentDidUpdate(prevProps) {
+        if (this.props.apiData !== prevProps.apiData) {
+            this.setState({
+               data: this.props.apiData,
+               dataIsLoading: this.props.dataIsLoading 
+            })
         }
-        
-        this.getAPIData();
     }
-
-    getAPIData(getNextPage) {
-        // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
-        this.setState({ dataIsLoading: true });
-        const count = 4;
-        const start = getNextPage ? this.state.dataCountStart + count: this.state.dataCountStart;
-        fetch(`${baseUrl}/${skillApiBaseNameUrl}/?start=${start}&count=${count}`)
-            .then(response => response.json())
-            .then(data => this.setState({
-                data: [...this.state.data, ...data],
-                dataCountStart: start,
-                dataIsLoading: false
-            }))
-    }
-
-    handlePaginationObserver(entities, observer) {
-        // Tracks visibility of EndOfPage element and fetches additional data if EndOfPage becomes visible
-        if (this.state.data.length && entities.length && entities[0].isIntersecting) {
-            this.getAPIData(true);
-        };
-    } 
 
     getBlankColumns(start, blanksCount) {
         let blankColumns = [];
@@ -138,24 +182,27 @@ class SkillTable extends React.Component {
         };
 
         return blankColumns;
-    }
+    };
 
     togglePopup(skillData) {
         this.setState({showPopup: true, popupData: skillData});
-    }
+    };
 
     closePopup() {
         this.setState({showPopup: false})
-    }
+    };
         
     render () {
-        let data = this.state.data
-        let skillsListLength = data.length
+        const data = this.state.data;
+        const skillsListLength = data.length;
         // Keys is must be here, and must be unique, to prevent React from re-rendering this component 
         // and fail of paginationObserver to track endOfPage position`
-        const endOfPage = <EndOfPageRef key={-1} ref={endOfPage => this.endOfPage = endOfPage} dataIsLoading={this.state.dataIsLoading}></EndOfPageRef>;
+        const ObservedElement = this.observedElementRef;
+        const endOfPage = <ObservedElement key={-1} ref={this.hocRef} dataIsLoading={this.state.dataIsLoading}></ObservedElement>;
         
-        if (skillsListLength) {
+        if (!skillsListLength) {
+            return endOfPage;
+        } else {
             let maxRowsCount = Math.floor(skillsListLength / this.maxElementsInRow) + 1;
             let rows = [];
 
@@ -210,11 +257,11 @@ class SkillTable extends React.Component {
             };
             rows.push(endOfPage);
             return rows;
-        } else {
-            return endOfPage;
         };
-
     };
 };
 
-export {SkillTable};
+const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef)
+
+
+export {EndlessTable};

@@ -1,9 +1,10 @@
 from collections import deque
+from typing import Union
 
-from rest_framework.renderers import BaseRenderer, JSONRenderer
+from rest_framework.renderers import JSONRenderer
 
 
-def snake_case_to_camel_case(raw_data):
+def snake_case_to_camel_case(raw_data: Union[dict, list]):
     def format_data(item):
         if not isinstance(item, dict):
             return item
