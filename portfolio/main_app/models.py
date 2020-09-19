@@ -31,6 +31,7 @@ class Skill(models.Model):
 
 
 class Comment(models.Model):
+    skill = models.ForeignKey('main_app.Skill', related_name='comments', on_delete=models.CASCADE)
     profile = models.ForeignKey('accounts.UserProfile', related_name='comments', on_delete=models.CASCADE)
     sub_comments = models.ForeignKey('main_app.Comment', related_name='related_comments', blank=True, null=True, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)

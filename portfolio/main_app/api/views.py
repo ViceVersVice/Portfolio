@@ -29,15 +29,23 @@ class SkillViewSet(SnakeCamelViewSet):
         d = request.data.copy()
         d.update({'profile': UserProfile.objects.first().pk})
         serializer = SkillCommentSerializer(data=d)
+
         if serializer.is_valid():
             serializer.save()
-        return Response({'errors': ['wtf you done!', 'bby bboi']}, status=status.HTTP_400_BAD_REQUEST)
+
+        if serializer.errors:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.data)
 
     @action(detail=True, methods=['get'], basename='comments')
     def skill_comments(self, request, *args, **kwargs):
-        print('OCMM', self.get_object())
-        skill_comments = None
-        pass
+        skill = self.get_object()
+        comments = skill.comments.all()
+        skill_comments = self.paginate_queryset(comments)
+        serializer = SkillCommentSerializer(skill_comments, many=True)
+
+        return self.paginator.get_paginated_response(serializer.data)
 
 
 class SkillCommentsViewSet(SnakeCamelViewSet):
@@ -56,8 +64,13 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
     def create(self, request, *args, **kwargs):
         d = request.data.copy()
         d.update({'profile': UserProfile.objects.first().pk})
+        print('DDDcc', d)
         serializer = SkillCommentSerializer(data=d)
         if serializer.is_valid():
             serializer.save()
 
-        return Response({'errors': ['wtf you done!', 'bby bboi']}, status=status.HTTP_400_BAD_REQUEST)
+        print('LOOOL??', serializer.errors)
+        if serializer.errors:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.data)

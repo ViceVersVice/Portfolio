@@ -1,31 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-import {StyledSkillCardText, BaseSpan, BaseDiv} from './styledComponents.js';
+import {StyledSkillCardText, BaseSpan, BaseDiv, appearElement} from './styledComponents.js';
 import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
+
 import {MainCommentForm} from './commentForms.js';
+import {SkillCommentList} from './skillComments.js';
 import {CommentButton} from './commentButton.js';
+import {EndlessPaginationHoc} from './skillTable.js'
+import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js'
 
 
 const PopupContainer = styled.div`
-	display: flex;
+	display: inline-flex;
 	flex-direction: column;
 	width: 60%;
     padding: 20px;
     background: #ffffff;
-    position: fixed;
+    position: absolute;
     left: 50%;
   	top: 50%;
-  	transform: translate(-50%, -50%);
+  	transform: translate(-50%, -30%);
   	border: 0.2rem solid black;
   	border-radius: 10px;
 `
 
 
-const PopupInlineFlexDiv = styled(BaseSpan)`
-	display: inline-flex;
+const AnimatedCommentForm = styled(BaseDiv)`
+	animation: ${appearElement} 0.3s linear;
 `
+
+
+const EndOfComments = (props) => {
+	return <div ref={props.innerRef}></div>
+}
+
+
+const EndOfCommentsRef = React.forwardRef((props, ref) => {
+	return <EndOfComments {...props} innerRef={ref}></EndOfComments>
+})
 
 
 class SkillPopup extends React.Component {
@@ -33,26 +47,9 @@ class SkillPopup extends React.Component {
 		super(props);
 		this.state = {
 			showCommentForm: false, 
-			skillCommentsData: {},
-			dataCountStart: 0,
-            dataIsLoading: false
-
 		};
+
 		this.toggleCommentForm = this.toggleCommentForm.bind(this);
-	};
-	
-	getSkillCommentsData(getNextPage) {
-        // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
-        setState({ dataIsLoading: true });
-        const count = 4;
-        const start = getNextPage ? this.state.dataCountStart + count: this.state.dataCountStart;
-        fetch(`${baseUrl}/${skillApiBaseNameUrl}/${this.props.data.id}/comments/?start=${start}&count=${count}`)
-            .then(response => response.json())
-            .then(skillCommentsData => this.setState({
-                skillCommentsData: [...this.state.skillCommentsData, ...skillCommentsData],
-                dataCountStart: start,
-                dataIsLoading: false
-            }));
 	};
 	
 	toggleCommentForm(e) {
@@ -60,14 +57,22 @@ class SkillPopup extends React.Component {
 	}
 
 	render() {
+		const skillId = this.props.data.id;
+
+		const PopupWIthEndlessComments = EndlessPaginationHoc(
+			SkillCommentList, 
+			`${baseUrl}/${skillApiBaseNameUrl}/${skillId}/skill_comments`,
+			EndOfCommentsRef,
+			10
+		)
+		
 		const commentForm = this.state.showCommentForm ? (
-			<BaseDiv justifyContent={'center'} flexDirection={'column'}>
-				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={this.props.data.id} margin={'2% 0 2% 0'}></MainCommentForm>
-			</BaseDiv>
+			<AnimatedCommentForm justifyContent={'center'} flexDirection={'column'}>
+				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={skillId} margin={'2% 0 2% 0'}></MainCommentForm>
+			</AnimatedCommentForm>
 		): null;
 
 		const commentButtonText = this.state.showCommentForm ? 'Close': 'Add comment';
-
 		const popup = (
 			<PopupContainer>
 				<BaseDiv alignSelf={'flex-end'} margin='none'>
@@ -81,11 +86,13 @@ class SkillPopup extends React.Component {
 					<BaseSpan fontSize={'15px'}>{commentButtonText}</BaseSpan>
 				</CommentButton>
 				{commentForm}
+				<PopupWIthEndlessComments></PopupWIthEndlessComments>
 			</PopupContainer>
 		);
-		return ReactDOM.createPortal(popup, document.body);
+		return ReactDOM.createPortal(popup, document.getElementById('root'));
 	}
-
 }
+
+
 
 export {SkillPopup};

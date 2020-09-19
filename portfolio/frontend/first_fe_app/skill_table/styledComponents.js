@@ -136,4 +136,6 @@ const StyledCommentButton = styled(BaseDiv)`
 
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
-    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph, BaseSpan, BaseInput, BaseDiv}
+    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, 
+    BaseParagraph, BaseSpan, BaseInput, BaseDiv,
+    appearElement}

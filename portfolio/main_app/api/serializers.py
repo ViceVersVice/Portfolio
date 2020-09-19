@@ -14,4 +14,4 @@ class SkillCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['comment_text', 'profile']
+        fields = ['skill', 'comment_text', 'profile']

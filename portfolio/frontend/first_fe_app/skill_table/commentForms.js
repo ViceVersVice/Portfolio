@@ -24,7 +24,7 @@ const CommentTextInput = (props) => {
 
 
 const MainCommentForm = (props) => {
-	const [formData, setFormData] = useState({commentText: ''});
+	const [formData, setFormData] = useState({skill: props.skillId, commentText: ''});
 	const [formErrors, setFormErrors] = useState({formErrors: ''});
 
 	const handleResponse = (response) => {
