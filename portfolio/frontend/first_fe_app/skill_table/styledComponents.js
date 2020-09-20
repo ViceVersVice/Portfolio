@@ -127,9 +127,9 @@ const StyledHeader = styled.h1`
 
 const StyledCommentButton = styled(BaseDiv)`
     cursor: pointer;
-    width: 30%;
+    width: ${props => props.width || '30%'};
     background-repeat: no-repeat;
-    background-size: 25px;
+    background-size: ${props => props.backgroundSize || '25px'};
     background-position: 10%;
     background-image: url('${staticFolderUrl}icons/comment.svg');
 `

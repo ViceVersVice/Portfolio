@@ -14,7 +14,7 @@ class EndOfPage extends React.Component {
         return ReactDOM.createPortal(
             <StyledEndOfPage ref={this.props.innerRef} isVisible={isVisible}>
                 <h1>Loading data.....</h1>
-                <img src={`${staticFolderUrl}/gifs/loading1.gif`}></img>
+                <img src={`${staticFolderUrl}/gifs/load1.svg`}></img>
             </StyledEndOfPage>, document.body);
     };
 };
@@ -80,15 +80,10 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
     return class extends React.Component {
         constructor(props) {
             super(props);
-            this.state = {
-                data: [],
-                dataCountStart: 0,
-                dataIsLoading: false,
-                totalItems: -1
-            };
-
             this.hocRef = React.createRef(null);
             this.getAPIData = this.getAPIData.bind(this);
+            this.blockDataLoading = this.blockDataLoading.bind(this);
+            this.unBlockDataLoading = this.unBlockDataLoading.bind(this);
 
             this.Reffed = React.forwardRef((props, ref) => {
                 const WrappedProps = {
@@ -99,6 +94,14 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
                 };
                 return <WrappedComponent hocRef={ref} {...WrappedProps}></WrappedComponent>
             });
+            
+            this.state = {
+                data: [],
+                dataCountStart: 0,
+                dataIsLoading: false,
+                totalItems: -1,
+                blockLoading: false
+            };
         };
 
         getAPIData(getNextPage) {
@@ -124,7 +127,11 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
         handlePaginationObserver(entities, observer) {
             // Tracks visibility of EndOfPage element and fetches additional data if EndOfPage becomes visible
             const dataLength = this.state.data.length;
-            if (dataLength && dataLength < this.state.totalItems && entities.length && entities[0].isIntersecting) {
+            if (!this.state.blockLoading
+                && dataLength 
+                && dataLength < this.state.totalItems 
+                && entities.length 
+                && entities[0].isIntersecting) {
                 this.getAPIData(true);
             };
         }; 
@@ -143,15 +150,45 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
             
             if (this.hocRef.current) {
                 this.paginationObserver.observe(this.hocRef.current);
-            }
-            
-            this.getAPIData();
+            };
+
+            if(!this.state.blockLoading){
+                this.getAPIData();
+            } 
         };
         
+        blockDataLoading() {
+            console.log('BLOCK', this)
+            this.setState({blockLoading: true})
+        };
+
+        unBlockDataLoading() {
+            this.setState({blockLoading: false})
+        };
+
+
         render() {
-            return <this.Reffed ref={this.hocRef} {...this.props}></this.Reffed>
+            const props = {
+                blockDataLoading: this.blockDataLoading,
+                unBlockDataLoading: this.unBlockDataLoading,
+                ...this.props
+            };
+            return <this.Reffed ref={this.hocRef} {...props}></this.Reffed>
         };
     };
+};
+
+
+const SkillTableWithTableFormat = (props) => {
+    const [TableFormat, setTableFormat] = useState(2);
+
+    const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, 6)
+    
+    return (
+        <>
+            <EndlessTable tableFormat={TableFormat}></EndlessTable>
+        </>
+    );
 };
 
 
@@ -169,8 +206,8 @@ class SkillTable extends React.Component {
             showPopup: false, 
             popupData: {},
         };
-
-        this.maxElementsInRow = 2;
+        // Regulates how many cards are in one row
+        this.maxElementsInRow = props.tableFormat || 2;
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
     };
@@ -195,14 +232,17 @@ class SkillTable extends React.Component {
     };
 
     togglePopup(skillData) {
+        this.props.blockDataLoading();
         this.setState({showPopup: true, popupData: skillData});
     };
 
     closePopup() {
-        this.setState({showPopup: false})
+        this.props.unBlockDataLoading();
+        this.setState({showPopup: false});
     };
         
     render () {
+        console.log('REND table::')
         const data = this.state.data;
         const skillsListLength = data.length;
         // Keys is must be here, and must be unique, to prevent React from re-rendering this component 
@@ -223,7 +263,7 @@ class SkillTable extends React.Component {
                 let textColumnRightBorder = '-25px 0px 0px -22px black'
                 let columns = rowData.map(
                     (skillData, i) => {
-                        const truncatedDescription = `${skillData.description.slice(0, 80)}...`
+                        const truncatedDescription = `${skillData.description.slice(0, 160)}...`
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'}>
@@ -265,14 +305,12 @@ class SkillTable extends React.Component {
                 const closePopupButton = <button onClick={this.closePopup}>Close</button>;
                 rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton} key={this.state.data.length + 1}></SkillPopup>);
             };
-            console.log('OLDDDD', endOfPage)
             rows.push(endOfPage);
             return rows;
         };
     };
 };
 
-const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef)
 
 
-export {EndlessTable, EndlessPaginationHoc};
+export {SkillTableWithTableFormat, EndlessPaginationHoc};

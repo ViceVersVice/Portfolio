@@ -15,13 +15,13 @@ import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js'
 const PopupContainer = styled.div`
 	display: inline-flex;
 	flex-direction: column;
-	width: 60%;
+	width: 80%;
     padding: 20px;
     background: #ffffff;
     position: absolute;
     left: 50%;
-  	top: 50%;
-  	transform: translate(-50%, -30%);
+	top: 20%;
+  	transform: translate(-50%, -30px);
   	border: 0.2rem solid black;
   	border-radius: 10px;
 `
@@ -63,7 +63,7 @@ class SkillPopup extends React.Component {
 			SkillCommentList, 
 			`${baseUrl}/${skillApiBaseNameUrl}/${skillId}/skill_comments`,
 			EndOfCommentsRef,
-			10
+			15
 		)
 		
 		const commentForm = this.state.showCommentForm ? (
@@ -82,8 +82,8 @@ class SkillPopup extends React.Component {
 					<h1>{this.props.data.name}</h1>
 					<StyledSkillCardText fontSize={'20px'}>{this.props.data.description}</StyledSkillCardText>
 				</BaseDiv>
-				<CommentButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'}>
-					<BaseSpan fontSize={'15px'}>{commentButtonText}</BaseSpan>
+				<CommentButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'10%'}>
+					{commentButtonText}
 				</CommentButton>
 				{commentForm}
 				<PopupWIthEndlessComments></PopupWIthEndlessComments>

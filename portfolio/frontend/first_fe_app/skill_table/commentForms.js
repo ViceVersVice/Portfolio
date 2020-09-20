@@ -52,6 +52,7 @@ const MainCommentForm = (props) => {
 	};
 	
 	const storeFormData = (e) => {
+		console.log('TEXT', e.target.textContent)
 		setFormData({
 			...formData,
 			[e.target.getAttribute('name')]: e.target.textContent,
@@ -64,8 +65,8 @@ const MainCommentForm = (props) => {
 		<>
 			<CommentTextInput name={'commentText'} onInput={storeFormData} borderBottom={'solid 0.1rem'} {...props}></CommentTextInput>
 			{ErrorMessages}
-			<CommentButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'}>
-				<BaseSpan fontSize={'15px'}>Leave comment</BaseSpan>
+			<CommentButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'} width={'10%'}>
+				Leave comment
 			</CommentButton>
 		</>
 	);
