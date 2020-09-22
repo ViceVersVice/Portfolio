@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss} from '../base/baseStyles.js';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss} from '../base/baseStyles.js';
 import {staticFolderUrl} from '../base/baseUrls.js';
 
 
@@ -34,6 +34,7 @@ const BaseDiv = styled.div`
     ${borderedCss};
     ${sizeCss};
     ${fontStyleCss};
+    ${cursorCss};
 `
 
 
@@ -78,7 +79,7 @@ const StyledFlexColumn = styled(BaseDiv)`
 const StyledFlexInlineRow = styled(BaseDiv)`
     ${flexBoxCss};
     display: inline-flex;
-    flex-grow: ${props => props.flexGrow || '1'};
+    flex-grow: ${props => props.flexGrow || '0'};
     overflow: ${props => props.overflow || 'visible'};
 `
 

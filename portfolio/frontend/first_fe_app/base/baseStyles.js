@@ -51,12 +51,16 @@ const sizeCss = css`
 
 
 const flexBoxCss = css`
-    flex: ${props => props.flex || 'initial'};
+    flex: ${props => props.flex || '0 1 auto'};
     justify-content: ${props => props.justifyContent || 'flex-start'};
     align-self: ${props => props.alignSelf || 'auto'};
     align-items: ${props => props.alignItems || 'stretch'};
     flex-direction: ${props => props.flexDirection || 'row'};
 `
 
+const cursorCss = css`
+    cursor: ${props => props.cursor}
+`
 
-export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss};
+
+export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss, cursorCss};

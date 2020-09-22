@@ -28,7 +28,9 @@ class CommentButton extends React.Component {
 
     handleResizeObserver(entries){
         // We are tracking button width
-        this.setState({...this.state, buttonWidth: this.self.current.clientWidth})
+        if(this.self.current) {
+            this.setState({...this.state, buttonWidth: this.self.current.clientWidth})
+        }
     }
 
     render() {

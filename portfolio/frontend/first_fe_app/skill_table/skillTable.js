@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph} from './styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv} from './styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {CommentButton} from './commentButton.js';
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js';
@@ -178,14 +178,61 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
     };
 };
 
+const BlackDiv = (props) => {
+    return <BaseDiv backgroundColor={'black'} {...props}></BaseDiv>
+}
+
+
+const TableFormatButtonContainer = (props) => {
+    const rows_ = props.rowsNumber;
+    const columns_ = props.columnsNumber;
+    const smallCubesSize = 24 / rows_;
+    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
+    const rows = [...Array(rows_)].map(
+        (val, n) => (
+            <StyledFlexInlineRow key={n} justifyContent={'space-around'} alignItems={'center'}>
+                {columns}
+            </StyledFlexInlineRow>
+            )
+        )
+
+    const changeTableFormat = (e) => {
+        console.log('In CHILD!!')
+        props.parentOnClick(rows_)
+    }
+
+    const props_ = {
+        width: '50px',
+        height: '50px',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        margin: '1%',
+        backgroundColor: '#cbdbf5',
+        cursor: 'pointer',
+        ...props
+    } 
+    return <StyledFlexInlineRow onClick={changeTableFormat} {...props_}>{rows}</StyledFlexInlineRow>
+} 
+
 
 const SkillTableWithTableFormat = (props) => {
     const [TableFormat, setTableFormat] = useState(2);
 
     const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, 6)
-    
+
+    const changeTableFormat = (format) => {
+        if(format != TableFormat){
+            setTableFormat(format)   
+        }
+    };
+
     return (
         <>
+            <StyledRow>
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} rowsNumber={2} columnsNumber={2}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} rowsNumber={3} columnsNumber={3}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} rowsNumber={4} columnsNumber={4}></TableFormatButtonContainer> 
+            </StyledRow>
             <EndlessTable tableFormat={TableFormat}></EndlessTable>
         </>
     );
