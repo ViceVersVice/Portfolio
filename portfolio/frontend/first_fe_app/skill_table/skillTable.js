@@ -58,8 +58,8 @@ class SkillCard extends React.Component {
            borderRadius: '5px',
            justifyContent: 'space-evenly', 
            flex: '1',
-           boxShadow: boxIncreaseShadow
-
+           boxShadow: boxIncreaseShadow,
+           overflow: 'hidden'
         };
     };
 
@@ -184,8 +184,8 @@ const BlackDiv = (props) => {
 
 
 const TableFormatButtonContainer = (props) => {
-    const rows_ = props.rowsNumber;
     const columns_ = props.columnsNumber;
+    const rows_ = columns_;
     const smallCubesSize = 24 / rows_;
     const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
     const rows = [...Array(rows_)].map(
@@ -195,20 +195,36 @@ const TableFormatButtonContainer = (props) => {
             </StyledFlexInlineRow>
             )
         )
+    const element = React.useRef(null);
 
     const changeTableFormat = (e) => {
-        console.log('In CHILD!!')
         props.parentOnClick(rows_)
     }
 
+    const highlightElement = (e) => {
+        if(element.current) {
+            element.current.style.background = 'white';
+            element.current.style.boxShadow = '5px 5px 5px #bdd0f2';
+        }
+    }
+    
+    const unHighlightElement = (e) => {
+        if(element.current) {
+            element.current.style.background = '';
+            element.current.style.boxShadow = '';
+        }
+    }
+
     const props_ = {
+        ref: element,
         width: '50px',
         height: '50px',
         flexDirection: 'column',
         justifyContent: 'space-around',
         margin: '1%',
-        backgroundColor: '#cbdbf5',
         cursor: 'pointer',
+        onMouseEnter: highlightElement, 
+        onMouseLeave: unHighlightElement,
         ...props
     } 
     return <StyledFlexInlineRow onClick={changeTableFormat} {...props_}>{rows}</StyledFlexInlineRow>
@@ -217,21 +233,23 @@ const TableFormatButtonContainer = (props) => {
 
 const SkillTableWithTableFormat = (props) => {
     const [TableFormat, setTableFormat] = useState(2);
+    const [itemsPerPage, setItemsPerPage] = useState(TableFormat * 2)
 
-    const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, 6)
+    const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, itemsPerPage)
 
-    const changeTableFormat = (format) => {
-        if(format != TableFormat){
-            setTableFormat(format)   
+    const changeTableFormat = (newTableformat) => {
+        if(newTableformat != TableFormat){
+            setTableFormat(newTableformat)
+            setItemsPerPage(newTableformat * 2)   
         }
     };
 
     return (
         <>
             <StyledRow>
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} rowsNumber={2} columnsNumber={2}></TableFormatButtonContainer> 
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} rowsNumber={3} columnsNumber={3}></TableFormatButtonContainer> 
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} rowsNumber={4} columnsNumber={4}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={2}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={3}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={4}></TableFormatButtonContainer> 
             </StyledRow>
             <EndlessTable tableFormat={TableFormat}></EndlessTable>
         </>
@@ -289,7 +307,6 @@ class SkillTable extends React.Component {
     };
         
     render () {
-        console.log('REND table::')
         const data = this.state.data;
         const skillsListLength = data.length;
         // Keys is must be here, and must be unique, to prevent React from re-rendering this component 
@@ -313,13 +330,13 @@ class SkillTable extends React.Component {
                         const truncatedDescription = `${skillData.description.slice(0, 160)}...`
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
-                                <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'}>
-                                    <StyledFlexColumn backgroundColor={'#f9f9f9'} margin-right={'0'}>
+                                <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
+                                    <StyledFlexInlineRow justifyContent={"space-evenely"} backgroundColor={'#f9f9f9'}>
                                         <StyledHeader marginLeft={'30px'} marginTop={'20px'}>
                                             {skillData.name}
                                         </StyledHeader>
-                                    </StyledFlexColumn>
-                                    <StyledFlexInlineRow justifyContent={'space-around'} flexGrow={'4'}>
+                                    </StyledFlexInlineRow>
+                                    <StyledFlexInlineRow justifyContent={'space-evenely'} flexGrow={'4'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
                                         <StyledFlexColumn key={1} boxShadow={textColumnRightBorder}>
                                             <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'} fontSize={'20px'}>{truncatedDescription}</StyledSkillCardText>
@@ -331,7 +348,6 @@ class SkillTable extends React.Component {
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>
-
                         )
                     }
                 )

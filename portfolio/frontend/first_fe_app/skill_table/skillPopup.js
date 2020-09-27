@@ -18,7 +18,7 @@ const PopupContainer = styled.div`
 	width: 80%;
     padding: 20px;
     background: #ffffff;
-    position: absolute;
+    position: fixed;
     left: 50%;
 	top: 20%;
   	transform: translate(-50%, -30px);

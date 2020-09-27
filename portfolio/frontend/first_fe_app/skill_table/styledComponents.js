@@ -68,19 +68,13 @@ const StyledRow = styled(BaseDiv)`
 
 
 const StyledFlexColumn = styled(BaseDiv)`
-    flex-shrink: ${props => props.flexShrink || '1'};
-    flex-grow: ${props => props.flexGrow || '1'};
-    background: ${props => props.backgroundColor || ''};
-    box-shadow: ${props => props.boxShadow};
-    background-position: 100px 5px;
 `
 
 
 const StyledFlexInlineRow = styled(BaseDiv)`
     ${flexBoxCss};
     display: inline-flex;
-    flex-grow: ${props => props.flexGrow || '0'};
-    overflow: ${props => props.overflow || 'visible'};
+    flex-grow: ${props => props.flexGrow || ''};
 `
 
 
@@ -88,7 +82,7 @@ const StyledFlexCardInlineRow = styled(BaseDiv)`
     display: inline-flex;
     background-color: #d8e1f4;
     margin: 30px;
-    height: 400px;
+    height: 40%;
     animation: ${appearElement} 1s linear;
     box-shadow: ${props => props.boxShadow};
     cursor: pointer;
@@ -116,8 +110,8 @@ const StyledEndOfPage = styled(BaseDiv)`
 
 const StyledSkillCardImage = styled.img`
     margin: 5%;
-    width: 30%;
-    height: 200px;
+    max-width: 30%;
+    max-height: 60%;
 `
 
 

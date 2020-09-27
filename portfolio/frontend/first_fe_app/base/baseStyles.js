@@ -56,6 +56,7 @@ const flexBoxCss = css`
     align-self: ${props => props.alignSelf || 'auto'};
     align-items: ${props => props.alignItems || 'stretch'};
     flex-direction: ${props => props.flexDirection || 'row'};
+    overflow: ${props => props.overflow || ''};
 `
 
 const cursorCss = css`

@@ -48,7 +48,6 @@ class CommentButton extends React.Component {
             buttonProps.backgroundColor = this.props.highlightColor || '#FFFFFF';
         };
         
-        console.log('Butt', buttontTextSize, backgrounImageSize)
         return (
             <StyledCommentButton ref={this.self} {...buttonProps}>
                 <StyledSkillCardText margin={'0'} fontSize={buttontTextSize} margin={'5% 5% 5% 35%'}>{this.props.children}</StyledSkillCardText>
