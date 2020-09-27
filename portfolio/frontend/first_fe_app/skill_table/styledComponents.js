@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss} from '../base/baseStyles.js';
 import {staticFolderUrl} from '../base/baseUrls.js';
@@ -120,6 +121,32 @@ const StyledHeader = styled.h1`
 `
 
 
+const Line = styled(BaseDiv)`
+    width: 4px;
+    height: 40px;
+    background: black;
+    transform: rotate(${props => props.rotate || ''});
+`
+
+const CrossContainer = styled(BaseDiv)`
+    cursor: pointer;
+    opacity: 0.3;
+    &:hover {
+        opacity: 1;
+    }
+`
+
+
+const StyledCloseButton = (props) => {
+    return(
+        <CrossContainer {...props}>
+            <Line rotate={'45deg'}></Line>
+            <Line rotate={'-45deg'}></Line>
+        </CrossContainer>
+    )
+}
+
+
 const StyledCommentButton = styled(BaseDiv)`
     cursor: pointer;
     width: ${props => props.width || '30%'};
@@ -129,8 +156,9 @@ const StyledCommentButton = styled(BaseDiv)`
     background-image: url('${staticFolderUrl}icons/comment.svg');
 `
 
+ 
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
     StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, 
     BaseParagraph, BaseSpan, BaseInput, BaseDiv,
-    appearElement}
+    appearElement, StyledCloseButton}

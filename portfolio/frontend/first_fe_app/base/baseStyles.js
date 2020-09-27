@@ -51,12 +51,15 @@ const sizeCss = css`
 
 
 const flexBoxCss = css`
+    display: ${props => props.display || ''};
     flex: ${props => props.flex || '0 1 auto'};
     justify-content: ${props => props.justifyContent || 'flex-start'};
     align-self: ${props => props.alignSelf || 'auto'};
     align-items: ${props => props.alignItems || 'stretch'};
     flex-direction: ${props => props.flexDirection || 'row'};
     overflow: ${props => props.overflow || ''};
+    overflow-x: ${props => props.overflowX || ''};
+    overflow-y: ${props => props.overflowY || ''};
 `
 
 const cursorCss = css`

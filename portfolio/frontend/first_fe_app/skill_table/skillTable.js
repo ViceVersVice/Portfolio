@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv} from './styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton} from './styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {CommentButton} from './commentButton.js';
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js';
@@ -365,7 +365,7 @@ class SkillTable extends React.Component {
             };
 
             if (this.state.showPopup) {
-                const closePopupButton = <button onClick={this.closePopup}>Close</button>;
+                const closePopupButton = <StyledCloseButton onClick={this.closePopup} display={'inline-flex'} alignSelf={'center'} marginRight={'2%'}></StyledCloseButton>
                 rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton} key={this.state.data.length + 1}></SkillPopup>);
             };
             rows.push(endOfPage);

@@ -12,10 +12,11 @@ import {EndlessPaginationHoc} from './skillTable.js'
 import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js'
 
 
-const PopupContainer = styled.div`
+const PopupContainer = styled(BaseDiv)`
 	display: inline-flex;
 	flex-direction: column;
 	width: 80%;
+	max-height: 70%;
     padding: 20px;
     background: #ffffff;
     position: fixed;
@@ -50,6 +51,7 @@ class SkillPopup extends React.Component {
 		};
 
 		this.toggleCommentForm = this.toggleCommentForm.bind(this);
+		this.onPopupScroll = this.onPopupScroll.bind(this);
 	};
 	
 	toggleCommentForm(e) {
@@ -74,19 +76,21 @@ class SkillPopup extends React.Component {
 
 		const commentButtonText = this.state.showCommentForm ? 'Close': 'Add comment';
 		const popup = (
-			<PopupContainer>
-				<BaseDiv alignSelf={'flex-end'} margin='none'>
-					{this.props.closeButton}
-				</BaseDiv>
+			<PopupContainer> 
 				<BaseDiv>
-					<h1>{this.props.data.name}</h1>
+					<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
+						<h1>{this.props.data.name}</h1>
+						{this.props.closeButton}
+					</BaseDiv>
 					<StyledSkillCardText fontSize={'20px'}>{this.props.data.description}</StyledSkillCardText>
 				</BaseDiv>
 				<CommentButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'10%'}>
 					{commentButtonText}
 				</CommentButton>
 				{commentForm}
-				<PopupWIthEndlessComments></PopupWIthEndlessComments>
+				<BaseDiv overflowY={"scroll"}>
+					<PopupWIthEndlessComments></PopupWIthEndlessComments>
+				</BaseDiv>
 			</PopupContainer>
 		);
 		return ReactDOM.createPortal(popup, document.getElementById('root'));
