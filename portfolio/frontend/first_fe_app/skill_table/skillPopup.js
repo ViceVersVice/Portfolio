@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
-import {StyledSkillCardText, BaseSpan, BaseDiv, appearElement} from './styledComponents.js';
+import {StyledSkillCardText, BaseDiv, appearElement} from './styledComponents.js';
 import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
 
 import {MainCommentForm} from './commentForms.js';
 import {SkillCommentList} from './skillComments.js';
 import {CommentButton} from './commentButton.js';
-import {EndlessPaginationHoc} from './skillTable.js'
+import {EndlessPaginationHoc} from './endlessPagination.js'
 import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js'
 
 
@@ -51,7 +51,6 @@ class SkillPopup extends React.Component {
 		};
 
 		this.toggleCommentForm = this.toggleCommentForm.bind(this);
-		this.onPopupScroll = this.onPopupScroll.bind(this);
 	};
 	
 	toggleCommentForm(e) {
