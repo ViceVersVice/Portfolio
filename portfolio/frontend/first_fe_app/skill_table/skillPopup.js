@@ -7,9 +7,9 @@ import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
 
 import {MainCommentForm} from './commentForms.js';
 import {SkillCommentList} from './skillComments.js';
-import {CommentButton} from './commentButton.js';
+import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js'
-import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js'
+import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
 
 
 const PopupContainer = styled(BaseDiv)`
@@ -83,9 +83,9 @@ class SkillPopup extends React.Component {
 					</BaseDiv>
 					<StyledSkillCardText fontSize={'20px'}>{this.props.data.description}</StyledSkillCardText>
 				</BaseDiv>
-				<CommentButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'10%'}>
+				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'15%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 					{commentButtonText}
-				</CommentButton>
+				</GenericButton>
 				{commentForm}
 				<BaseDiv overflowY={"scroll"}>
 					<PopupWIthEndlessComments></PopupWIthEndlessComments>

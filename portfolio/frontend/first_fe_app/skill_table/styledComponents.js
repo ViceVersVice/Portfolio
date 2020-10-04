@@ -83,7 +83,7 @@ const StyledFlexCardInlineRow = styled(BaseDiv)`
     display: inline-flex;
     background-color: #d8e1f4;
     margin: 0% 3% 3% 1%;
-    height: 30%;
+    height: 20%;
     animation: ${appearElement} 1s linear;
     box-shadow: ${props => props.boxShadow};
     cursor: pointer;
@@ -147,18 +147,18 @@ const StyledCloseButton = (props) => {
 }
 
 
-const StyledCommentButton = styled(BaseDiv)`
+const StyledButton = styled(BaseDiv)`
     cursor: pointer;
     width: ${props => props.width || '30%'};
     background-repeat: no-repeat;
     background-size: ${props => props.backgroundSize || '25px'};
     background-position: 10%;
-    background-image: url('${staticFolderUrl}icons/comment.svg');
+    background-image: url('${props => props.buttonImage}');
 `
 
  
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
-    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, 
+    StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledButton, 
     BaseParagraph, BaseSpan, BaseInput, BaseDiv,
     appearElement, StyledCloseButton}

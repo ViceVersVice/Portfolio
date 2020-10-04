@@ -4,8 +4,9 @@ import ReactDOM from 'react-dom';
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
         StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton} from './styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
-import {CommentButton} from './commentButton.js';
+import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';
+import {SizeTrackerHoc} from './sizeTracker.js';
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js';
 
 
@@ -29,7 +30,7 @@ const EndOfPageRef = React.forwardRef((props, ref) => {
 class SkillCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {highlight: false};
+        this.state = {highlight: false, skillDescriptionWidth: 0};
         this.togglePopup = this.togglePopup.bind(this);
         this.highlightCard = this.highlightCard.bind(this);
         this.unHighlightCard = this.unHighlightCard.bind(this);
@@ -60,13 +61,16 @@ class SkillCard extends React.Component {
            justifyContent: 'space-evenly', 
            flex: '1',
            boxShadow: boxIncreaseShadow,
-           overflow: 'hidden'
+           overflow: 'hidden',
+           onClick: this.togglePopup,
+           onMouseEnter: this.highlightCard,
+           onMouseLeave: this.unHighlightElement,
         };
     };
 
     render() {
         return (
-            <StyledFlexCardInlineRow onClick={this.togglePopup} onMouseEnter={this.highlightCard} onMouseLeave={this.unHighlightCard}  {...this.getProps()}>
+            <StyledFlexCardInlineRow {...this.getProps()}>
                 {this.props.children}
             </StyledFlexCardInlineRow>
         );
@@ -135,7 +139,7 @@ const SkillTableWithTableFormat = (props) => {
     const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, itemsPerPage)
 
     const changeTableFormat = (newTableformat) => {
-        if(newTableformat != TableFormat){
+        if(newTableformat != TableFormat){ 
             setTableFormat(newTableformat)
             setItemsPerPage(newTableformat * 2)   
         }
@@ -167,12 +171,15 @@ class SkillTable extends React.Component {
             // Own state
             showPopup: false, 
             popupData: {},
+            skillDescriptionWidth: 0,
         };
         // Regulates how many cards are in one row
         this.maxElementsInRow = props.tableFormat || 2;
         this.togglePopup = this.togglePopup.bind(this);
         this.closePopup = this.closePopup.bind(this);
     };
+
+    
 
     componentDidUpdate(prevProps) {
         if (this.props !== prevProps) {
@@ -221,7 +228,18 @@ class SkillTable extends React.Component {
                 let start = rowNumber * this.maxElementsInRow;
                 let end = (rowNumber + 1) * this.maxElementsInRow;
                 let rowData = data.slice(start, end);
-                let textColumnRightBorder = '-25px 0px 0px -22px black'
+                const SkillDescriptonText = SizeTrackerHoc(
+                    (props) => {
+                        const textColumnRightBorder = '-25px 0px 0px -22px black'
+                        const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
+                        return(
+                            <BaseDiv key={1} ref={props.trackSizeRef} boxShadow={textColumnRightBorder} width={'100%'}>
+                                <StyledSkillCardText fontSize={`${Math.max(fontSize, 10)}px`} {...props}></StyledSkillCardText>
+                            </BaseDiv>
+                        )
+                    }
+                );
+                
                 let columns = rowData.map(
                     (skillData, i) => {
                         const truncatedDescription = `${skillData.description.slice(0, 160)}...`
@@ -235,13 +253,11 @@ class SkillTable extends React.Component {
                                     </StyledFlexInlineRow>
                                     <StyledFlexInlineRow justifyContent={'space-evenely'} flexGrow={'4'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
-                                        <StyledFlexColumn key={1} boxShadow={textColumnRightBorder}>
-                                            <StyledSkillCardText marginTop={'20px'} marginLeft={'10px'} fontSize={'20px'}>{truncatedDescription}</StyledSkillCardText>
-                                        </StyledFlexColumn>
+                                        <SkillDescriptonText margin={'5%'}>{truncatedDescription}</SkillDescriptonText>
                                     </StyledFlexInlineRow>
                                     {/* Abusing box-shadow to create borders....*/}
-                                    <StyledFlexInlineRow justifyContent={'flex-start'} boxShadow={'-1px -36px 0px -33px black'}>
-                                        <CommentButton margin={'5% 0% 10% 5%'}><b>{this.props.commentsCount || 0}</b> Comments</CommentButton>
+                                    <StyledFlexInlineRow justifyContent={'flex-start'}>
+                                        <GenericButton margin={'2% 0% 2% 5%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{this.props.commentsCount || 0}</b> Comments</GenericButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>

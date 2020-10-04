@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js'
+import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
         StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph, BaseInput, BaseSpan, BaseDiv} 
         from './styledComponents.js';
-import {CommentButton} from './commentButton.js';
+import {GenericButton} from './genericButton.js';
 
 
 const TextAreaDiv = styled(BaseDiv)`
@@ -65,9 +65,9 @@ const MainCommentForm = (props) => {
 		<>
 			<CommentTextInput name={'commentText'} onInput={storeFormData} borderBottom={'solid 0.1rem'} {...props}></CommentTextInput>
 			{ErrorMessages}
-			<CommentButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'} width={'10%'}>
+			<GenericButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'} width={'15%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 				Leave comment
-			</CommentButton>
+			</GenericButton>
 		</>
 	);
 
