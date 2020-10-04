@@ -83,7 +83,7 @@ class SkillPopup extends React.Component {
 					</BaseDiv>
 					<StyledSkillCardText fontSize={'20px'}>{this.props.data.description}</StyledSkillCardText>
 				</BaseDiv>
-				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'15%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
+				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 					{commentButtonText}
 				</GenericButton>
 				{commentForm}

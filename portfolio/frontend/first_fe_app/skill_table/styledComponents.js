@@ -91,7 +91,6 @@ const StyledFlexCardInlineRow = styled(BaseDiv)`
 
 
 const StyledSkillCardText = styled(BaseParagraph)`
-    display: inline-block;
     font-family: 'Lato', sans-serif;
 `
 
@@ -116,7 +115,7 @@ const StyledSkillCardImage = styled.img`
 `
 
 
-const StyledHeader = styled.h1`
+const StyledHeader = styled.h3`
     ${marginCss};
 `
 
@@ -148,8 +147,10 @@ const StyledCloseButton = (props) => {
 
 
 const StyledButton = styled(BaseDiv)`
+    display: flex;
     cursor: pointer;
-    width: ${props => props.width || '30%'};
+    width: ${props => props.width};
+    white-space: nowrap;
     background-repeat: no-repeat;
     background-size: ${props => props.backgroundSize || '25px'};
     background-position: 10%;

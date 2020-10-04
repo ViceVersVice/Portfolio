@@ -4,9 +4,14 @@ from main_app.models import Skill, Comment
 
 
 class SkillSerializer(serializers.ModelSerializer):
+    comments_count = serializers.SerializerMethodField()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
     class Meta:
         model = Skill
-        fields = ['id', 'name', 'description', 'level', 'image']
+        fields = ['id', 'name', 'description', 'level', 'image', 'comments_count']
 
 
 class SkillCommentSerializer(serializers.ModelSerializer):

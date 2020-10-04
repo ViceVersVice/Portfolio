@@ -65,8 +65,8 @@ const MainCommentForm = (props) => {
 		<>
 			<CommentTextInput name={'commentText'} onInput={storeFormData} borderBottom={'solid 0.1rem'} {...props}></CommentTextInput>
 			{ErrorMessages}
-			<GenericButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'} width={'15%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
-				Leave comment
+			<GenericButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
+				Comment
 			</GenericButton>
 		</>
 	);

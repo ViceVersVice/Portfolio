@@ -3,6 +3,7 @@ import { css } from 'styled-components';
 
 const backgroundCss = css`
     background-color: ${props => props.backgroundColor};
+    background: ${props => props.background};
 `
 
 const fontStyleCss = css`

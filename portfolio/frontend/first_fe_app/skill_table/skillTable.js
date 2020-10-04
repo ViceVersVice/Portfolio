@@ -64,7 +64,7 @@ class SkillCard extends React.Component {
            overflow: 'hidden',
            onClick: this.togglePopup,
            onMouseEnter: this.highlightCard,
-           onMouseLeave: this.unHighlightElement,
+           onMouseLeave: this.unHighlightCard,
         };
     };
 
@@ -246,18 +246,18 @@ class SkillTable extends React.Component {
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
-                                    <StyledFlexInlineRow justifyContent={"space-evenely"} backgroundColor={'#f9f9f9'}>
+                                    <StyledFlexInlineRow justifyContent={"space-evenely"} background={'linear-gradient(#c3d5eb, #9198e5)'} borderRadius={'10px'} margin={'2%'}>
                                         <StyledHeader marginLeft={'30px'} marginTop={'20px'}>
                                             {skillData.name}
                                         </StyledHeader>
                                     </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow justifyContent={'space-evenely'} flexGrow={'4'}>
+                                    <StyledFlexInlineRow justifyContent={'space-evenely'} background={'linear-gradient(#c3d5eb, #9198e5)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
                                         <SkillDescriptonText margin={'5%'}>{truncatedDescription}</SkillDescriptonText>
                                     </StyledFlexInlineRow>
                                     {/* Abusing box-shadow to create borders....*/}
                                     <StyledFlexInlineRow justifyContent={'flex-start'}>
-                                        <GenericButton margin={'2% 0% 2% 5%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{this.props.commentsCount || 0}</b> Comments</GenericButton>
+                                        <GenericButton margin={'2% 0% 2% 3%'} width={'30%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{skillData.commentsCount || 0}</b> Comments</GenericButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>
