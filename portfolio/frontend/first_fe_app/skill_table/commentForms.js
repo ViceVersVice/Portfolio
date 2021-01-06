@@ -50,10 +50,9 @@ const MainCommentForm = (props) => {
 	};
 	
 	const storeFormData = (e) => {
-		console.log('TEXT', e.target.textContent)
 		setFormData({
 			...formData,
-			[e.target.getAttribute('name')]: e.target.textContent,
+			[e.target.getAttribute('name')]: e.target.innerText,
 		});
 	};
 
