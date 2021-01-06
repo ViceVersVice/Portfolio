@@ -161,6 +161,7 @@ const SkillTableWithTableFormat = (props) => {
 class SkillTable extends React.Component {
     constructor(props) {
         super(props);
+        // EndlessPaginationHoc refs
         this.observedElementRef = props.observedElementRef;
         this.hocRef = props.hocRef;
         
@@ -251,7 +252,7 @@ class SkillTable extends React.Component {
                                             {skillData.name}
                                         </StyledHeader>
                                     </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow justifyContent={'space-evenely'} background={'linear-gradient(#c3d5eb, #9198e5)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
+                                    <StyledFlexInlineRow justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
                                         <SkillDescriptonText margin={'5%'}>{truncatedDescription}</SkillDescriptonText>
                                     </StyledFlexInlineRow>

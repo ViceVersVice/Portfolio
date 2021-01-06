@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss} from '../base/baseStyles.js';
 import {staticFolderUrl} from '../base/baseUrls.js';
@@ -121,7 +121,7 @@ const StyledHeader = styled.h3`
 
 
 const Line = styled(BaseDiv)`
-    width: 4px;
+    width: 2px;
     height: 40px;
     background: black;
     transform: rotate(${props => props.rotate || ''});

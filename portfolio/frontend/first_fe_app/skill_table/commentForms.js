@@ -25,7 +25,7 @@ const CommentTextInput = (props) => {
 
 const MainCommentForm = (props) => {
 	const [formData, setFormData] = useState({skill: props.skillId, commentText: ''});
-	const [formErrors, setFormErrors] = useState({formErrors: ''});
+	const [formErrors, setFormErrors] = useState({});
 
 	const handleResponse = (response) => {
 		response.json().then(data => {
@@ -34,9 +34,7 @@ const MainCommentForm = (props) => {
 			} else {
 				props.hideCommentForm();
 			};
-		}).catch(
-			setFormErrors({formErrors: ['Server error']})
-		);
+		}).catch( () => {setFormErrors({formErrors: ['Server error']})} )
 	};
 
 	const sendFormData = (e) => {
@@ -58,14 +56,21 @@ const MainCommentForm = (props) => {
 			[e.target.getAttribute('name')]: e.target.textContent,
 		});
 	};
-	
-	const ErrorMessages =  formErrors.formErrors ? <BaseDiv marginBot={'2%'}><BaseSpan color={'red'}>{formErrors.formErrors.join(', ')}</BaseSpan></BaseDiv>: null;
+
+	const ErrorMessages =  formErrors.formErrors ? <BaseDiv marginBot={'2%'}><BaseSpan color={'red'}>{Object.values(formErrors.formErrors).join(', ')}</BaseSpan></BaseDiv>: null;
+	const commentInputProps = {
+		name: 'commentText',
+		borderBottom: 'solid 0.1rem',
+		margin: '2% 0% 2% 0%',
+		onInput: storeFormData,
+		...props
+	}
 	
 	return (
 		<>
-			<CommentTextInput name={'commentText'} onInput={storeFormData} borderBottom={'solid 0.1rem'} {...props}></CommentTextInput>
+			<CommentTextInput {...commentInputProps}></CommentTextInput>
 			{ErrorMessages}
-			<GenericButton onClick={sendFormData} highlightColor={'#a3f590'} margin={'0 0 2% 0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
+			<GenericButton onClick={sendFormData} highlightColor={'#a3f590'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 				Comment
 			</GenericButton>
 		</>

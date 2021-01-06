@@ -34,7 +34,7 @@ class SkillViewSet(SnakeCamelViewSet):
             serializer.save()
 
         if serializer.errors:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.data)
 

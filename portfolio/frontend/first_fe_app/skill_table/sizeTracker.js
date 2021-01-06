@@ -16,8 +16,8 @@ function SizeTrackerHoc(WrappedComponent) {
         }
 
         componentDidMount(){
-            const skillDescriptionResizeObserver = new ResizeObserver(this.setSize.bind(this));
-            skillDescriptionResizeObserver.observe(this.trackElementRef.current)
+            const _resizeObserver = new ResizeObserver(this.setSize.bind(this));
+            _resizeObserver.observe(this.trackElementRef.current)
         }
     
         setSize() {

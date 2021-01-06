@@ -23,6 +23,7 @@ const SkillCommentList = (props) => {
 				<MainComment>{data.commentText}</MainComment>
 			)
 		})
+		// EndlessPaginationHoc refs
 		const ObservedEndOfComments = <props.observedElementRef key={-1} ref={props.hocRef}></props.observedElementRef>;
 		comments.push(ObservedEndOfComments) 
 

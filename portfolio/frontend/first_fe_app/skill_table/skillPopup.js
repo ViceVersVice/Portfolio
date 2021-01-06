@@ -49,27 +49,29 @@ class SkillPopup extends React.Component {
 		this.state = {
 			showCommentForm: false, 
 		};
-
+		this.skillId = this.props.data.id;
 		this.toggleCommentForm = this.toggleCommentForm.bind(this);
 	};
 	
+	componentDidMount() {
+		this.setState({
+			PopupWIthEndlessComments: EndlessPaginationHoc(
+				SkillCommentList, 
+				`${baseUrl}/${skillApiBaseNameUrl}/${this.skillId}/skill_comments`,
+				EndOfCommentsRef,
+				15
+			)
+		})
+	}
+
 	toggleCommentForm(e) {
 		this.setState({showCommentForm: !this.state.showCommentForm});
 	}
 
 	render() {
-		const skillId = this.props.data.id;
-
-		const PopupWIthEndlessComments = EndlessPaginationHoc(
-			SkillCommentList, 
-			`${baseUrl}/${skillApiBaseNameUrl}/${skillId}/skill_comments`,
-			EndOfCommentsRef,
-			15
-		)
-		
 		const commentForm = this.state.showCommentForm ? (
 			<AnimatedCommentForm justifyContent={'center'} flexDirection={'column'}>
-				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={skillId} margin={'2% 0 2% 0'}></MainCommentForm>
+				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={this.skillId}></MainCommentForm>
 			</AnimatedCommentForm>
 		): null;
 
@@ -83,13 +85,15 @@ class SkillPopup extends React.Component {
 					</BaseDiv>
 					<StyledSkillCardText fontSize={'20px'}>{this.props.data.description}</StyledSkillCardText>
 				</BaseDiv>
-				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} margin={'0 0 2% 0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
+				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 					{commentButtonText}
 				</GenericButton>
 				{commentForm}
-				<BaseDiv overflowY={"scroll"}>
-					<PopupWIthEndlessComments></PopupWIthEndlessComments>
-				</BaseDiv>
+				{this.state.PopupWIthEndlessComments ? 
+					(<BaseDiv overflowY={"scroll"}>
+						<this.state.PopupWIthEndlessComments></this.state.PopupWIthEndlessComments>
+					</BaseDiv>) : null
+				}
 			</PopupContainer>
 		);
 		return ReactDOM.createPortal(popup, document.getElementById('root'));
