@@ -4,6 +4,8 @@ import styled, { keyframes } from 'styled-components';
 
 import {StyledSkillCardText, BaseDiv, appearElement} from './styledComponents.js';
 import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
+import {CharacteristicLevels} from './skillTable.js';
+import {SizeTrackerHoc} from './sizeTracker.js';
 
 import {MainCommentForm} from './commentForms.js';
 import {SkillCommentList} from './skillComments.js';
@@ -50,6 +52,7 @@ class SkillPopup extends React.Component {
 			showCommentForm: false, 
 		};
 		this.skillId = this.props.data.id;
+		this.sizeCoefficient = 80
 		this.toggleCommentForm = this.toggleCommentForm.bind(this);
 	};
 	
@@ -68,7 +71,20 @@ class SkillPopup extends React.Component {
 		this.setState({showCommentForm: !this.state.showCommentForm});
 	}
 
+	getCharacteristicLevels(){
+		const charProps = {
+			characteristics: this.props.data.characteristics,
+			trackedSize: this.props.trackedSize,
+			sizeCoefficient: this.sizeCoefficient
+		}
+		
+		return <CharacteristicLevels {...charProps}></CharacteristicLevels>
+	}
+
+
 	render() {
+		const fontSize = this.props.trackedSize > 0 ? this.props.trackedSize / this.sizeCoefficient : 20;
+
 		const commentForm = this.state.showCommentForm ? (
 			<AnimatedCommentForm justifyContent={'center'} flexDirection={'column'}>
 				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={this.skillId}></MainCommentForm>
@@ -76,14 +92,22 @@ class SkillPopup extends React.Component {
 		): null;
 
 		const commentButtonText = this.state.showCommentForm ? 'Close': 'Add comment';
+		
 		const popup = (
-			<PopupContainer> 
+			<PopupContainer ref={this.props.trackSizeRef}> 
 				<BaseDiv>
 					<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
 						<h1>{this.props.data.name}</h1>
 						{this.props.closeButton}
 					</BaseDiv>
-					<StyledSkillCardText fontSize={'20px'}>{this.props.data.description}</StyledSkillCardText>
+					<BaseDiv display={'inline-flex'}>
+						<BaseDiv display={'inline-flex'} flex={3}>
+							<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
+						</BaseDiv>
+						<BaseDiv display={'inline-flex'} flex={1}>
+							{this.getCharacteristicLevels.bind(this)()}
+						</BaseDiv>
+					</BaseDiv>
 				</BaseDiv>
 				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 					{commentButtonText}
@@ -101,5 +125,7 @@ class SkillPopup extends React.Component {
 }
 
 
+const TrackedSizeSkillPopup = SizeTrackerHoc(SkillPopup);
 
-export {SkillPopup};
+
+export {TrackedSizeSkillPopup as SkillPopup};

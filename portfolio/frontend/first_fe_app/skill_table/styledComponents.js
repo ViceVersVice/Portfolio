@@ -41,6 +41,7 @@ const BaseDiv = styled.div`
 
 const BaseSpan = styled.span`
     ${fontStyleCss};
+    ${marginCss};
 `
 
 
@@ -50,6 +51,8 @@ const BaseParagraph = styled.p`
     ${fontStyleCss};
     ${paddingCss};
     ${fontStyleCss};
+    margin-block-start: ${props => props.marginBlockStart || ''};
+    margin-block-end: ${props => props.marginBlockEnd || ''};
 `
 
 const BaseInput = styled.input`

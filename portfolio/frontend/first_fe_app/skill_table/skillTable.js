@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton} from './styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton, BaseSpan, BaseParagraph} from './styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';
@@ -159,31 +159,45 @@ const SkillTableWithTableFormat = (props) => {
 
 
 const CharacteristicLevels = (props) => {
-    const { characteristics } = props
+    // Characteristics level as stars
+    const { characteristics, trackedSize } = props
+    const fontSize = trackedSize > 0 ? trackedSize / (props.sizeCoefficient || 15) : 20;
     
     const charsList = characteristics.map(
         (characteristic, i) => {
             const starLevel = []
-            for (let stars=0; stars < 5; stars++){
+            const maxStars = 5
+            
+            for (let stars=0; stars < maxStars; stars++){
+                const starProps = {
+                    key: stars,
+                    className: "material-icons",
+                    fontSize: `${Math.max(fontSize, 10)}px`
+                }
+
                 if(stars < characteristic.level) {
-                    starLevel.push(<span key={i} className="material-icons">{'star'}</span>)
+                    starLevel.push(<BaseSpan {...starProps}>{'star'}</BaseSpan>)
                 } else {
-                    starLevel.push(<span key={i} className="material-icons">{'star_border'}</span>)
+                    starLevel.push(<BaseSpan {...starProps}>{'star_border'}</BaseSpan>)
                 }
             }
             
-            return <BaseDiv display={'inline-flex'}>{starLevel}</BaseDiv>
-                
+            return(
+                <BaseDiv display={'inline-flex'} justifyContent={'space-between'} key={i}>
+                    <BaseSpan fontSize={`${Math.max(fontSize, 10)}px`}>{characteristic.name}</BaseSpan>
+                    <BaseDiv marginLeft={'10px'}>{starLevel}</BaseDiv>
+                </BaseDiv>
+            )
         }
     )
-    
-    return <BaseDiv display={'flex'} flexDirection={'column'}>{charsList}</BaseDiv>
+    console.log('SIZE:', trackedSize)
+    return <BaseDiv display={'inline-flex'} flexDirection={'column'} marginLeft={'10px'}>{charsList}</BaseDiv>
 }
 
 
 const SkillDescripton = SizeTrackerHoc(
     (props) => {
-        const textColumnRightBorder = '-25px 0px 0px -22px black'
+        const textColumnRightBorder = '-2px 0px 0px 0px black'
         const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
 
         const [showCharacteristics, setShowCharacteristics] = useState(false)
@@ -193,7 +207,7 @@ const SkillDescripton = SizeTrackerHoc(
         }
 
         const undisplayCharacteristics = (e) => {
-            setShowCharacteristics(true)
+            setShowCharacteristics(false)
         }
         
         const props_ = {
@@ -206,10 +220,10 @@ const SkillDescripton = SizeTrackerHoc(
         }
 
         return(
-            <BaseDiv key={1} {...props_}>
+            <BaseDiv dikey={1} {...props_}>
                 {showCharacteristics && props.characteristics.length ? 
                 <CharacteristicLevels {...props}></CharacteristicLevels> :
-                <StyledSkillCardText fontSize={`${Math.max(fontSize, 10)}px`} {...props}></StyledSkillCardText>}
+                <StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`} {...props}></StyledSkillCardText>}
             </BaseDiv>
         )
     }
@@ -268,6 +282,25 @@ class SkillTable extends React.Component {
         this.props.unBlockDataLoading();
         this.setState({showPopup: false});
     };
+
+    getPopup() {
+        const closePopupButtonProps = {
+            display: 'inline-flex', 
+            alignSelf: 'center', 
+            marginRight: '2%',
+            onClick: this.closePopup, 
+        }
+
+        const closePopupButton = <StyledCloseButton {...closePopupButtonProps}></StyledCloseButton>
+        
+        const popupProps = {
+            data: this.state.popupData,
+            key: this.state.data.length + 1,
+            closeButton: closePopupButton,
+        }
+
+        return <SkillPopup {...popupProps}></SkillPopup>
+    }
         
     render () {
         const data = this.state.data;
@@ -325,8 +358,7 @@ class SkillTable extends React.Component {
             };
 
             if (this.state.showPopup) {
-                const closePopupButton = <StyledCloseButton onClick={this.closePopup} display={'inline-flex'} alignSelf={'center'} marginRight={'2%'}></StyledCloseButton>
-                rows.push(<SkillPopup data={this.state.popupData} closeButton={closePopupButton} key={this.state.data.length + 1}></SkillPopup>);
+                rows.push(this.getPopup.bind(this)())
             };
             rows.push(endOfPage);
             return rows;
@@ -336,4 +368,4 @@ class SkillTable extends React.Component {
 
 
 
-export {SkillTableWithTableFormat};
+export {SkillTableWithTableFormat, CharacteristicLevels};
