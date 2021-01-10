@@ -158,6 +158,64 @@ const SkillTableWithTableFormat = (props) => {
 };
 
 
+const CharacteristicLevels = (props) => {
+    const { characteristics } = props
+    
+    const charsList = characteristics.map(
+        (characteristic, i) => {
+            const starLevel = []
+            for (let stars=0; stars < 5; stars++){
+                if(stars < characteristic.level) {
+                    starLevel.push(<span key={i} className="material-icons">{'star'}</span>)
+                } else {
+                    starLevel.push(<span key={i} className="material-icons">{'star_border'}</span>)
+                }
+            }
+            
+            return <BaseDiv display={'inline-flex'}>{starLevel}</BaseDiv>
+                
+        }
+    )
+    
+    return <BaseDiv display={'flex'} flexDirection={'column'}>{charsList}</BaseDiv>
+}
+
+
+const SkillDescripton = SizeTrackerHoc(
+    (props) => {
+        const textColumnRightBorder = '-25px 0px 0px -22px black'
+        const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
+
+        const [showCharacteristics, setShowCharacteristics] = useState(false)
+
+        const displayCharacteristics = (e) => {
+            setShowCharacteristics(true)
+        }
+
+        const undisplayCharacteristics = (e) => {
+            setShowCharacteristics(true)
+        }
+        
+        const props_ = {
+            ref: props.trackSizeRef, 
+            boxShadow: textColumnRightBorder, 
+            width: '100%',
+            onMouseEnter: displayCharacteristics,
+            onMouseLeave: undisplayCharacteristics,
+            ...props
+        }
+
+        return(
+            <BaseDiv key={1} {...props_}>
+                {showCharacteristics && props.characteristics.length ? 
+                <CharacteristicLevels {...props}></CharacteristicLevels> :
+                <StyledSkillCardText fontSize={`${Math.max(fontSize, 10)}px`} {...props}></StyledSkillCardText>}
+            </BaseDiv>
+        )
+    }
+);
+
+
 class SkillTable extends React.Component {
     constructor(props) {
         super(props);
@@ -229,18 +287,6 @@ class SkillTable extends React.Component {
                 let start = rowNumber * this.maxElementsInRow;
                 let end = (rowNumber + 1) * this.maxElementsInRow;
                 let rowData = data.slice(start, end);
-                const SkillDescriptonText = SizeTrackerHoc(
-                    (props) => {
-                        const textColumnRightBorder = '-25px 0px 0px -22px black'
-                        const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
-                        return(
-                            <BaseDiv key={1} ref={props.trackSizeRef} boxShadow={textColumnRightBorder} width={'100%'}>
-                                <StyledSkillCardText fontSize={`${Math.max(fontSize, 10)}px`} {...props}></StyledSkillCardText>
-                            </BaseDiv>
-                        )
-                    }
-                );
-                
                 let columns = rowData.map(
                     (skillData, i) => {
                         const truncatedDescription = `${skillData.description.slice(0, 160)}...`
@@ -254,7 +300,7 @@ class SkillTable extends React.Component {
                                     </StyledFlexInlineRow>
                                     <StyledFlexInlineRow justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
-                                        <SkillDescriptonText margin={'5%'}>{truncatedDescription}</SkillDescriptonText>
+                                        <SkillDescripton margin={'5%'} characteristics={skillData.characteristics}>{truncatedDescription}</SkillDescripton>
                                     </StyledFlexInlineRow>
                                     {/* Abusing box-shadow to create borders....*/}
                                     <StyledFlexInlineRow justifyContent={'flex-start'}>

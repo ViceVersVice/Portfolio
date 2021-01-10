@@ -86,7 +86,6 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
         };
         
         blockDataLoading() {
-            console.log('BLOCK', this)
             this.setState({blockLoading: true})
         };
 
