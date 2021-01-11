@@ -11,6 +11,7 @@ const fontStyleCss = css`
     font-size: ${props => props.fontSize};
     opacity: ${props => props.opacity};
     color: ${props => props.color};
+    font-weight: ${props => props.fontWeight};
 `
 
 

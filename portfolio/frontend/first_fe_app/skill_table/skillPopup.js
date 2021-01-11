@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
-import {StyledSkillCardText, BaseDiv, appearElement} from './styledComponents.js';
+import {StyledSkillCardText, BaseDiv, appearElement, BaseSpan} from './styledComponents.js';
 import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
 import {CharacteristicLevels} from './skillTable.js';
 import {SizeTrackerHoc} from './sizeTracker.js';
@@ -52,7 +52,7 @@ class SkillPopup extends React.Component {
 			showCommentForm: false, 
 		};
 		this.skillId = this.props.data.id;
-		this.sizeCoefficient = 80
+		this.sizeCoefficient = 60
 		this.toggleCommentForm = this.toggleCommentForm.bind(this);
 	};
 	
@@ -100,12 +100,15 @@ class SkillPopup extends React.Component {
 						<h1>{this.props.data.name}</h1>
 						{this.props.closeButton}
 					</BaseDiv>
-					<BaseDiv display={'inline-flex'}>
+					<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
 						<BaseDiv display={'inline-flex'} flex={3}>
 							<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
 						</BaseDiv>
-						<BaseDiv display={'inline-flex'} flex={1}>
-							{this.getCharacteristicLevels.bind(this)()}
+						<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={1}>
+							<BaseDiv display={'inline-flex'} flexDirection={'column'} paddingLeft={'10px'}>
+								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.5}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
+								{this.getCharacteristicLevels.bind(this)()}
+							</BaseDiv>
 						</BaseDiv>
 					</BaseDiv>
 				</BaseDiv>

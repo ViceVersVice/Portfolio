@@ -172,6 +172,7 @@ const CharacteristicLevels = (props) => {
                 const starProps = {
                     key: stars,
                     className: "material-icons",
+                    color: 'gold',
                     fontSize: `${Math.max(fontSize, 10)}px`
                 }
 
@@ -190,7 +191,7 @@ const CharacteristicLevels = (props) => {
             )
         }
     )
-    return <BaseDiv display={'inline-flex'} flexDirection={'column'} marginLeft={'10px'}>{charsList}</BaseDiv>
+    return <BaseDiv display={'inline-flex'} flexDirection={'column'} >{charsList}</BaseDiv>
 }
 
 
@@ -206,13 +207,14 @@ const SkillDescripton = SizeTrackerHoc(
         }
 
         const undisplayCharacteristics = (e) => {
-            setShowCharacteristics(false)
+            setShowCharacteristics(true)
         }
         
         const props_ = {
             ref: props.trackSizeRef, 
             boxShadow: textColumnRightBorder, 
             width: '100%',
+            paddingLeft: '10px',
             onMouseEnter: displayCharacteristics,
             onMouseLeave: undisplayCharacteristics,
             ...props
