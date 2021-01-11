@@ -6,6 +6,7 @@ venv
 **/static/js
 **/media
 
+db_password.txt
 
 # FE
 node_modules

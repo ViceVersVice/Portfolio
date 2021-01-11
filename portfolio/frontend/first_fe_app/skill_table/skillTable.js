@@ -190,7 +190,6 @@ const CharacteristicLevels = (props) => {
             )
         }
     )
-    console.log('SIZE:', trackedSize)
     return <BaseDiv display={'inline-flex'} flexDirection={'column'} marginLeft={'10px'}>{charsList}</BaseDiv>
 }
 
