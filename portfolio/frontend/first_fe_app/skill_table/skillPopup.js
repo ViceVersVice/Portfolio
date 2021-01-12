@@ -106,7 +106,7 @@ class SkillPopup extends React.Component {
 						</BaseDiv>
 						<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={1}>
 							<BaseDiv display={'inline-flex'} flexDirection={'column'} paddingLeft={'10px'}>
-								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.5}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
+								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
 								{this.getCharacteristicLevels.bind(this)()}
 							</BaseDiv>
 						</BaseDiv>

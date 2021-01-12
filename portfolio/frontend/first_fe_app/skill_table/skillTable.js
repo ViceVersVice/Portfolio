@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton, BaseSpan, BaseParagraph} from './styledComponents.js';
+import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, BlankColumn, StyledSkillCardText, 
+        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton, BaseSpan} from './styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';
@@ -78,7 +78,6 @@ class SkillCard extends React.Component {
 }
 
 
-
 const BlackDiv = (props) => {
     return <BaseDiv backgroundColor={'black'} {...props}></BaseDiv>
 }
@@ -87,11 +86,11 @@ const BlackDiv = (props) => {
 const TableFormatButtonContainer = (props) => {
     const columns_ = props.columnsNumber;
     const rows_ = columns_;
-    const smallCubesSize = 24 / rows_;
-    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
+    const smallCubesSize = 16 / rows_;
+    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} margin={'2px'} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
     const rows = [...Array(rows_)].map(
         (val, n) => (
-            <StyledFlexInlineRow key={n} justifyContent={'space-around'} alignItems={'center'}>
+            <StyledFlexInlineRow key={n} margin={'0.5px'} justifyContent={'center'} alignItems={'center'}>
                 {columns}
             </StyledFlexInlineRow>
             )
@@ -104,7 +103,6 @@ const TableFormatButtonContainer = (props) => {
 
     const highlightElement = (e) => {
         if(element.current) {
-            element.current.style.background = 'white';
             element.current.style.boxShadow = '5px 5px 5px #bdd0f2';
         }
     }
@@ -118,12 +116,15 @@ const TableFormatButtonContainer = (props) => {
 
     const props_ = {
         ref: element,
-        width: '50px',
-        height: '50px',
+        width: '40px',
+        height: '40px',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         margin: '1%',
         cursor: 'pointer',
+        background: 'white',
+        borderRadius: '5px',
+        border: 'solid 0.5px',
         onMouseEnter: highlightElement, 
         onMouseLeave: unHighlightElement,
         ...props
