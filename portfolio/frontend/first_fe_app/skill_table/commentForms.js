@@ -69,7 +69,7 @@ const MainCommentForm = (props) => {
 		<>
 			<CommentTextInput {...commentInputProps}></CommentTextInput>
 			{ErrorMessages}
-			<GenericButton onClick={sendFormData} highlightColor={'#a3f590'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
+			<GenericButton onClick={sendFormData} backgroundColor={'#ececf1'} highlightColor={'#a3f590'} width={'12%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
 				Comment
 			</GenericButton>
 		</>

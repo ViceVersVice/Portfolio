@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyledButton, StyledSkillCardText} from './styledComponents.js';
+import {BaseSpan, StyledButton, StyledSkillCardText} from './styledComponents.js';
 import {SizeTrackerHoc} from './sizeTracker.js';
 
 
@@ -25,19 +25,21 @@ class CustomButton extends React.Component {
         const backgrounImageSize = this.props.trackedSize ? `${this.props.trackedSize / 7}px`: '25px';
 
         const buttonProps = {
-            border: 'solid 0.1rem',
+            borderRadius: '20px',
+            width: '35%',
+            backgroundSize: backgrounImageSize,
+            backgroundColor: 'white',
             onMouseEnter: this.highlightButton,
             onMouseLeave: this.unhighlightButton,
-            backgroundSize: backgrounImageSize, 
             ...this.props
         };
         if (this.state.highlight) {
-            buttonProps.backgroundColor = this.props.highlightColor || '#FFFFFF';
+            buttonProps.backgroundColor = this.props.highlightColor || '#d0d1d6';
         };
         
         return (
             <StyledButton ref={this.props.trackSizeRef} {...buttonProps}>
-                <StyledSkillCardText margin={'0'} fontSize={buttontTextSize} margin={'5% 5% 5% 35%'}>{this.props.children}</StyledSkillCardText>
+                <BaseSpan margin={'0'} fontSize={buttontTextSize} fontFamily={"'Lato', sans-serif"} margin={'5% 5% 5% 30%'}>{this.props.children}</BaseSpan>
             </StyledButton>
         );
     };

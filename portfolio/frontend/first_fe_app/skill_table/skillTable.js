@@ -79,7 +79,7 @@ class SkillCard extends React.Component {
 
 
 const BlackDiv = (props) => {
-    return <BaseDiv backgroundColor={'black'} {...props}></BaseDiv>
+    return <BaseDiv backgroundColor={'black'} borderRadius={'2px'} {...props}></BaseDiv>
 }
 
 
@@ -87,7 +87,7 @@ const TableFormatButtonContainer = (props) => {
     const columns_ = props.columnsNumber;
     const rows_ = columns_;
     const smallCubesSize = 16 / rows_;
-    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} margin={'2px'} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
+    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} margin={'1px'} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
     const rows = [...Array(rows_)].map(
         (val, n) => (
             <StyledFlexInlineRow key={n} margin={'0.5px'} justifyContent={'center'} alignItems={'center'}>
@@ -208,10 +208,10 @@ const SkillDescripton = SizeTrackerHoc(
         }
 
         const undisplayCharacteristics = (e) => {
-            setShowCharacteristics(true)
+            setShowCharacteristics(false)
         }
         
-        const props_ = {
+        const containerProps_ = {
             ref: props.trackSizeRef, 
             boxShadow: textColumnRightBorder, 
             width: '100%',
@@ -221,11 +221,17 @@ const SkillDescripton = SizeTrackerHoc(
             ...props
         }
 
+        const textProps = {
+            marginBlockStart: '0em',
+            fontSize: `${Math.max(fontSize, 10)}px`,
+            ...props
+        }
+
         return(
-            <BaseDiv dikey={1} {...props_}>
+            <BaseDiv key={1} {...containerProps_}>
                 {showCharacteristics && props.characteristics.length ? 
                 <CharacteristicLevels {...props}></CharacteristicLevels> :
-                <StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`} {...props}></StyledSkillCardText>}
+                <StyledSkillCardText {...textProps}></StyledSkillCardText>}
             </BaseDiv>
         )
     }
@@ -339,7 +345,7 @@ class SkillTable extends React.Component {
                                     </StyledFlexInlineRow>
                                     {/* Abusing box-shadow to create borders....*/}
                                     <StyledFlexInlineRow justifyContent={'flex-start'}>
-                                        <GenericButton margin={'2% 0% 2% 3%'} width={'30%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{skillData.commentsCount || 0}</b> Comments</GenericButton>
+                                        <GenericButton margin={'2% 0% 2% 3%'} display={'inline-flex'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{skillData.commentsCount || 0}</b> Comments</GenericButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
                             </SkillCard>

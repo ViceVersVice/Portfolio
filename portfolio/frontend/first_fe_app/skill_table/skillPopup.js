@@ -18,14 +18,14 @@ const PopupContainer = styled(BaseDiv)`
 	display: inline-flex;
 	flex-direction: column;
 	width: 80%;
-	max-height: 70%;
-    padding: 20px;
-    background: #ffffff;
+	max-height: 90%;
+    padding: 1px;
+    background: #ececf1;
     position: fixed;
     left: 50%;
-	top: 20%;
+	top: 5%;
   	transform: translate(-50%, -30px);
-  	border: 0.2rem solid black;
+  	border: 1px solid #9e9e9e;
   	border-radius: 10px;
 `
 
@@ -90,34 +90,45 @@ class SkillPopup extends React.Component {
 				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={this.skillId}></MainCommentForm>
 			</AnimatedCommentForm>
 		): null;
+		
+		const commentButtonProps = {
+			backgroundColor: '#ececf1',
+			highlightColor: this.state.showCommentForm ? '#dbb2b2': '#a3f590',
+			width: '12%',
+			buttonImage: `${staticFolderUrl}icons/comment.svg`,
+			onClick: this.toggleCommentForm,
+		}
 
-		const commentButtonText = this.state.showCommentForm ? 'Close': 'Add comment';
+		const commentButton = <GenericButton {...commentButtonProps}>
+				{this.state.showCommentForm ? 'Close': 'Add comment'}
+			</GenericButton>
+		
 		
 		const popup = (
-			<PopupContainer ref={this.props.trackSizeRef}> 
-				<BaseDiv>
-					<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
-						<h1>{this.props.data.name}</h1>
-						{this.props.closeButton}
-					</BaseDiv>
-					<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
-						<BaseDiv display={'inline-flex'} flex={3}>
-							<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
+			<PopupContainer ref={this.props.trackSizeRef}>
+				<BaseDiv padding={'20px'} borderRadius={'10px'} backgroundColor={'white'}>
+					<BaseDiv>
+						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
+							<h1>{this.props.data.name}</h1>
+							{this.props.closeButton}
 						</BaseDiv>
-						<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={1}>
-							<BaseDiv display={'inline-flex'} flexDirection={'column'} paddingLeft={'10px'}>
-								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
-								{this.getCharacteristicLevels.bind(this)()}
+						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
+							<BaseDiv display={'inline-flex'} flex={3}>
+								<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
+							</BaseDiv>
+							<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={1}>
+								<BaseDiv display={'inline-flex'} flexDirection={'column'} paddingLeft={'10px'}>
+									<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
+									{this.getCharacteristicLevels.bind(this)()}
+								</BaseDiv>
 							</BaseDiv>
 						</BaseDiv>
 					</BaseDiv>
+					{commentButton}
+					{commentForm}
 				</BaseDiv>
-				<GenericButton onClick={this.toggleCommentForm} highlightColor={'#C0C0C0'} width={'10%'} buttonImage={`${staticFolderUrl}icons/comment.svg`}>
-					{commentButtonText}
-				</GenericButton>
-				{commentForm}
 				{this.state.PopupWIthEndlessComments ? 
-					(<BaseDiv overflowY={"scroll"}>
+					(<BaseDiv paddingLeft={'20px'} overflowY={"scroll"}>
 						<this.state.PopupWIthEndlessComments></this.state.PopupWIthEndlessComments>
 					</BaseDiv>) : null
 				}
