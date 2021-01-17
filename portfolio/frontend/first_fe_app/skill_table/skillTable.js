@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton, BaseSpan} from './styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton, BaseSpan, BaseIcon} from './styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';
@@ -61,7 +61,6 @@ class SkillCard extends React.Component {
            justifyContent: 'space-evenly', 
            flex: '1',
            boxShadow: boxIncreaseShadow,
-           overflow: 'hidden',
            onClick: this.togglePopup,
            onMouseEnter: this.highlightCard,
            onMouseLeave: this.unHighlightCard,
@@ -172,15 +171,14 @@ const CharacteristicLevels = (props) => {
             for (let stars=0; stars < maxStars; stars++){
                 const starProps = {
                     key: stars,
-                    className: "material-icons",
                     color: 'gold',
                     fontSize: `${Math.max(fontSize, 10)}px`
                 }
 
                 if(stars < characteristic.level) {
-                    starLevel.push(<BaseSpan {...starProps}>{'star'}</BaseSpan>)
+                    starLevel.push(<BaseIcon className={"fas fa-star"} {...starProps}></BaseIcon>)
                 } else {
-                    starLevel.push(<BaseSpan {...starProps}>{'star_border'}</BaseSpan>)
+                    starLevel.push(<BaseIcon className={"far fa-star"} {...starProps}></BaseIcon>)
                 }
             }
             
@@ -334,17 +332,17 @@ class SkillTable extends React.Component {
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
-                                    <StyledFlexInlineRow justifyContent={"space-evenely"} background={'linear-gradient(#c3d5eb, #9198e5)'} borderRadius={'10px'} margin={'2%'}>
+                                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-evenely"} background={'linear-gradient(#c3d5eb, #9198e5)'} borderRadius={'10px'} margin={'2%'}>
                                         <StyledHeader marginLeft={'30px'} marginTop={'20px'}>
                                             {skillData.name}
                                         </StyledHeader>
                                     </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
+                                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
                                         <SkillDescripton margin={'5%'} characteristics={skillData.characteristics}>{truncatedDescription}</SkillDescripton>
                                     </StyledFlexInlineRow>
                                     {/* Abusing box-shadow to create borders....*/}
-                                    <StyledFlexInlineRow justifyContent={'flex-start'}>
+                                    <StyledFlexInlineRow flex={'1'} justifyContent={'flex-start'}>
                                         <GenericButton margin={'2% 0% 2% 3%'} display={'inline-flex'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{skillData.commentsCount || 0}</b> Comments</GenericButton>
                                     </StyledFlexInlineRow>
                                 </StyledFlexInlineRow>
@@ -359,9 +357,9 @@ class SkillTable extends React.Component {
                 };
                 
                 rows.push(
-                    <StyledRow key={rowNumber} margin={'0% 1% 1% 0%'}>
+                    <BaseDiv minHeight={'300px'} key={rowNumber} display={'flex'}>
                         {columns}
-                    </StyledRow>
+                    </BaseDiv>
                 );
             };
 
@@ -369,7 +367,7 @@ class SkillTable extends React.Component {
                 rows.push(this.getPopup.bind(this)())
             };
             rows.push(endOfPage);
-            return rows;
+            return rows
         };
     };
 };

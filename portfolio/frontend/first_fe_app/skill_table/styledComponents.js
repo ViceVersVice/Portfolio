@@ -44,6 +44,18 @@ const BaseSpan = styled.span`
     ${marginCss};
 `
 
+const BaseIcon = styled.i`
+    ${marginCss};
+    ${backgroundCss};
+    ${paddingCss};
+    ${flexBoxCss};
+    ${borderedCss};
+    ${sizeCss};
+    ${fontStyleCss};
+    ${cursorCss};
+`
+
+
 
 const BaseParagraph = styled.p`
     ${borderedCss};
@@ -85,8 +97,7 @@ const StyledFlexInlineRow = styled(BaseDiv)`
 const StyledFlexCardInlineRow = styled(BaseDiv)`
     display: inline-flex;
     background-color: #d8e1f4;
-    margin: 0% 3% 3% 1%;
-    height: 20%;
+    margin: 0% 2% 2% 1%;
     animation: ${appearElement} 1s linear;
     box-shadow: ${props => props.boxShadow};
     cursor: pointer;
@@ -164,5 +175,5 @@ const StyledButton = styled(BaseDiv)`
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
     StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledButton, 
-    BaseParagraph, BaseSpan, BaseInput, BaseDiv,
+    BaseParagraph, BaseSpan, BaseInput, BaseDiv, BaseIcon,
     appearElement, StyledCloseButton}

@@ -49,6 +49,8 @@ const sizeCss = css`
     height: ${props => props.height || 'auto'};
     max-width: ${props => props.maxWidth || ''};
     max-height: ${props => props.maxHeight || ''};
+    min-width: ${props => props.minWidth || ''};
+    min-height: ${props => props.minHeight || ''};
 `
 
 

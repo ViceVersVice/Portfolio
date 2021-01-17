@@ -7,7 +7,7 @@ import {baseUrl} from '../base/baseUrls.js';
 
 
 const StyledMainComment = styled(BaseDiv)`
-	margin-top: 20px;
+	margin-top: 40px;
 `
 
 
@@ -18,14 +18,17 @@ const MainComment = (props) => {
 
 const SkillCommentList = (props) => {
 	if(props.apiData) {
-		const comments = props.apiData.map(data => {
+		const comments = props.apiData.map((data, n) => {
 			return(
-				<MainComment>{data.commentText}</MainComment>
+				<MainComment key={n}>{data.commentText}</MainComment>
 			)
 		})
+		
 		// EndlessPaginationHoc refs
-		const ObservedEndOfComments = <props.observedElementRef key={-1} ref={props.hocRef}></props.observedElementRef>;
-		comments.push(ObservedEndOfComments) 
+		if(props.observedElementRef){
+			const ObservedEndOfComments = <props.observedElementRef key={-1} ref={props.hocRef}></props.observedElementRef>;
+			comments.push(ObservedEndOfComments)
+		}
 
 		return comments;
 	}

@@ -36,7 +36,7 @@ const AnimatedCommentForm = styled(BaseDiv)`
 
 
 const EndOfComments = (props) => {
-	return <div ref={props.innerRef}></div>
+	return <BaseDiv width={'10px'} height={'40px'} ref={props.innerRef}></BaseDiv>
 }
 
 
@@ -116,7 +116,7 @@ class SkillPopup extends React.Component {
 							<BaseDiv display={'inline-flex'} flex={3}>
 								<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
 							</BaseDiv>
-							<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={1}>
+							<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={2}>
 								<BaseDiv display={'inline-flex'} flexDirection={'column'} paddingLeft={'10px'}>
 									<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
 									{this.getCharacteristicLevels.bind(this)()}

@@ -34,7 +34,7 @@ except:
 # Application definition
 
 INSTALLED_APPS = [
-    # DRF
+    'fontawesome-free',
     'rest_framework',
     # Default
     'accounts',
