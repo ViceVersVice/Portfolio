@@ -58,7 +58,7 @@ class SkillPopup extends React.Component {
 	
 	componentDidMount() {
 		this.setState({
-			PopupWIthEndlessComments: EndlessPaginationHoc(
+			PopupEndlessComments: EndlessPaginationHoc(
 				SkillCommentList, 
 				`${baseUrl}/${skillApiBaseNameUrl}/${this.skillId}/skill_comments`,
 				EndOfCommentsRef,
@@ -127,11 +127,18 @@ class SkillPopup extends React.Component {
 					{commentButton}
 					{commentForm}
 				</BaseDiv>
-				{this.state.PopupWIthEndlessComments ? 
-					(<BaseDiv paddingLeft={'20px'} overflowY={"scroll"}>
-						<this.state.PopupWIthEndlessComments></this.state.PopupWIthEndlessComments>
-					</BaseDiv>) : null
-				}
+				<BaseDiv display={'inline-flex'} overflow={'hidden'} flexDirection={'column'} padding={'20px'}>
+					{this.state.PopupEndlessComments && this.props.data.commentsCount ? 
+						(<>
+							<BaseDiv display={'inline-flex'} width={'70%'}>
+								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`}>{this.props.data.commentsCount} comments</BaseSpan>
+							</BaseDiv>
+							<BaseDiv display={'inline-flex'} flexDirection={'column'} overflowY={"scroll"}>
+								<this.state.PopupEndlessComments></this.state.PopupEndlessComments>
+							</BaseDiv>
+						</>) : 	<BaseSpan>No comments</BaseSpan>
+					}
+				</BaseDiv>
 			</PopupContainer>
 		);
 		return ReactDOM.createPortal(popup, document.getElementById('root'));

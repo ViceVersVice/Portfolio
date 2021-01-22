@@ -40,6 +40,7 @@ const BaseDiv = styled.div`
 
 
 const BaseSpan = styled.span`
+    ${borderedCss};
     ${fontStyleCss};
     ${marginCss};
 `
@@ -97,7 +98,7 @@ const StyledFlexInlineRow = styled(BaseDiv)`
 const StyledFlexCardInlineRow = styled(BaseDiv)`
     display: inline-flex;
     background-color: #d8e1f4;
-    margin: 0% 2% 2% 1%;
+    margin: 0% 1% 1% 1%;
     animation: ${appearElement} 1s linear;
     box-shadow: ${props => props.boxShadow};
     cursor: pointer;
