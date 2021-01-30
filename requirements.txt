@@ -6,3 +6,4 @@ psycopg2-binary
 gunicorn
 django-extensions
 fontawesome-free
+social-auth-app-django

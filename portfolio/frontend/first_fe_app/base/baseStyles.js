@@ -66,9 +66,14 @@ const flexBoxCss = css`
     overflow-y: ${props => props.overflowY || ''};
 `
 
+const fitCss = css`
+    object-fit: ${props => props.objectFit}
+`
+
+
 const cursorCss = css`
     cursor: ${props => props.cursor}
 `
 
 
-export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss, cursorCss};
+export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss, cursorCss, fitCss};

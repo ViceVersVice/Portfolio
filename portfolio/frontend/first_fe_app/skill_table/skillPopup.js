@@ -36,7 +36,7 @@ const AnimatedCommentForm = styled(BaseDiv)`
 
 
 const EndOfComments = (props) => {
-	return <BaseDiv width={'10px'} height={'40px'} ref={props.innerRef}></BaseDiv>
+	return <BaseDiv width={'100%'} minHeight={'1px'} ref={props.innerRef}></BaseDiv>
 }
 
 
@@ -85,9 +85,14 @@ class SkillPopup extends React.Component {
 	render() {
 		const fontSize = this.props.trackedSize > 0 ? this.props.trackedSize / this.sizeCoefficient : 20;
 
+		const commentFormProps = {
+			skillId: this.skillId,
+			fontSize: fontSize,
+			hideCommentForm: this.toggleCommentForm,
+		}
 		const commentForm = this.state.showCommentForm ? (
 			<AnimatedCommentForm justifyContent={'center'} flexDirection={'column'}>
-				<MainCommentForm hideCommentForm={this.toggleCommentForm} skillId={this.skillId}></MainCommentForm>
+				<MainCommentForm {...commentFormProps}></MainCommentForm>
 			</AnimatedCommentForm>
 		): null;
 		
@@ -113,7 +118,7 @@ class SkillPopup extends React.Component {
 							{this.props.closeButton}
 						</BaseDiv>
 						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
-							<BaseDiv display={'inline-flex'} flex={3}>
+							<BaseDiv display={'inline-flex'} flex={4}>
 								<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
 							</BaseDiv>
 							<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={2}>
@@ -134,7 +139,7 @@ class SkillPopup extends React.Component {
 								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`}>{this.props.data.commentsCount} comments</BaseSpan>
 							</BaseDiv>
 							<BaseDiv display={'inline-flex'} flexDirection={'column'} overflowY={"scroll"}>
-								<this.state.PopupEndlessComments></this.state.PopupEndlessComments>
+								<this.state.PopupEndlessComments fontSize={fontSize} ></this.state.PopupEndlessComments>
 							</BaseDiv>
 						</>) : 	<BaseSpan>No comments</BaseSpan>
 					}

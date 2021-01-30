@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss} from '../base/baseStyles.js';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss, fitCss} from '../base/baseStyles.js';
 import {staticFolderUrl} from '../base/baseUrls.js';
 
 
@@ -54,6 +54,19 @@ const BaseIcon = styled.i`
     ${sizeCss};
     ${fontStyleCss};
     ${cursorCss};
+`
+
+
+const BaseImg = styled.img`
+    ${marginCss};
+    ${backgroundCss};
+    ${paddingCss};
+    ${flexBoxCss};
+    ${borderedCss};
+    ${sizeCss};
+    ${fontStyleCss};
+    ${cursorCss};
+    ${fitCss};
 `
 
 
@@ -176,5 +189,5 @@ const StyledButton = styled(BaseDiv)`
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
     StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledButton, 
-    BaseParagraph, BaseSpan, BaseInput, BaseDiv, BaseIcon,
+    BaseParagraph, BaseSpan, BaseInput, BaseDiv, BaseIcon, BaseImg,
     appearElement, StyledCloseButton}
