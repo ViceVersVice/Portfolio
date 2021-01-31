@@ -175,9 +175,10 @@ const StyledCloseButton = (props) => {
 
 
 const StyledButton = styled(BaseDiv)`
-    display: flex;
+    display: inline-flex;
     cursor: pointer;
     width: ${props => props.width};
+    justify-content: flex-end;
     white-space: nowrap;
     background-repeat: no-repeat;
     background-size: ${props => props.backgroundSize || '25px'};

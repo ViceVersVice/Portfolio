@@ -20,7 +20,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('skill_api/', include('main_app.api.urls')),
-    path('first/', include('main_app.urls'))
+    path('first/', include('main_app.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('social_auth/', include('social_django.urls', namespace='social'))
 ]
 
 from django.conf.urls.static import static
