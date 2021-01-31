@@ -110,7 +110,7 @@ const StyledFlexInlineRow = styled(BaseDiv)`
 
 const StyledFlexCardInlineRow = styled(BaseDiv)`
     display: inline-flex;
-    background-color: #d8e1f4;
+    background-color: #e1e8f7;
     margin: 0% 1% 1% 1%;
     animation: ${appearElement} 1s linear;
     box-shadow: ${props => props.boxShadow};

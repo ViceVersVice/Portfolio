@@ -114,16 +114,16 @@ class SkillPopup extends React.Component {
 				<BaseDiv padding={'20px'} borderRadius={'10px'} backgroundColor={'white'}>
 					<BaseDiv>
 						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
-							<h1>{this.props.data.name}</h1>
+							<BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={'40px'}>{this.props.data.name}</BaseSpan>
 							{this.props.closeButton}
 						</BaseDiv>
-						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
+						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'} margin={'20px 0px 0px 0px'}>
 							<BaseDiv display={'inline-flex'} flex={4}>
 								<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
 							</BaseDiv>
-							<BaseDiv display={'inline-flex'} marginLeft={'2%'} boxShadow={'-2px 0px 0px 0px black'} flex={2}>
+							<BaseDiv display={'inline-flex'} marginLeft={'2%'} paddingLeft={'20px'} boxShadow={'-2px 0px 0px 0px black'} flex={2}>
 								<BaseDiv display={'inline-flex'} flexDirection={'column'} paddingLeft={'10px'}>
-									<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`} fontWeight={'bold'} marginBot={'10px'}>My perception:</BaseSpan>
+									<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`} fontWeight={'bold'} marginBot={'10px'}>Skill level:</BaseSpan>
 									{this.getCharacteristicLevels.bind(this)()}
 								</BaseDiv>
 							</BaseDiv>

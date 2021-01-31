@@ -77,87 +77,6 @@ class SkillCard extends React.Component {
 }
 
 
-const BlackDiv = (props) => {
-    return <BaseDiv backgroundColor={'black'} borderRadius={'2px'} {...props}></BaseDiv>
-}
-
-
-const TableFormatButtonContainer = (props) => {
-    const columns_ = props.columnsNumber;
-    const rows_ = columns_;
-    const smallCubesSize = 16 / rows_;
-    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} margin={'1px'} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
-    const rows = [...Array(rows_)].map(
-        (val, n) => (
-            <StyledFlexInlineRow key={n} margin={'0.5px'} justifyContent={'center'} alignItems={'center'}>
-                {columns}
-            </StyledFlexInlineRow>
-            )
-        )
-    const element = React.useRef(null);
-
-    const changeTableFormat = (e) => {
-        props.parentOnClick(rows_)
-    }
-
-    const highlightElement = (e) => {
-        if(element.current) {
-            element.current.style.boxShadow = '5px 5px 5px #bdd0f2';
-        }
-    }
-    
-    const unHighlightElement = (e) => {
-        if(element.current) {
-            element.current.style.background = '';
-            element.current.style.boxShadow = '';
-        }
-    }
-
-    const props_ = {
-        ref: element,
-        width: '40px',
-        height: '40px',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        margin: '1%',
-        cursor: 'pointer',
-        background: 'white',
-        borderRadius: '5px',
-        border: 'solid 0.5px',
-        onMouseEnter: highlightElement, 
-        onMouseLeave: unHighlightElement,
-        ...props
-    } 
-    return <StyledFlexInlineRow onClick={changeTableFormat} {...props_}>{rows}</StyledFlexInlineRow>
-} 
-
-
-const SkillTableWithTableFormat = (props) => {
-    const [TableFormat, setTableFormat] = useState(2);
-    const [itemsPerPage, setItemsPerPage] = useState(TableFormat * 2)
-
-    const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, itemsPerPage)
-
-    const changeTableFormat = (newTableformat) => {
-        if(newTableformat != TableFormat){ 
-            setTableFormat(newTableformat)
-            setItemsPerPage(newTableformat * 2)   
-        }
-    };
-
-    return (
-        <>
-            <StyledRow>
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={2}></TableFormatButtonContainer> 
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={3}></TableFormatButtonContainer> 
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={4}></TableFormatButtonContainer> 
-            </StyledRow>
-            <EndlessTable tableFormat={TableFormat}></EndlessTable>
-        </>
-    );
-};
-
-
 const CharacteristicLevels = (props) => {
     // Characteristics level as stars
     const { characteristics, trackedSize } = props
@@ -171,7 +90,7 @@ const CharacteristicLevels = (props) => {
             for (let stars=0; stars < maxStars; stars++){
                 const starProps = {
                     key: stars,
-                    color: 'gold',
+                    color: '#ff6200',
                     fontSize: `${Math.max(fontSize, 10)}px`
                 }
 
@@ -332,10 +251,10 @@ class SkillTable extends React.Component {
                         return(                         
                             <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
                                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
-                                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-evenely"} background={'linear-gradient(#c3d5eb, #9198e5)'} borderRadius={'10px'} margin={'2%'}>
-                                        <StyledHeader marginLeft={'30px'} marginTop={'20px'}>
+                                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-evenely"} margin={'0% 0% 2% 0%'}>
+                                        <BaseSpan marginLeft={'30px'} marginTop={'20px'} fontFamily={"'Coda Caption', sans-serif"} fontSize={'40px'}>
                                             {skillData.name}
-                                        </StyledHeader>
+                                        </BaseSpan>
                                     </StyledFlexInlineRow>
                                     <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
                                         <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
@@ -370,6 +289,86 @@ class SkillTable extends React.Component {
             return rows
         };
     };
+};
+
+
+const BlackDiv = (props) => {
+    return <BaseDiv backgroundColor={'black'} borderRadius={'2px'} {...props}></BaseDiv>
+}
+
+
+const TableFormatButtonContainer = (props) => {
+    const columns_ = props.columnsNumber;
+    const rows_ = columns_;
+    const smallCubesSize = 16 / rows_;
+    const columns = [...Array(columns_)].map((val, n) => <BlackDiv key={n} margin={'1px'} width={`${smallCubesSize}px`} height={`${smallCubesSize}px`}></BlackDiv>)
+    const rows = [...Array(rows_)].map(
+        (val, n) => (
+            <StyledFlexInlineRow key={n} margin={'0.5px'} justifyContent={'center'} alignItems={'center'}>
+                {columns}
+            </StyledFlexInlineRow>
+            )
+        )
+    const element = React.useRef(null);
+
+    const changeTableFormat = (e) => {
+        props.parentOnClick(rows_)
+    }
+
+    const highlightElement = (e) => {
+        if(element.current) {
+            element.current.style.boxShadow = '5px 5px 5px #bdd0f2';
+        }
+    }
+    
+    const unHighlightElement = (e) => {
+        if(element.current) {
+            element.current.style.background = '';
+            element.current.style.boxShadow = '';
+        }
+    }
+
+    const props_ = {
+        ref: element,
+        width: '40px',
+        height: '40px',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        margin: '1%',
+        cursor: 'pointer',
+        borderRadius: '5px',
+        border: 'solid 0.5px',
+        onMouseEnter: highlightElement, 
+        onMouseLeave: unHighlightElement,
+        ...props
+    } 
+    return <StyledFlexInlineRow onClick={changeTableFormat} {...props_}>{rows}</StyledFlexInlineRow>
+}
+
+
+const SkillTableWithTableFormat = (props) => {
+    const [TableFormat, setTableFormat] = useState(3);
+    const [itemsPerPage, setItemsPerPage] = useState(TableFormat * 2)
+
+    const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, itemsPerPage)
+
+    const changeTableFormat = (newTableformat) => {
+        if(newTableformat != TableFormat){ 
+            setTableFormat(newTableformat)
+            setItemsPerPage(newTableformat * 2)   
+        }
+    };
+
+    return (
+        <>
+            <StyledRow>
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={2} backgroundColor={TableFormat == 2 ? '#acc2e4' : 'white'}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={3} backgroundColor={TableFormat == 3 ? '#acc2e4' : 'white'}></TableFormatButtonContainer> 
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={4} backgroundColor={TableFormat == 4 ? '#acc2e4' : 'white'}></TableFormatButtonContainer> 
+            </StyledRow>
+            <EndlessTable tableFormat={TableFormat}></EndlessTable>
+        </>
+    );
 };
 
 
