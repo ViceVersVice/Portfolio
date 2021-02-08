@@ -14,7 +14,6 @@ class SkillViewSet(SnakeCamelViewSet):
     model = Skill
     serializer_class = SkillSerializer
     pagination_class = StartCountPagination
-    authentication_classes = []
     permission_classes = [AllowAny]
 
     def get_queryset(self):
@@ -62,14 +61,13 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
         return Comment.objects.all()
 
     def create(self, request, *args, **kwargs):
-        d = request.data.copy()
-        d.update({'profile': UserProfile.objects.first().pk})
-        print('DDDcc', d)
-        serializer = SkillCommentSerializer(data=d)
+        data = request.data.copy()
+        data.update({'profile': UserProfile.objects.first().pk})
+
+        serializer = SkillCommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
 
-        print('LOOOL??', serializer.errors)
         if serializer.errors:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:

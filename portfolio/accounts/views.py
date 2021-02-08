@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.http import JsonResponse
 
 # Create your views here.
-from django.views.generic import TemplateView
+from django.views.generic.base import View
 
 
-class OauthLoginView(TemplateView):
-
+class GetUserInfoView(View):
     def get(self, request, *args, **kwargs):
-        print('USR::', request.user)
-        return render(request, 'oauth_login.html')
+        if request.user.is_authenticated:
+            user = request.user
+            return JsonResponse({'username': user.username})
+
+        return JsonResponse({'username:': None})

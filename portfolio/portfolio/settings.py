@@ -146,6 +146,10 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 
+# CSRF
+CSRF_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_SAMESITE = 'Strict'
+
 try:
     from .local_settings import *
 except ImportError:

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {NavbarLogo, Button, NavbarText} from './styledComponents.js';
 import {StyledRow, StyledCloseButton} from '../skill_table/styledComponents.js'
 import {LoginPopup} from '../login/loginPopup.js'
-
+import {LoginStatusContext} from '../login/loginContext.js'
 import {baseUrl, staticFolderUrl} from '../base/baseUrls.js';
 
 
@@ -38,7 +38,9 @@ const NavbarButton = (props) => {
 
 const Navbar = (props) => {
 	const [showPopup, setShowPopup] = useState(false)
-
+	const loginCtx = useContext(LoginStatusContext)
+	console.log('nv ctx:', loginCtx)
+	
 	const showLoginPopup = (e) => {
 		setShowPopup(true)
 	}
@@ -63,7 +65,7 @@ const Navbar = (props) => {
 
 	const closeLoginPopupButton = <StyledCloseButton {...closeLoginPopupButtonProps}></StyledCloseButton>
 
-    return (	
+    return (
     	<StyledRow {...navbarContainerProps}>
 			<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
 			<NavbarButton>About Me</NavbarButton>

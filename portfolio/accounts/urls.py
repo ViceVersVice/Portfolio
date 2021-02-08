@@ -1,8 +1,8 @@
 from django.urls import path
 
-from accounts.views import OauthLoginView
+from accounts.views import GetUserInfoView
 
 
 urlpatterns = [
-    path('oauth_login/', OauthLoginView.as_view(), name='oauth_login')
+    path('userinfo/', GetUserInfoView.as_view(), name='user_info')
 ]
