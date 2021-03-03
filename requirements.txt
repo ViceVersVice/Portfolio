@@ -7,3 +7,5 @@ gunicorn
 django-extensions
 fontawesome-free
 social-auth-app-django
+pytest
+pytest-django

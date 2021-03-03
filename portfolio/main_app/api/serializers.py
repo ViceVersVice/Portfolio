@@ -4,7 +4,6 @@ from main_app.models import Skill, Comment, SkillCharacteristic
 
 
 class SkillCharacteristicSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = SkillCharacteristic
         fields = ['name', 'level']

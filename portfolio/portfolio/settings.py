@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-with open('db_password.txt', 'r') as f:
+with open(os.path.join(BASE_DIR, 'db_password.txt'), 'r') as f:
     DB_PASSWORD = f.readline()
 
 DATABASES = {
