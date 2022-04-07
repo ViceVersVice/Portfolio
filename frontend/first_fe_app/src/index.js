@@ -19,7 +19,7 @@ const App = () => {
                 setUserCtx({'username': data.username})
             }
         })
-        
+
 
     }
     if(!userCtx.username)(
@@ -33,7 +33,7 @@ const App = () => {
                 <SkillTableWithTableFormat />
             </BaseDiv>
         </LoginStatusContext.Provider>
-        
+
     )
 }
 

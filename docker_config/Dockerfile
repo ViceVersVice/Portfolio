@@ -1,12 +1,9 @@
-FROM ubuntu:latest
+FROM python:3.10.4-slim as base
 
 WORKDIR /usr/src/app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
-ARG DEBIAN_FRONTEND=noninteractive
-
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -21,10 +18,32 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 
 RUN pip3 install --upgrade pip
-COPY requirements.txt /usr/src/app/requirements.txt
-RUN pip install -r requirements.txt
 
-COPY . /usr/src/app/
-RUN cd portfolio && npm run build
+# Venv
+RUN python -m venv ./venv
+ENV VIRTUAL_ENV /usr/src/app/venv
+ENV PATH /usr/src/app/venv/bin:$PATH
+RUN cd venv/bin && chmod +x activate
+
+# Poetry
+COPY pyproject.toml poetry.lock /usr/src/app/
+RUN sh ./venv/bin/activate && pip install poetry
+RUN poetry install
+
+# Frontend
+COPY frontend /usr/src/app/frontend
+RUN cd frontend && npm install && npm run build
+
+
+FROM python:3.10.4-slim AS final
+WORKDIR /usr/src/app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+COPY docker_config /usr/src/app/docker_config
+COPY portfolio /usr/src/app/portfolio
+COPY --from=base /usr/src/app/venv /usr/src/app/venv
+COPY --from=base /usr/src/app/frontend/first_fe_app/dist/main.js /usr/src/app/portfolio/main_app/static/js
 
 ENTRYPOINT ["/usr/src/app/docker_config/db_entrypoint.sh"]

@@ -1,12 +1,12 @@
 **/.idea
 **/*.pyc
 **/env.dev
-venv
+.venv
 
 **/static/js
 **/media
 
-db_password.txt
+portfolio/db_password.txt
 local_settings.py
 
 # FE

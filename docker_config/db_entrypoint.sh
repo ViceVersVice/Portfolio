@@ -6,8 +6,7 @@ then
   echo "Postgres!"
 fi
 
-cd portfolio
-python3 manage.py flush --no-input
-python3 manage.py migrate
+venv/bin/python3 portfolio/manage.py flush --no-input
+venv/bin/python3 portfolio/manage.py migrate
 
 exec "$@"

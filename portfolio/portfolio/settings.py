@@ -34,7 +34,7 @@ except:
 # Application definition
 
 INSTALLED_APPS = [
-    'fontawesome-free',
+    'fontawesomefree',
     'rest_framework',
     'social_django',
     # Default

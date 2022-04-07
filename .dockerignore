@@ -1,8 +1,10 @@
-venv
+.venv
 .gitignore
 .git
 .idea
 .gitignore
 *.pyc
+
+shell_scripts
 
 node_modules/
