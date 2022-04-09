@@ -17,17 +17,16 @@ services:
     container_name: db
     image: postgres:14
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - ${DB_PATH}postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=portfolio_db_host
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=portfolio_db
-    env_file:
-      - docker_config/env.dev
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_DB_NAME}
     ports:
       - 5432:5432
 volumes:
   postgres_data:
+    external: true
 
 
 

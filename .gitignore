@@ -2,6 +2,7 @@
 **/*.pyc
 **/env.dev
 .venv
+.env
 
 **/static/js
 **/media

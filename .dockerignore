@@ -4,6 +4,7 @@
 .idea
 .gitignore
 *.pyc
+postgres_data/
 
 shell_scripts
 

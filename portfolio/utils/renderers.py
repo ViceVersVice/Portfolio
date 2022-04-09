@@ -37,6 +37,5 @@ def snake_case_to_camel_case(raw_data: Union[dict, list]):
 
 class CamelCaseJsonRenderer(JSONRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        print('DD', data)
         data = snake_case_to_camel_case(data)
         return super().render(data, accepted_media_type=accepted_media_type, renderer_context=renderer_context)
