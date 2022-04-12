@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import {SkillTableWithTableFormat} from '../skill_table/skillTable.js'
-import {Navbar} from '../navbar/navbar.js'
-import { BaseDiv } from '../skill_table/styledComponents.js';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SkillTableWithTableFormat } from '../skill_table/skillTable.js';
+import { Navbar } from '../navbar/navbar.js';
+import { AboutMePage } from '../about_me/about_me.js';
+import { BaseDiv } from '../base/styledComponents.js';
 import { LoginStatusContext } from '../login/loginContext.js';
-import { getCurrentUserData } from '../login/currentUserData.js'
+import { getCurrentUserData } from '../login/currentUserData.js';
 
 
 
@@ -30,7 +32,11 @@ const App = () => {
         <LoginStatusContext.Provider value={userCtx}>
             <BaseDiv background={'#f0f5f5'}>
                 <Navbar/>
-                <SkillTableWithTableFormat />
+                <Routes>
+                    <Route path="/main-page/S" element={<AboutMePage />}/>
+                    <Route path="/main-page/about-me/" element={<AboutMePage />}/>
+                    <Route path="/main-page/tech/" element={<SkillTableWithTableFormat />}/>
+                </Routes>
             </BaseDiv>
         </LoginStatusContext.Provider>
 
@@ -38,6 +44,8 @@ const App = () => {
 }
 
 ReactDOM.render(
-    <App />,
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>,
     document.getElementById('root')
 );

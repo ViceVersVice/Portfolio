@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, BaseDiv, StyledCloseButton, BaseSpan, BaseIcon} from './styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, BaseDiv, StyledCloseButton, BaseSpan, BaseIcon} from '../base/styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';

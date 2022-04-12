@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Formik } from 'formik';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import {StyledSkillCardText, BaseDiv, appearElement, BaseSpan} from '../skill_table/styledComponents.js';
-import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
+import { BaseDiv, BaseSpan } from '../base/styledComponents.js';
 import {SizeTrackerHoc} from '../skill_table/sizeTracker.js';
-import { SignupForm } from './loginForm.js'
 
 import {GenericButton} from '../skill_table/genericButton.js';
-import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
+import {staticFolderUrl} from '../base/baseUrls.js'
 
 
 const PopupContainer = styled(BaseDiv)`

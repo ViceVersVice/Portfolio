@@ -151,5 +151,3 @@ try:
 except ImportError:
     print('---------Local settings were not found---------')
     pass
-
-

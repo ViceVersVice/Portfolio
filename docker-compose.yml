@@ -17,7 +17,7 @@ services:
     container_name: db
     image: postgres:14
     volumes:
-      - ${DB_PATH}postgres_data:/var/lib/postgresql/data/
+      - ${DB_VOLUME_NAME}:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=${SQL_USER}
       - POSTGRES_PASSWORD=${SQL_PASSWORD}
@@ -26,7 +26,6 @@ services:
       - 5432:5432
 volumes:
   postgres_data:
-    external: true
 
 
 

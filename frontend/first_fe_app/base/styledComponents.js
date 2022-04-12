@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss, fitCss} from '../base/baseStyles.js';
-import {staticFolderUrl} from '../base/baseUrls.js';
-
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss, fitCss} from './baseStyles.js';
+import {staticFolderUrl} from './baseUrls.js';
+import { Link } from "react-router-dom";
 
 // Animations
 const appearTopBot = keyframes`
@@ -186,9 +186,16 @@ const StyledButton = styled(BaseDiv)`
     background-image: url('${props => props.buttonImage}');
 `
 
+const RouterCustomLink = (props) => {
+    return (
+        <Link {...props} style={{'color': 'inherit', 'text-decoration': 'inherit'}}>
+            {props.children}
+        </Link>
+    )
+}
  
 
 export {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, 
     StyledSkillCardText, StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledButton, 
     BaseParagraph, BaseSpan, BaseInput, BaseDiv, BaseIcon, BaseImg,
-    appearElement, StyledCloseButton}
+    appearElement, StyledCloseButton, RouterCustomLink}

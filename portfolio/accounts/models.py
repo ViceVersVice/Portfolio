@@ -2,7 +2,6 @@ from uuid import uuid4
 
 from django.contrib.auth.models import User
 from django.db import models
-from main_app.models import Skill
 
 
 def get_profile_image_upload_path(instance, filename):

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
-import {StyledSkillCardText, BaseDiv, appearElement, BaseSpan} from './styledComponents.js';
+import {StyledSkillCardText, BaseDiv, appearElement, BaseSpan} from '../base/styledComponents.js';
 import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
 import {CharacteristicLevels} from './skillTable.js';
 import {SizeTrackerHoc} from './sizeTracker.js';

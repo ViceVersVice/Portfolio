@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
-import styled, { keyframes } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 
-import {BaseDiv, BaseImg, BaseSpan} from './styledComponents.js';
-import {baseUrl} from '../base/baseUrls.js';
+import {BaseDiv, BaseImg, BaseSpan} from '../base/styledComponents.js';
 
 
 const StyledMainComment = styled(BaseDiv)`

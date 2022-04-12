@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {BaseSpan, StyledButton, StyledSkillCardText} from './styledComponents.js';
+import {BaseSpan, StyledButton } from '../base/styledComponents.js';
 import {SizeTrackerHoc} from './sizeTracker.js';
 
 

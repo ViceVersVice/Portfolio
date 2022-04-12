@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import {NavbarLogo, Button, NavbarText} from './styledComponents.js';
-import {StyledRow, StyledCloseButton} from '../skill_table/styledComponents.js'
+import {StyledRow, StyledCloseButton, RouterCustomLink} from '../base/styledComponents.js'
 import {LoginPopup} from '../login/loginPopup.js'
 import {LoginStatusContext} from '../login/loginContext.js'
 import {baseUrl, staticFolderUrl} from '../base/baseUrls.js';
@@ -68,7 +68,12 @@ const Navbar = (props) => {
     return (
     	<StyledRow {...navbarContainerProps}>
 			<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
-			<NavbarButton>About Me</NavbarButton>
+			<RouterCustomLink to='/main-page/about-me/'>
+				<NavbarButton>About Me</NavbarButton>
+			</RouterCustomLink>
+			<RouterCustomLink to='/main-page/tech/'>
+				<NavbarButton>Technologies</NavbarButton>
+			</RouterCustomLink>
 			<NavbarButton onClick={showLoginPopup}>Sign in</NavbarButton>
 			{showPopup ? <LoginPopup closePopupButton={closeLoginPopupButton}></LoginPopup>: null}
  		</StyledRow>

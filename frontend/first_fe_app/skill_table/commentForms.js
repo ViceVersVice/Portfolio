@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
-import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, StyledFlexColumn, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, StyledHeader, StyledCommentButton, BaseParagraph, BaseInput, BaseSpan, BaseDiv} 
-        from './styledComponents.js';
+import {BaseSpan, BaseDiv} from '../base/styledComponents.js';
 import {GenericButton} from './genericButton.js';
 
 
