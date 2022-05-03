@@ -4,10 +4,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from accounts.models import UserProfile
-from base.views import SnakeCamelViewSet
+from base.views import SnakeCamelViewSet, SnakeCamelListView
 from .pagination import StartCountPagination
-from .serializers import SkillSerializer, SkillCommentSerializer
-from main_app.models import Skill, Comment
+from .serializers import SkillSerializer, SkillCommentSerializer, ProjectSerializer
+from main_app.models import Skill, Comment, Project
 
 
 class SkillViewSet(SnakeCamelViewSet):
@@ -72,3 +72,13 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.data)
+
+
+class ProjectListView(SnakeCamelListView):
+    model = Project
+    serializer_class = ProjectSerializer
+    permission_classes = [AllowAny]
+    pagination_class = StartCountPagination
+
+    def get_queryset(self):
+        return Project.objects.all()

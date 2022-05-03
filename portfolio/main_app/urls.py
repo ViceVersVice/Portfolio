@@ -1,7 +1,7 @@
-from django.urls import path
+from django.urls import re_path
 
 from .views import EntryPointView
 
 urlpatterns = [
-    path('', EntryPointView.as_view(), name='main_page')
+    re_path(r'^.*', EntryPointView.as_view(), name='main_page')
 ]

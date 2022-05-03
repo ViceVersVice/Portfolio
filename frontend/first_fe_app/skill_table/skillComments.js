@@ -54,8 +54,8 @@ const SkillCommentList = (props) => {
 
 		return comments;
 	}
+	
 	return <MainComment></MainComment>
-
 }
 
 

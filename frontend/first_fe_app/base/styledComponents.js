@@ -4,6 +4,7 @@ import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, padding
 import {staticFolderUrl} from './baseUrls.js';
 import { Link } from "react-router-dom";
 
+
 // Animations
 const appearTopBot = keyframes`
     from {
@@ -188,7 +189,7 @@ const StyledButton = styled(BaseDiv)`
 
 const RouterCustomLink = (props) => {
     return (
-        <Link {...props} style={{'color': 'inherit', 'text-decoration': 'inherit'}}>
+        <Link {...props} style={{'color': 'inherit', 'textDecoration': 'inherit'}}>
             {props.children}
         </Link>
     )

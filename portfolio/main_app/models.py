@@ -41,7 +41,20 @@ class SkillCharacteristic(models.Model):
 class Comment(models.Model):
     skill = models.ForeignKey('main_app.Skill', related_name='comments', on_delete=models.CASCADE)
     profile = models.ForeignKey('accounts.UserProfile', related_name='comments', on_delete=models.CASCADE, null=False)
-    sub_comments = models.ForeignKey('main_app.Comment', related_name='related_comments', blank=True, null=True, on_delete=models.CASCADE)
+    sub_comments = models.ForeignKey(
+        'main_app.Comment', related_name='related_comments', blank=True, null=True, on_delete=models.CASCADE
+    )
     votes = models.IntegerField(default=0)
     text = models.TextField(max_length=500)
     date_added = models.DateTimeField(auto_now_add=True, db_index=True)
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=60)
+    text = models.TextField(max_length=500)
+    duration = models.DurationField()
+    image = models.FileField(upload_to='projects_images/', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.name}, {self.id}'
+

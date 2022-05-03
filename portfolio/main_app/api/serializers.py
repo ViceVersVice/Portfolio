@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from main_app.models import Skill, Comment, SkillCharacteristic
+from main_app.models import Skill, Comment, SkillCharacteristic, Project
 
 
 class SkillCharacteristicSerializer(serializers.ModelSerializer):
@@ -27,3 +27,17 @@ class SkillCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['skill', 'comment_text', 'profile']
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    duration = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Project
+        fields = ['name', 'text', 'duration', 'image']
+
+    def get_duration(self, obj: Project):
+        if (days := getattr(obj.duration, 'days', 0)) and days >= 30:
+            return f'{days // 30} months'
+
+        return f'{days} days'

@@ -74,6 +74,9 @@ const Navbar = (props) => {
 			<RouterCustomLink to='/main-page/tech/'>
 				<NavbarButton>Technologies</NavbarButton>
 			</RouterCustomLink>
+			<RouterCustomLink to='/main-page/projects/'>
+				<NavbarButton>Projects</NavbarButton>
+			</RouterCustomLink>
 			<NavbarButton onClick={showLoginPopup}>Sign in</NavbarButton>
 			{showPopup ? <LoginPopup closePopupButton={closeLoginPopupButton}></LoginPopup>: null}
  		</StyledRow>
