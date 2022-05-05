@@ -7,7 +7,7 @@ import { AboutMePage } from '../about_me/about_me.js';
 import { BaseDiv } from '../base/styledComponents.js';
 import { LoginStatusContext } from '../login/loginContext.js';
 import { getCurrentUserData } from '../login/currentUserData.js';
-import { ProjectsTable } from '../projects/projects.js';
+import { TrackedSizeProjectsTable } from '../projects/projects.js';
 
 
 const App = () => {
@@ -30,13 +30,13 @@ const App = () => {
 
     return(
         <LoginStatusContext.Provider value={userCtx}>
-            <BaseDiv background={'#f0f5f5'}>
+            <BaseDiv background={'white'}>
                 <Navbar/>
                 <Routes>
                     <Route path="/main-page/" element={<AboutMePage />}/>
                     <Route path="/main-page/about-me/" element={<AboutMePage />}/>
                     <Route path="/main-page/tech/" element={<SkillTableWithTableFormat />}/>
-                    <Route path="/main-page/projects/" element={<ProjectsTable />}/>
+                    <Route path="/main-page/projects/" element={<TrackedSizeProjectsTable />}/>
                 </Routes>
             </BaseDiv>
         </LoginStatusContext.Provider>

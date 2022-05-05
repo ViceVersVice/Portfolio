@@ -50,7 +50,7 @@ const Navbar = (props) => {
 	}
 
 	const navbarContainerProps = {
-		backgroundColor: 'white',
+		backgroundColor: '#f0f5f5',
 		borderRadius: '0px 0px 10px 10px',
 		justifyContent: 'flex-end',
 		height: '70px'

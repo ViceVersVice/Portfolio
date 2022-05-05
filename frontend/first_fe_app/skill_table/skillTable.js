@@ -34,6 +34,7 @@ class SkillCard extends React.Component {
         this.togglePopup = this.togglePopup.bind(this);
         this.highlightCard = this.highlightCard.bind(this);
         this.unHighlightCard = this.unHighlightCard.bind(this);
+        this.skillData = props.skillData;
     };
 
     togglePopup(e) {
@@ -54,27 +55,52 @@ class SkillCard extends React.Component {
     };
 
     getProps() {
-        const boxIncreaseShadow = this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5';
         return {
            borderStyle: '0.2rem solid #d8e1f4',
            borderRadius: '5px',
            justifyContent: 'space-evenly', 
            flex: '1',
-           boxShadow: boxIncreaseShadow,
+           boxShadow: this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5',
            onClick: this.togglePopup,
            onMouseEnter: this.highlightCard,
            onMouseLeave: this.unHighlightCard,
+           ref: this.props.trackSizeRef,
         };
     };
 
     render() {
+        const truncatedDescription = `${this.skillData.description.slice(0, 160)}...`
+        const trackedSize = this.props.trackedSize
+        const nameFontSize = trackedSize > 0 ? `${trackedSize / 15}px` : '30px'
+        const levelFontSize = trackedSize > 0 ? `${trackedSize / 20}px` : '20px'
+
         return (
             <StyledFlexCardInlineRow {...this.getProps()}>
-                {this.props.children}
+                <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
+                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-between"} margin={'0% 0% 2% 0%'} padding={'3%'}>
+                        <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={nameFontSize}>
+                            {this.skillData.name}
+                        </BaseSpan>
+                        <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={levelFontSize} padding={'2%'} borderRadius={'15px'} backgroundColor={this.skillData.levelColor}>
+                            {this.skillData.level}
+                        </BaseSpan>
+                    </StyledFlexInlineRow>
+                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
+                        <StyledSkillCardImage src={this.skillData.image}></StyledSkillCardImage>
+                        <SkillDescripton margin={'5%'} characteristics={this.skillData.characteristics}>{truncatedDescription}</SkillDescripton>
+                    </StyledFlexInlineRow>
+                    {/* Abusing box-shadow to create borders....*/}
+                    <StyledFlexInlineRow flex={'1'} justifyContent={'flex-start'}>
+                        <GenericButton margin={'2% 0% 2% 3%'} display={'inline-flex'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{this.skillData.commentsCount || 0}</b> Comments</GenericButton>
+                    </StyledFlexInlineRow>
+                </StyledFlexInlineRow>
             </StyledFlexCardInlineRow>
         );
     }
 }
+
+
+const TrackedSizeSkillCard = SizeTrackerHoc(SkillCard)
 
 
 const CharacteristicLevels = (props) => {
@@ -115,26 +141,12 @@ const CharacteristicLevels = (props) => {
 
 const SkillDescripton = SizeTrackerHoc(
     (props) => {
-        const textColumnRightBorder = '-2px 0px 0px 0px black'
         const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
-
-        const [showCharacteristics, setShowCharacteristics] = useState(false)
-
-        const displayCharacteristics = (e) => {
-            setShowCharacteristics(true)
-        }
-
-        const undisplayCharacteristics = (e) => {
-            setShowCharacteristics(false)
-        }
         
         const containerProps_ = {
-            ref: props.trackSizeRef, 
-            boxShadow: textColumnRightBorder, 
+            ref: props.trackSizeRef,
             width: '100%',
             paddingLeft: '10px',
-            onMouseEnter: displayCharacteristics,
-            onMouseLeave: undisplayCharacteristics,
             ...props
         }
 
@@ -146,9 +158,7 @@ const SkillDescripton = SizeTrackerHoc(
 
         return(
             <BaseDiv key={1} {...containerProps_}>
-                {showCharacteristics && props.characteristics.length ? 
-                <CharacteristicLevels {...props}></CharacteristicLevels> :
-                <StyledSkillCardText {...textProps}></StyledSkillCardText>}
+                <StyledSkillCardText {...textProps}></StyledSkillCardText>
             </BaseDiv>
         )
     }
@@ -247,25 +257,10 @@ class SkillTable extends React.Component {
                 let rowData = data.slice(start, end);
                 let columns = rowData.map(
                     (skillData, i) => {
-                        const truncatedDescription = `${skillData.description.slice(0, 160)}...`
                         return(                         
-                            <SkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
-                                <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
-                                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-evenely"} margin={'0% 0% 2% 0%'}>
-                                        <BaseSpan marginLeft={'30px'} marginTop={'20px'} fontFamily={"'Coda Caption', sans-serif"} fontSize={'40px'}>
-                                            {skillData.name}
-                                        </BaseSpan>
-                                    </StyledFlexInlineRow>
-                                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
-                                        <StyledSkillCardImage src={skillData.image}></StyledSkillCardImage>
-                                        <SkillDescripton margin={'5%'} characteristics={skillData.characteristics}>{truncatedDescription}</SkillDescripton>
-                                    </StyledFlexInlineRow>
-                                    {/* Abusing box-shadow to create borders....*/}
-                                    <StyledFlexInlineRow flex={'1'} justifyContent={'flex-start'}>
-                                        <GenericButton margin={'2% 0% 2% 3%'} display={'inline-flex'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{skillData.commentsCount || 0}</b> Comments</GenericButton>
-                                    </StyledFlexInlineRow>
-                                </StyledFlexInlineRow>
-                            </SkillCard>
+                            <TrackedSizeSkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
+                                
+                            </TrackedSizeSkillCard>
                         )
                     }
                 )

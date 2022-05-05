@@ -44,6 +44,8 @@ const BaseSpan = styled.span`
     ${borderedCss};
     ${fontStyleCss};
     ${marginCss};
+    ${paddingCss};
+    ${backgroundCss};
 `
 
 const BaseIcon = styled.i`
