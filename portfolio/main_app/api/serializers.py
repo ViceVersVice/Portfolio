@@ -42,12 +42,19 @@ class SkillCommentSerializer(serializers.ModelSerializer):
         fields = ['skill', 'comment_text', 'profile']
 
 
+class TechForProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
+        fields = ['id', 'name', 'image']
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
+    technologies = TechForProjectSerializer(many=True)
 
     class Meta:
         model = Project
-        fields = ['name', 'text', 'duration', 'image']
+        fields = ['name', 'text', 'duration', 'image', 'technologies']
 
     def get_duration(self, obj: Project):
         if (days := getattr(obj.duration, 'days', 0)) and days >= 30:

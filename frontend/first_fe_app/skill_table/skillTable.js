@@ -103,42 +103,6 @@ class SkillCard extends React.Component {
 const TrackedSizeSkillCard = SizeTrackerHoc(SkillCard)
 
 
-const CharacteristicLevels = (props) => {
-    // Characteristics level as stars
-    const { characteristics, trackedSize } = props
-    const fontSize = trackedSize > 0 ? trackedSize / (props.sizeCoefficient || 15) : 20;
-    
-    const charsList = characteristics.map(
-        (characteristic, i) => {
-            const starLevel = []
-            const maxStars = 5
-            
-            for (let stars=0; stars < maxStars; stars++){
-                const starProps = {
-                    key: stars,
-                    color: '#ff6200',
-                    fontSize: `${Math.max(fontSize, 10)}px`
-                }
-
-                if(stars < characteristic.level) {
-                    starLevel.push(<BaseIcon className={"fas fa-star"} {...starProps}></BaseIcon>)
-                } else {
-                    starLevel.push(<BaseIcon className={"far fa-star"} {...starProps}></BaseIcon>)
-                }
-            }
-            
-            return(
-                <BaseDiv display={'inline-flex'} justifyContent={'space-between'} key={i}>
-                    <BaseSpan fontSize={`${Math.max(fontSize, 10)}px`}>{characteristic.name}</BaseSpan>
-                    <BaseDiv marginLeft={'10px'}>{starLevel}</BaseDiv>
-                </BaseDiv>
-            )
-        }
-    )
-    return <BaseDiv display={'inline-flex'} flexDirection={'column'} >{charsList}</BaseDiv>
-}
-
-
 const SkillDescripton = SizeTrackerHoc(
     (props) => {
         const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
@@ -258,9 +222,7 @@ class SkillTable extends React.Component {
                 let columns = rowData.map(
                     (skillData, i) => {
                         return(                         
-                            <TrackedSizeSkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i}>
-                                
-                            </TrackedSizeSkillCard>
+                            <TrackedSizeSkillCard skillData={skillData} onClick={this.togglePopup} key={rowNumber * this.maxElementsInRow + i} />
                         )
                     }
                 )
@@ -368,4 +330,4 @@ const SkillTableWithTableFormat = (props) => {
 
 
 
-export {SkillTableWithTableFormat, CharacteristicLevels};
+export { SkillTableWithTableFormat };
