@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
-import {NavbarLogo, Button, NavbarText} from './styledComponents.js';
-import {StyledRow, StyledCloseButton, RouterCustomLink} from '../base/styledComponents.js'
+import {NavbarLogo, Button, NavbarText } from './styledComponents.js';
+import {StyledRow, StyledCloseButton, RouterCustomLink, BaseImg} from '../base/styledComponents.js'
 import {LoginPopup} from '../login/loginPopup.js'
 import {LoginStatusContext} from '../login/loginContext.js'
 import {baseUrl, staticFolderUrl} from '../base/baseUrls.js';
@@ -40,12 +40,23 @@ const NavbarButton = (props) => {
 
 	return (
 		<Button {...navButtonProps}>
-			<NavbarText fontFamily={"'Rowdies', cursive"} fontSize={'20px'} color={props.isClicked || highlight ? '#cee8ff': '#f9f9f9'}>
-				{props.children}
+			<NavbarText onClick={onClick} fontFamily={"'Rowdies', cursive"} fontSize={'20px'} color={props.isClicked || highlight ? '#cee8ff': '#f9f9f9'}>
+				{props.text}
 			</NavbarText>
 		</Button>
 	)
 };
+
+
+const LoggedInStatus = (props) => {
+	const imageProps = {
+		padding: '15px',
+		borderRadius: '50%',
+		src: `${staticFolderUrl}icons/google.png`,
+	}
+
+	return <BaseImg title={`${props.firstName} ${props.lastName}`} {...imageProps} />
+}
 
 
 const Navbar = (props) => {
@@ -62,7 +73,7 @@ const Navbar = (props) => {
 	console.log('nv ctx:', loginCtx)
 
 	const navbarContainerProps = {
-		backgroundColor: '#242528',
+		background: 'linear-gradient(-180deg, #303030 15%, #767676)',
 		borderRadius: '0px 0px 10px 10px',
 		justifyContent: 'flex-end',
 		height: '70px'
@@ -74,7 +85,7 @@ const Navbar = (props) => {
 		setClickedButtonID: setClickedButtonID,
 	}
 
-	// Close login button
+	// Login button, popup
 	const showLoginPopup = (e) => {
 		setShowPopup(true)
 	}
@@ -96,15 +107,19 @@ const Navbar = (props) => {
     	<StyledRow {...navbarContainerProps}>
 			<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
 			<RouterCustomLink to='/main-page/about-me/'>
-				<NavbarButton id={1} isClicked={clickedButtonID == 1} {...navButtonProps}>About Me</NavbarButton>
+				<NavbarButton id={1} isClicked={clickedButtonID == 1} text={'About Me'} {...navButtonProps} />
 			</RouterCustomLink>
 			<RouterCustomLink to='/main-page/tech/'>
-				<NavbarButton id={2} isClicked={clickedButtonID == 2} {...navButtonProps}>Technologies</NavbarButton>
+				<NavbarButton id={2} isClicked={clickedButtonID == 2} text={'Technologies'} {...navButtonProps} />
 			</RouterCustomLink>
 			<RouterCustomLink to='/main-page/projects/'>
-				<NavbarButton id={3} isClicked={clickedButtonID == 3} {...navButtonProps}>Projects</NavbarButton>
+				<NavbarButton id={3} isClicked={clickedButtonID == 3} text={'Projects'} {...navButtonProps} />
 			</RouterCustomLink>
-			<NavbarButton isClicked={showPopup} onClick={showLoginPopup}>Sign in</NavbarButton>
+			{
+				loginCtx.username ? 
+				<LoggedInStatus {...loginCtx} /> :
+				<NavbarButton isClicked={showPopup} onClick={showLoginPopup} text={'Sign in'} />
+			}
 			{showPopup ? <LoginPopup closePopupButton={closeLoginPopupButton}></LoginPopup>: null}
  		</StyledRow>
  	)

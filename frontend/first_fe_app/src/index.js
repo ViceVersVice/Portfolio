@@ -18,7 +18,7 @@ const App = () => {
         response.json().then(data => {
             console.log('USR::', data)
             if(data.username){
-                setUserCtx({'username': data.username})
+                setUserCtx({'username': data.username, 'firstName': data.firstName, 'lastName': data.lastName})
             }
         })
 

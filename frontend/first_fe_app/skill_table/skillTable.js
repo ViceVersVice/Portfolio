@@ -27,6 +27,20 @@ const EndOfPageRef = React.forwardRef((props, ref) => {
 })
 
 
+const SKillLevelBadge = (props) => {
+    const badgeProps = {
+        fontFamily: "'Coda Caption', sans-serif",
+        fontSize: props.trackedSize > 0 ? `${props.trackedSize / 20}px` : '20px',
+        padding: '2%',
+        borderRadius: '15px',
+        background: `linear-gradient(0deg, ${props.levelColor}, white)`,
+        border: '0.1px solid #d2ebab'
+    }
+
+    return <BaseSpan {...badgeProps}>{props.skillLevel}</BaseSpan>
+}
+
+
 class SkillCard extends React.Component {
     constructor(props) {
         super(props);
@@ -72,20 +86,17 @@ class SkillCard extends React.Component {
         const truncatedDescription = `${this.skillData.description.slice(0, 160)}...`
         const trackedSize = this.props.trackedSize
         const nameFontSize = trackedSize > 0 ? `${trackedSize / 15}px` : '30px'
-        const levelFontSize = trackedSize > 0 ? `${trackedSize / 20}px` : '20px'
 
         return (
             <StyledFlexCardInlineRow {...this.getProps()}>
                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
                     <StyledFlexInlineRow flex={'1'} justifyContent={"space-between"} margin={'0% 0% 2% 0%'} padding={'3%'}>
-                        <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={nameFontSize}>
+                        <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={nameFontSize} fontWeight={'bold'}>
                             {this.skillData.name}
                         </BaseSpan>
-                        <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={levelFontSize} padding={'2%'} borderRadius={'15px'} backgroundColor={this.skillData.levelColor}>
-                            {this.skillData.level}
-                        </BaseSpan>
+                        <SKillLevelBadge skillLevel={this.skillData.level} levelColor={this.skillData.levelColor} trackedSize={trackedSize} />
                     </StyledFlexInlineRow>
-                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} background={'linear-gradient(#f0f3f7, #d8e1f4)'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
+                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
                         <StyledSkillCardImage src={this.skillData.image}></StyledSkillCardImage>
                         <SkillDescripton margin={'5%'} characteristics={this.skillData.characteristics}>{truncatedDescription}</SkillDescripton>
                     </StyledFlexInlineRow>

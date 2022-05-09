@@ -22,7 +22,7 @@ const PopupContainer = styled(BaseDiv)`
     background: #ececf1;
     position: fixed;
     left: 50%;
-	top: 5%;
+	top: 15%;
   	transform: translate(-50%, -30px);
   	border: 1px solid #9e9e9e;
   	border-radius: 10px;

@@ -25,39 +25,38 @@ const ProjectTechnologySnippet = (props) => {
 	const unHighlight = (e) => {
 		setHighlight(false);
 	};
-
+    
     const snippetProps = {
-        padding: '5%',
+        padding: '15%',
         margin: '0 10% 0 0',
+        background: 'linear-gradient(0deg, #dee3de, white)',
+        borderRadius: '15px',
+        border: '0.1px solid #d2ebab',
+        width: `${props.trackedSize / 40}px`,
+        src: props.skill.image,
         onMouseEnter: toHighlight,
         onMouseLeave: unHighlight,
     }
 
     if(highlight){
-        snippetProps.background = 'linear-gradient(0deg, #dee3de, white)'
-        snippetProps.borderRadius = '15px'
+        snippetProps.background = 'linear-gradient(0deg, #eff797, white)'
         snippetProps.cursor = 'pointer'
     }
-        
 
-    return(
-        <BaseDiv {...snippetProps}>
-            <BaseImg src={props.skill.image} maxHeight={'70px'}></BaseImg>
-        </BaseDiv>
-    )
+    return <BaseImg {...snippetProps} />
 }
 
 
 const ProjectsList = (props) => {
-    const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 50}px` : '30px'
-    const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 60}px` : '25px'
+    const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 60}px` : '30px'
+    const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 70}px` : '25px'
 
 	if(props.apiData) {
 		const projects = props.apiData.map((data, n) => {
 			return(
                 <StyledRow key={n} flexDirection={'column'} padding={'0 0 0 2%'} boxShadow={'0px 20px 2px -20px black'}>
                     <StyledRow>
-                        <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"}>
+                        <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} borderBottom={'2px solid'}>
                             {data.name}
                         </BaseParagraph>
                     </StyledRow>
@@ -69,7 +68,7 @@ const ProjectsList = (props) => {
                             {
                                 data.technologies.length ? 
                                 data.technologies.map((skill, n) => {
-                                    return <ProjectTechnologySnippet skill={skill} key={n}></ProjectTechnologySnippet>
+                                    return <ProjectTechnologySnippet skill={skill} key={n} trackedSize={props.trackedSize} />
                                 }) : <></>
                             }
                         </StyledRow>
