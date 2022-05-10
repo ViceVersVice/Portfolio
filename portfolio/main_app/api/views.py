@@ -23,20 +23,6 @@ class SkillViewSet(SnakeCamelViewSet):
         response = super().list(request, args, kwargs)
         return response
 
-    @action(detail=True, methods=['post'])
-    def add_comment(self, request, *args, **kwargs):
-        d = request.data.copy()
-        d.update({'profile': UserProfile.objects.first().pk})
-        serializer = SkillCommentSerializer(data=d)
-
-        if serializer.is_valid():
-            serializer.save()
-
-        if serializer.errors:
-            return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(serializer.data)
-
     @action(detail=True, methods=['get'], basename='comments')
     def skill_comments(self, request, *args, **kwargs):
         skill = self.get_object()
@@ -51,7 +37,6 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
     model = Comment
     serializer_class = SkillCommentSerializer
     pagination_class = StartCountPagination
-    authentication_classes = []
     permission_classes = [AllowAny]
 
     def list(self, request, *args, **kwargs):
@@ -62,7 +47,7 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
-        data.update({'profile': UserProfile.objects.first().pk})
+        data.update({'profile': UserProfile.objects.get(user=request.user)})
 
         serializer = SkillCommentSerializer(data=data)
         if serializer.is_valid():

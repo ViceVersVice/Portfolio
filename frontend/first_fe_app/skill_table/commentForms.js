@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
+import Cookies from 'js-cookie'
 import styled from 'styled-components';
 
-import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
+import {baseUrl, skillApiBaseNameUrl, skillCommentsBaseUrl, staticFolderUrl} from '../base/baseUrls.js'
 import {BaseSpan, BaseDiv} from '../base/styledComponents.js';
 import {GenericButton} from './genericButton.js';
 
@@ -36,12 +37,13 @@ const MainCommentForm = (props) => {
 	};
 
 	const sendFormData = (e) => {
-		fetch(`${baseUrl}/${skillApiBaseNameUrl}/${props.skillId}/add_comment/`,
+		fetch(`${baseUrl}/${skillCommentsBaseUrl}/`,
 			{	
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
+				credentials: 'include',
 				body: JSON.stringify(formData)
 			}
 		).then(handleResponse);

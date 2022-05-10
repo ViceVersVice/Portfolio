@@ -6,4 +6,4 @@ const skillProjectsBaseUrl = 'skill_api/projects'
 const staticFolderUrl = `${baseUrl}/static/`
 const mediaFolderUrl = `${baseUrl}/media/`
 
-export {baseUrl, skillApiBaseNameUrl, skillProjectsBaseUrl, staticFolderUrl, mediaFolderUrl}
+export {baseUrl, skillApiBaseNameUrl, skillProjectsBaseUrl, staticFolderUrl, mediaFolderUrl, skillCommentsBaseUrl}
