@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.request import Request
 
 from accounts.models import UserProfile
 from base.views import SnakeCamelViewSet, SnakeCamelListView
@@ -23,8 +24,13 @@ class SkillViewSet(SnakeCamelViewSet):
         response = super().list(request, args, kwargs)
         return response
 
+    @action(detail=True, methods=['get'], basename='comments-count')
+    def comments_count(self, request: Request, *args, **kwargs):
+        skill = self.get_object()
+        return Response({'comments_count': skill.comments.count()})
+
     @action(detail=True, methods=['get'], basename='comments')
-    def skill_comments(self, request, *args, **kwargs):
+    def skill_comments(self, request: Request, *args, **kwargs):
         skill = self.get_object()
         comments = skill.comments.all()
         skill_comments = self.paginate_queryset(comments)
@@ -47,7 +53,7 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
-        data.update({'profile': UserProfile.objects.get(user=request.user)})
+        data.update({'profile': UserProfile.objects.get(user=request.user).pk})
 
         serializer = SkillCommentSerializer(data=data)
         if serializer.is_valid():

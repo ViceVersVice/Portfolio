@@ -2,11 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {BaseDiv, BaseImg, BaseSpan} from '../base/styledComponents.js';
+import {baseUrl, skillApiBaseNameUrl} from '../base/baseUrls.js';
 
 
 const StyledMainComment = styled(BaseDiv)`
 	${'' /* margin-top: 40px; */}
 `
+
+
+const getSkillCommentsCount = (skillId, updStateCallback) => {
+	fetch(`${baseUrl}/${skillApiBaseNameUrl}/${skillId}/comments_count/`)
+		.then(response => response.json())
+		.then(data => {
+			updStateCallback(data)
+		})
+}
 
 
 const MainComment = (props) => {
@@ -54,7 +64,7 @@ const SkillCommentList = (props) => {
 
 		return comments;
 	}
-	
+
 	return <MainComment></MainComment>
 }
 
@@ -65,4 +75,4 @@ const SubComment = () => {
 }
 
 
-export {SkillCommentList, SubComment};
+export {getSkillCommentsCount, SkillCommentList, SubComment};

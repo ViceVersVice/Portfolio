@@ -69,8 +69,6 @@ const Navbar = (props) => {
 	const [clickedButtonID, setClickedButtonID] = useState(navbarPathToButtonIdMap[window.location.pathname]);
 
 	const loginCtx = useContext(LoginStatusContext)
-	
-	console.log('nv ctx:', loginCtx)
 
 	const navbarContainerProps = {
 		background: 'linear-gradient(-180deg, #303030 15%, #767676)',

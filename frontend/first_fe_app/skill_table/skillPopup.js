@@ -7,7 +7,7 @@ import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
 import {SizeTrackerHoc} from './sizeTracker.js';
 
 import {MainCommentForm} from './commentForms.js';
-import {SkillCommentList} from './skillComments.js';
+import {getSkillCommentsCount, SkillCommentList} from './skillComments.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js'
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
@@ -48,22 +48,40 @@ class SkillPopup extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showCommentForm: false, 
+			showCommentForm: false,
+			reload: false,
 		};
-		this.skillId = this.props.data.id;
+		this.skillId = this.props.data.id
 		this.sizeCoefficient = 60
-		this.toggleCommentForm = this.toggleCommentForm.bind(this);
+		this.setCommentsCount = this.setCommentsCount.bind(this)
+		this.setEndlessComments = this.setEndlessComments.bind(this)
+		this.toggleCommentForm = this.toggleCommentForm.bind(this)
+		this.reloadPopup = this.reloadPopup.bind(this)
 	};
-	
-	componentDidMount() {
+
+	setCommentsCount(data) {
+		this.setState({...data})
+	}
+
+	setEndlessComments() {
 		this.setState({
 			PopupEndlessComments: EndlessPaginationHoc(
 				SkillCommentList, 
 				`${baseUrl}/${skillApiBaseNameUrl}/${this.skillId}/skill_comments`,
 				EndOfCommentsRef,
-				15
+				10
 			)
 		})
+	}
+
+	componentDidMount() {
+		getSkillCommentsCount(this.skillId, this.setCommentsCount)
+		this.setEndlessComments()
+	}
+
+	reloadPopup() {
+		getSkillCommentsCount(this.skillId, this.setCommentsCount)
+		this.setEndlessComments()
 	}
 
 	toggleCommentForm(e) {
@@ -77,6 +95,7 @@ class SkillPopup extends React.Component {
 			skillId: this.skillId,
 			fontSize: fontSize,
 			hideCommentForm: this.toggleCommentForm,
+			reloadPopup: this.reloadPopup,
 		}
 		const commentForm = this.state.showCommentForm ? (
 			<AnimatedCommentForm justifyContent={'center'} flexDirection={'column'}>
@@ -115,10 +134,10 @@ class SkillPopup extends React.Component {
 					{commentForm}
 				</BaseDiv>
 				<BaseDiv display={'inline-flex'} overflow={'hidden'} flexDirection={'column'} padding={'20px'}>
-					{this.state.PopupEndlessComments && this.props.data.commentsCount ? 
+					{this.state.PopupEndlessComments && this.state.commentsCount ? 
 						(<>
 							<BaseDiv display={'inline-flex'} width={'70%'}>
-								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`}>{this.props.data.commentsCount} comments</BaseSpan>
+								<BaseSpan fontSize={`${Math.max(fontSize, 10) * 1.3}px`}>{this.state.commentsCount} comments</BaseSpan>
 							</BaseDiv>
 							<BaseDiv display={'inline-flex'} flexDirection={'column'} overflowY={"scroll"}>
 								<this.state.PopupEndlessComments fontSize={fontSize} ></this.state.PopupEndlessComments>

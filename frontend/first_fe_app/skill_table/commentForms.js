@@ -31,7 +31,8 @@ const MainCommentForm = (props) => {
 			if (data.errors) {
 				setFormErrors({formErrors: data.errors});
 			} else {
-				props.hideCommentForm();
+				props.reloadPopup()
+				props.hideCommentForm()
 			};
 		}).catch( () => {setFormErrors({formErrors: ['Server error']})} )
 	};
@@ -41,7 +42,8 @@ const MainCommentForm = (props) => {
 			{	
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'X-Csrftoken': Cookies.get('csrftoken'),
 				},
 				credentials: 'include',
 				body: JSON.stringify(formData)
