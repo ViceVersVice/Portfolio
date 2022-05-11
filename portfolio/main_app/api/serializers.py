@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from rest_framework import serializers
 
 from main_app.models import Skill, Comment, SkillCharacteristic, Project, ENTRY, MIDDLE, CONFIDENT, FLUENT, PRO
@@ -36,10 +38,28 @@ class SkillSerializer(serializers.ModelSerializer):
 
 class SkillCommentSerializer(serializers.ModelSerializer):
     comment_text = serializers.CharField(source='text')
+    username = serializers.CharField(read_only=True, source='profile.username')
+    date_added = serializers.SerializerMethodField(read_only=True)
+
+    def get_date_added(self, obj: Comment):
+        td = timezone.now() - obj.date_added
+
+        predicates = [
+            (lambda _td: td.days >= 365, lambda _td: f'{td.days // 365} years ago'),
+            (lambda _td: td.days >= 31, lambda _td: f'{td.days // 31} months ago'),
+            (lambda _td: td.days >= 1, lambda _td: f'{td.days} days ago'),
+            (lambda _td: td.seconds >= 3600, lambda _td: f'{td.seconds // 3600} hours ago'),
+            (lambda _td: td.seconds >= 60, lambda _td: f'{td.seconds // 60} minutes ago'),
+            (lambda _td: True, lambda _td: f'{td.seconds} seconds ago'),
+        ]
+
+        for predicate, func in predicates:
+            if predicate(td):
+                return func(td)
 
     class Meta:
         model = Comment
-        fields = ['skill', 'comment_text', 'profile']
+        fields = ['skill', 'comment_text', 'username', 'date_added', 'profile']
 
 
 class TechForProjectSerializer(serializers.ModelSerializer):

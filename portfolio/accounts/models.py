@@ -15,3 +15,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'Profile: {self.user.email}'
+
+    @property
+    def username(self):
+        return f'{self.user.first_name} {self.user.last_name}'

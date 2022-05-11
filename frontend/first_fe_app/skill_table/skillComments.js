@@ -30,7 +30,7 @@ const MainComment = (props) => {
 		width: '100%',
 		height: '100%',
 		borderRadius: '50%',
-		src: 'http://127.0.0.1:8000/static/icons/comment.svg'
+		src: '/static/icons/profile.png'
 	}
 
 	return (
@@ -39,8 +39,11 @@ const MainComment = (props) => {
 				<BaseImg {...commentProfileImageProps}></BaseImg>
 			</BaseDiv>
 			<BaseDiv margin={'0% 0% 0% 2%'} display={'inline-flex'} flexDirection={'column'}>
-				<BaseSpan fontSize={`${props.fontSize * 0.6}px`}>Added at: 01.10.20 14:30</BaseSpan>
-				<BaseSpan fontSize={`${props.fontSize}px`}>{props.children}</BaseSpan> 
+				<BaseSpan fontSize={`${props.fontSize * 0.8}px`}>
+					<b>{`${props.data.username} `}</b>
+					{props.data.dateAdded}
+				</BaseSpan>
+				<BaseSpan fontSize={`${props.fontSize}px`} marginTop={'2%'}>{props.data.commentText}</BaseSpan> 
 			</BaseDiv>
 			
 		</BaseDiv>
@@ -52,7 +55,7 @@ const SkillCommentList = (props) => {
 	if(props.apiData) {
 		const comments = props.apiData.map((data, n) => {
 			return(
-				<MainComment key={n} fontSize={props.fontSize}>{data.commentText}</MainComment>
+				<MainComment key={n} fontSize={props.fontSize} data={data} />
 			)
 		})
 		

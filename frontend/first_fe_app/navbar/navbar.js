@@ -52,7 +52,7 @@ const LoggedInStatus = (props) => {
 	const imageProps = {
 		padding: '15px',
 		borderRadius: '50%',
-		src: `${staticFolderUrl}icons/google.png`,
+		src: `${staticFolderUrl}icons/profile.png`,
 	}
 
 	return <BaseImg title={`${props.firstName} ${props.lastName}`} {...imageProps} />

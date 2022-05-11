@@ -32,7 +32,7 @@ class SkillViewSet(SnakeCamelViewSet):
     @action(detail=True, methods=['get'], basename='comments')
     def skill_comments(self, request: Request, *args, **kwargs):
         skill = self.get_object()
-        comments = skill.comments.all()
+        comments = skill.comments.all().order_by('-date_added')
         skill_comments = self.paginate_queryset(comments)
         serializer = SkillCommentSerializer(skill_comments, many=True)
 
@@ -49,7 +49,7 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self):
-        return Comment.objects.all()
+        return Comment.objects.all().order_by('-date_added')
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
