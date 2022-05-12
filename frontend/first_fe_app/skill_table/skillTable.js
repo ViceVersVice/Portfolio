@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, BlankColumn, StyledSkillCardText, 
-        StyledEndOfPage, StyledSkillCardImage, BaseDiv, StyledCloseButton, BaseSpan, BaseIcon} from '../base/styledComponents.js';
+        StyledEndOfPage, StyledSkillCardImage, BaseDiv, BaseSpan, BaseIcon} from '../base/styledComponents.js';
 import {SkillPopup} from './skillPopup.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';
@@ -193,22 +193,13 @@ class SkillTable extends React.Component {
     };
 
     getPopup() {
-        const closePopupButtonProps = {
-            display: 'inline-flex', 
-            alignSelf: 'center', 
-            marginRight: '2%',
-            onClick: this.closePopup, 
-        }
-
-        const closePopupButton = <StyledCloseButton {...closePopupButtonProps}></StyledCloseButton>
-        
         const popupProps = {
             data: this.state.popupData,
             key: this.state.data.length + 1,
-            closeButton: closePopupButton,
+            closePopup: this.closePopup,
         }
 
-        return <SkillPopup {...popupProps}></SkillPopup>
+        return <SkillPopup {...popupProps} />
     }
         
     render () {

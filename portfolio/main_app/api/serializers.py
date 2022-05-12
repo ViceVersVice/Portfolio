@@ -62,16 +62,10 @@ class SkillCommentSerializer(serializers.ModelSerializer):
         fields = ['skill', 'comment_text', 'username', 'date_added', 'profile']
 
 
-class TechForProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Skill
-        fields = ['id', 'name', 'image']
-
-
 class ProjectSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
     start_date = serializers.DateTimeField(format='%d-%m-%Y')
-    technologies = TechForProjectSerializer(many=True)
+    technologies = SkillSerializer(many=True)
 
     class Meta:
         model = Project

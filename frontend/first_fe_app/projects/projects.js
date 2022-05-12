@@ -3,6 +3,7 @@ import { baseUrl, skillProjectsBaseUrl } from '../base/baseUrls.js'
 import { BaseDiv, BaseParagraph, StyledRow, StyledFlexInlineRow, BaseImg } from '../base/styledComponents.js'
 import { EndlessPaginationHoc } from '../skill_table/endlessPagination.js'
 import { SizeTrackerHoc } from '../skill_table/sizeTracker.js'
+import { SkillPopup } from '../skill_table/skillPopup.js'
 
 
 const EndOfProjects = (props) => {
@@ -40,7 +41,11 @@ const ProjectTechnologySnippet = (props) => {
 	const unHighlight = (e) => {
 		setHighlight(false);
 	};
-    
+
+    const onClick = (e) => {
+        props.togglePopup(props.skill)
+    }
+
     const snippetProps = {
         padding: '3%',
         margin: '0 5% 0 0',
@@ -50,6 +55,7 @@ const ProjectTechnologySnippet = (props) => {
         src: props.skill.image,
         onMouseEnter: toHighlight,
         onMouseLeave: unHighlight,
+        onClick: onClick,
     }
 
     if(highlight){
@@ -62,8 +68,16 @@ const ProjectTechnologySnippet = (props) => {
 
 
 const ProjectsList = (props) => {
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupSkillData, setPopupskillData] = useState(null);
+    
     const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 60}px` : '30px'
     const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 70}px` : '25px'
+
+    const togglePopup = (skillData) => {
+        setShowPopup(!showPopup)
+        setPopupskillData(skillData || null)
+    };
 
 	if(props.apiData) {
 		const projects = props.apiData.map((data, n) => {
@@ -72,15 +86,24 @@ const ProjectsList = (props) => {
                     <StyledRow>
                         <ProjectImage src={data.image} trackedSize={props.trackedSize} />
                         <StyledRow flexDirection={'column'} margin={'0 0 0 2%'}>
-                            <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} borderBottom={'2px solid'}>
-                                {data.name}
+                            <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"}>
+                                <b>{data.name}</b>
                             </BaseParagraph>
-                            <BaseParagraph fontSize={textFontSize}>{`Duration: ${data.duration}`}</BaseParagraph>
+                            <BaseParagraph fontSize={textFontSize}>
+                                <b>'Duration: </b>
+                                {data.duration}
+                            </BaseParagraph>
                             <StyledRow>
                                 {
                                     data.technologies.length ? 
                                     data.technologies.map((skill, n) => {
-                                        return <ProjectTechnologySnippet skill={skill} key={n} trackedSize={props.trackedSize} />
+                                        const snippetProps = {
+                                            key: n,
+                                            skill: skill,
+                                            trackedSize: props.trackedSize,
+                                            togglePopup: togglePopup,
+                                        }
+                                        return <ProjectTechnologySnippet {...snippetProps} />
                                     }) : <></>
                                 }
                             </StyledRow>
@@ -93,6 +116,16 @@ const ProjectsList = (props) => {
 			)
 		})
 		
+        if(showPopup){
+            const popupProps = {
+                data: popupSkillData,
+                key: projects.length + 1,
+                closePopup: togglePopup,
+            }
+            projects.push(<SkillPopup {...popupProps} />)
+        }
+
+
 		// EndlessPaginationHoc refs
 		if(props.observedElementRef){
 			const ObservedEndOfProjects = <props.observedElementRef key={-1} ref={props.hocRef}></props.observedElementRef>;

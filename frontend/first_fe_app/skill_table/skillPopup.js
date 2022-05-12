@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
-import {StyledSkillCardText, BaseDiv, appearElement, BaseSpan} from '../base/styledComponents.js';
-import {flexBoxCss, marginCss, borderedCss} from '../base/baseStyles.js';
+import {StyledSkillCardText, BaseDiv, appearElement, BaseSpan, StyledCloseButton} from '../base/styledComponents.js';
 import {SizeTrackerHoc} from './sizeTracker.js';
 
 import {MainCommentForm} from './commentForms.js';
@@ -42,6 +41,18 @@ const EndOfComments = (props) => {
 const EndOfCommentsRef = React.forwardRef((props, ref) => {
 	return <EndOfComments {...props} innerRef={ref}></EndOfComments>
 })
+
+
+const ClosePopupButton = (props) => {
+	const closePopupButtonProps = {
+		display: 'inline-flex', 
+		alignSelf: 'center', 
+		marginRight: '2%',
+		onClick: props.onClick, 
+	}
+
+	return <StyledCloseButton {...closePopupButtonProps} />
+}
 
 
 class SkillPopup extends React.Component {
@@ -122,7 +133,7 @@ class SkillPopup extends React.Component {
 					<BaseDiv>
 						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
 							<BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={'40px'}>{this.props.data.name}</BaseSpan>
-							{this.props.closeButton}
+							<ClosePopupButton onClick={this.props.closePopup} />
 						</BaseDiv>
 						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'} margin={'20px 0px 0px 0px'}>
 							<BaseDiv display={'inline-flex'} flex={4}>
