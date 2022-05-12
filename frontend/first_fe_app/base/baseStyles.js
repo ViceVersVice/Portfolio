@@ -3,6 +3,9 @@ import { css } from 'styled-components';
 
 const backgroundCss = css`
     background-color: ${props => props.backgroundColor};
+    background-image: ${props => props.backgroundImage};
+    background-size: ${props => props.backgroundSize};
+    background-repeat: ${props => props.backgroundRepeat};
     background: ${props => props.background};
 `
 

@@ -72,4 +72,4 @@ class ProjectListView(SnakeCamelListView):
     pagination_class = StartCountPagination
 
     def get_queryset(self):
-        return Project.objects.all()
+        return Project.objects.all().order_by('start_date')

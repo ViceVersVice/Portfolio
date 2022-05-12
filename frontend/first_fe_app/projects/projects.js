@@ -15,6 +15,21 @@ const EndOfProjectsRef = React.forwardRef((props, ref) => {
 })
 
 
+const ProjectImage = (props) => {
+    const imageProps ={
+        backgroundImage: `url(${props.src})`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        objectFit: 'fill',
+        minWidth: `${props.trackedSize / 8}px`,
+        maxWidth: `${props.trackedSize / 4}px`,
+        maxHeight: '100%',
+    }
+
+    return <BaseDiv {...imageProps} />
+}
+
+
 const ProjectTechnologySnippet = (props) => {
     const [highlight, setHighlight] = useState(false);
 	
@@ -27,11 +42,10 @@ const ProjectTechnologySnippet = (props) => {
 	};
     
     const snippetProps = {
-        padding: '15%',
-        margin: '0 10% 0 0',
+        padding: '3%',
+        margin: '0 5% 0 0',
         background: 'linear-gradient(0deg, #dee3de, white)',
         borderRadius: '15px',
-        border: '0.1px solid #d2ebab',
         width: `${props.trackedSize / 40}px`,
         src: props.skill.image,
         onMouseEnter: toHighlight,
@@ -54,25 +68,24 @@ const ProjectsList = (props) => {
 	if(props.apiData) {
 		const projects = props.apiData.map((data, n) => {
 			return(
-                <StyledRow key={n} flexDirection={'column'} padding={'0 0 0 2%'} boxShadow={'0px 20px 2px -20px black'}>
+                <StyledRow key={n} flexDirection={'column'} marginTop={'1%'} padding={'0 0 0 2%'} boxShadow={'0px 20px 2px -20px black'}>
                     <StyledRow>
-                        <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} borderBottom={'2px solid'}>
-                            {data.name}
-                        </BaseParagraph>
-                    </StyledRow>
-                    <StyledRow>
-                        <BaseParagraph fontSize={textFontSize}>{`Duration: ${data.duration}`}</BaseParagraph>
-                    </StyledRow>
-                    <StyledFlexInlineRow>
-                        <StyledRow>
-                            {
-                                data.technologies.length ? 
-                                data.technologies.map((skill, n) => {
-                                    return <ProjectTechnologySnippet skill={skill} key={n} trackedSize={props.trackedSize} />
-                                }) : <></>
-                            }
+                        <ProjectImage src={data.image} trackedSize={props.trackedSize} />
+                        <StyledRow flexDirection={'column'} margin={'0 0 0 2%'}>
+                            <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} borderBottom={'2px solid'}>
+                                {data.name}
+                            </BaseParagraph>
+                            <BaseParagraph fontSize={textFontSize}>{`Duration: ${data.duration}`}</BaseParagraph>
+                            <StyledRow>
+                                {
+                                    data.technologies.length ? 
+                                    data.technologies.map((skill, n) => {
+                                        return <ProjectTechnologySnippet skill={skill} key={n} trackedSize={props.trackedSize} />
+                                    }) : <></>
+                                }
+                            </StyledRow>
                         </StyledRow>
-                    </StyledFlexInlineRow>
+                    </StyledRow>
                     <StyledRow>
                         <BaseParagraph fontSize={textFontSize}>{data.text}</BaseParagraph>
                     </StyledRow>
@@ -102,7 +115,7 @@ const EndlessProjectsList = EndlessPaginationHoc(
 
 const ProjectsTable = (props) => {
     return (
-        <StyledRow justifyContent={'center'} flexDirection={'column'} ref={props.trackSizeRef}>
+        <StyledRow justifyContent={'space-around'} flexDirection={'column'} ref={props.trackSizeRef}>
             <EndlessProjectsList trackedSize={props.trackedSize} />
         </StyledRow>
     )

@@ -70,11 +70,12 @@ class TechForProjectSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
+    start_date = serializers.DateTimeField(format='%d-%m-%Y')
     technologies = TechForProjectSerializer(many=True)
 
     class Meta:
         model = Project
-        fields = ['name', 'text', 'duration', 'image', 'technologies']
+        fields = ['name', 'text', 'duration', 'start_date', 'image', 'technologies']
 
     def get_duration(self, obj: Project):
         if (days := getattr(obj.duration, 'days', 0)) and days >= 30:

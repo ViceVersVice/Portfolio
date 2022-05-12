@@ -34,7 +34,6 @@ const SKillLevelBadge = (props) => {
         padding: '2%',
         borderRadius: '15px',
         background: `linear-gradient(0deg, ${props.levelColor}, white)`,
-        border: '0.1px solid #d2ebab'
     }
 
     return <BaseSpan {...badgeProps}>{props.skillLevel}</BaseSpan>
