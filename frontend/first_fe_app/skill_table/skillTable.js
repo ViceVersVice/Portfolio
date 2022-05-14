@@ -382,7 +382,7 @@ const SkillTablePage = (props) => {
         EndOfPageRef,
         itemsPerPage,
         {
-            GET_queryParams : {param1: 1, param2: 2},
+            GET_queryParams : appliedLevelFilters ? {levelFilters: [appliedLevelFilters]} : null,
         }
     )
 

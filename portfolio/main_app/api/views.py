@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -18,7 +19,11 @@ class SkillViewSet(SnakeCamelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return Skill.objects.all()
+        filter_query = Q()
+        if level_filters := self.request.query_params.get('levelFilters'):
+            filter_query |= Q(level__in=level_filters.split(','))
+
+        return Skill.objects.filter(filter_query)
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, args, kwargs)
