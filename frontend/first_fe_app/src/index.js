@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SkillTableWithTableFormat } from '../skill_table/skillTable.js';
+import { SkillTablePage } from '../skill_table/skillTable.js';
 import { Navbar } from '../navbar/navbar.js';
 import { AboutMePage } from '../about_me/about_me.js';
 import { BaseDiv } from '../base/styledComponents.js';
 import { LoginStatusContext } from '../login/loginContext.js';
 import { getCurrentUserData } from '../login/currentUserData.js';
-import { TrackedSizeProjectsTable } from '../projects/projects.js';
+import { ProjectsTablePage } from '../projects/projects.js';
 
 
 const App = () => {
@@ -35,8 +35,8 @@ const App = () => {
                 <Routes>
                     <Route path="/main-page/" element={<AboutMePage />}/>
                     <Route path="/main-page/about-me/" element={<AboutMePage />}/>
-                    <Route path="/main-page/tech/" element={<SkillTableWithTableFormat />}/>
-                    <Route path="/main-page/projects/" element={<TrackedSizeProjectsTable />}/>
+                    <Route path="/main-page/tech/" element={<SkillTablePage />}/>
+                    <Route path="/main-page/projects/" element={<ProjectsTablePage />}/>
                 </Routes>
             </BaseDiv>
         </LoginStatusContext.Provider>

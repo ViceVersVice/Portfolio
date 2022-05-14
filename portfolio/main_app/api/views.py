@@ -7,8 +7,8 @@ from rest_framework.request import Request
 from accounts.models import UserProfile
 from base.views import SnakeCamelViewSet, SnakeCamelListView
 from .pagination import StartCountPagination
-from .serializers import SkillSerializer, SkillCommentSerializer, ProjectSerializer
-from main_app.models import Skill, Comment, Project
+from .serializers import SkillSerializer, SkillCommentSerializer, ProjectSerializer, LEVEL_TO_COLOR_MAP
+from main_app.models import Skill, Comment, Project, SKILL_LEVEL_CHOICES
 
 
 class SkillViewSet(SnakeCamelViewSet):
@@ -37,6 +37,17 @@ class SkillViewSet(SnakeCamelViewSet):
         serializer = SkillCommentSerializer(skill_comments, many=True)
 
         return self.paginator.get_paginated_response(serializer.data)
+
+    @action(detail=False, methods=['get'], basename='level-filters')
+    def level_filters(self, request: Request, *args, **kwargs):
+        return Response(
+            {
+                'levelFilters': {
+                    level: {'name': name, 'color': LEVEL_TO_COLOR_MAP.get(level)}
+                    for level, name in SKILL_LEVEL_CHOICES
+                }
+            }
+        )
 
 
 class SkillCommentsViewSet(SnakeCamelViewSet):

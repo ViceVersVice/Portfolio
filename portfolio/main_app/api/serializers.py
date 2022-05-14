@@ -5,6 +5,15 @@ from rest_framework import serializers
 from main_app.models import Skill, Comment, SkillCharacteristic, Project, ENTRY, MIDDLE, CONFIDENT, FLUENT, PRO
 
 
+LEVEL_TO_COLOR_MAP = {
+    ENTRY: '#f28b46',
+    MIDDLE: '#edda5a',
+    CONFIDENT: '#dde85f',
+    FLUENT: '#a5ed45',
+    PRO: '#166cdb',
+}
+
+
 class SkillCharacteristicSerializer(serializers.ModelSerializer):
     class Meta:
         model = SkillCharacteristic
@@ -17,23 +26,17 @@ class SkillSerializer(serializers.ModelSerializer):
     level = serializers.CharField(source='get_level_display')
     level_color = serializers.SerializerMethodField()
 
-    def get_comments_count(self, obj):
+    def get_comments_count(self, obj: Skill) -> int:
         return obj.comments.count()
 
-    def get_level_color(self, obj):
-        level_to_color_map = {
-            ENTRY: '#f28b46',
-            MIDDLE: '#edda5a',
-            CONFIDENT: '#dde85f',
-            FLUENT: '#a5ed45',
-            PRO: '#8fe5f2',
-        }
-
-        return level_to_color_map.get(obj.level)
+    def get_level_color(self, obj: Skill) -> str:
+        return LEVEL_TO_COLOR_MAP.get(obj.level)
 
     class Meta:
         model = Skill
-        fields = ['id', 'name', 'description', 'image', 'comments_count', 'characteristics', 'level', 'level_color']
+        fields = [
+            'id', 'name', 'description', 'image', 'comments_count', 'characteristics', 'level', 'level_color',
+        ]
 
 
 class SkillCommentSerializer(serializers.ModelSerializer):

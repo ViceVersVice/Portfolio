@@ -52,6 +52,7 @@ const LoggedInStatus = (props) => {
 	const imageProps = {
 		padding: '15px',
 		borderRadius: '50%',
+		cursor: 'pointer',
 		src: `${staticFolderUrl}icons/profile.png`,
 	}
 

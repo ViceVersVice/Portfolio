@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 
 
-function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, itemsPerPage_) {
+function EndlessPaginationHoc(
+    WrappedComponent,
+    fetchUrl,
+    observedElementRef_,
+    itemsPerPage_,
+    extraParams,
+) {
     const observedElementRef = observedElementRef_ || EndOfPageRef
-    const itemsPerPage = itemsPerPage_ || 4; 
-    
+    const itemsPerPage = itemsPerPage_ || 4;
+    const GET_queryParams = extraParams ? extraParams.GET_queryParams : null
+    const extraResponseDataKeys = extraParams ? extraParams.extraResponseDataKeys: null
+
     return class extends React.Component {
         constructor(props) {
             super(props);
@@ -18,6 +26,7 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
                     ...props,
                     observedElementRef: observedElementRef,
                     apiData: this.state.data,
+                    extraResponseData: this.state.extraResponseData,
                     dataIsLoading: this.state.dataIsLoading
                 };
                 return <WrappedComponent hocRef={ref} {...WrappedProps}></WrappedComponent>
@@ -25,6 +34,7 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
             
             this.state = {
                 data: [],
+                extraResponseData: {},
                 dataCountStart: 0,
                 dataIsLoading: false,
                 totalItems: -1,
@@ -36,7 +46,15 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
             // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
             this.setState({...this.state, dataIsLoading: true });
             const start = getNextPage ? this.state.dataCountStart + itemsPerPage: this.state.dataCountStart;
-            fetch(`${fetchUrl}/?start=${start}&count=${itemsPerPage}`)
+            
+            let fetchUrlWithParams = `${fetchUrl}/?start=${start}&count=${itemsPerPage}`
+            if(GET_queryParams){
+                for (const [key, val] of Object.entries(GET_queryParams)) {
+                    fetchUrlWithParams += `&${key}=${val}`
+                }
+            }
+
+            fetch(fetchUrlWithParams)
                 .then(response => response.json())
                 .then(data => {
                     const updState = {
@@ -48,6 +66,16 @@ function EndlessPaginationHoc(WrappedComponent, fetchUrl, observedElementRef_, i
                     if(!getNextPage){
                         updState.totalItems = data.totalItems || -1;
                     };
+                    
+                    if(extraResponseDataKeys){
+                        const extraResponseData = {}
+                        for(const key of extraResponseDataKeys){
+                            extraResponseData[key] = data[key]
+                        }
+                        
+                        updState.extraResponseData = extraResponseData
+                    }
+
                     this.setState(updState)
                 });
         };

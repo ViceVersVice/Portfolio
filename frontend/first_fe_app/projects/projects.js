@@ -47,11 +47,13 @@ const ProjectTechnologySnippet = (props) => {
     }
 
     const snippetProps = {
-        padding: '3%',
+        padding: '5%',
         margin: '0 5% 0 0',
         background: 'linear-gradient(0deg, #dee3de, white)',
         borderRadius: '15px',
         width: `${props.trackedSize / 40}px`,
+        cursor: 'pointer',
+        title: props.skill.name,
         src: props.skill.image,
         onMouseEnter: toHighlight,
         onMouseLeave: unHighlight,
@@ -60,7 +62,6 @@ const ProjectTechnologySnippet = (props) => {
 
     if(highlight){
         snippetProps.background = 'linear-gradient(0deg, #eff797, white)'
-        snippetProps.cursor = 'pointer'
     }
 
     return <BaseImg {...snippetProps} />
@@ -71,7 +72,7 @@ const ProjectsList = (props) => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupSkillData, setPopupskillData] = useState(null);
     
-    const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 60}px` : '30px'
+    const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 45}px` : '30px'
     const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 70}px` : '25px'
 
     const togglePopup = (skillData) => {
@@ -86,11 +87,11 @@ const ProjectsList = (props) => {
                     <StyledRow>
                         <ProjectImage src={data.image} trackedSize={props.trackedSize} />
                         <StyledRow flexDirection={'column'} margin={'0 0 0 2%'}>
-                            <BaseParagraph margin={'1em 0 0 0'} fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"}>
+                            <BaseParagraph fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} margin={'0'}>
                                 <b>{data.name}</b>
                             </BaseParagraph>
                             <BaseParagraph fontSize={textFontSize}>
-                                <b>'Duration: </b>
+                                <b>Duration: </b>
                                 {data.duration}
                             </BaseParagraph>
                             <StyledRow>
@@ -158,4 +159,4 @@ const ProjectsTable = (props) => {
 const TrackedSizeProjectsTable = SizeTrackerHoc(ProjectsTable)
 
 
-export {TrackedSizeProjectsTable};
+export {TrackedSizeProjectsTable as ProjectsTablePage};

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import {StyledRow, StyledFlexCardInlineRow, StyledFlexInlineRow, BlankColumn, StyledSkillCardText, 
@@ -8,6 +8,7 @@ import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js';
 import {SizeTrackerHoc} from './sizeTracker.js';
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js';
+import {LightenDarkenColor} from '../base/utils.js';
 
 
 class EndOfPage extends React.Component {
@@ -26,12 +27,22 @@ const EndOfPageRef = React.forwardRef((props, ref) => {
     return <EndOfPage {...props} innerRef={ref}></EndOfPage>
 })
 
+const getSkillLevelFilters = (updStateCallback) => {
+	fetch(`${baseUrl}/${skillApiBaseNameUrl}/level_filters/`)
+		.then(response => response.json())
+		.then(data => {
+			updStateCallback(data.levelfilters)
+		})
+}
+
 
 const SKillLevelBadge = (props) => {
     const badgeProps = {
         fontFamily: "'Coda Caption', sans-serif",
+        color: '#494949',
         fontSize: props.trackedSize > 0 ? `${props.trackedSize / 20}px` : '20px',
         padding: '2%',
+        border: '1px solid #bdb4b4',
         borderRadius: '15px',
         background: `linear-gradient(0deg, ${props.levelColor}, white)`,
     }
@@ -151,19 +162,17 @@ class SkillTable extends React.Component {
             data: props.apiData,
             dataIsLoading: props.dataIsLoading,
             // Own state
-            showPopup: false, 
+            showPopup: false,
             popupData: {},
             skillDescriptionWidth: 0,
-        };
+        }
         // Regulates how many cards are in one row
-        this.maxElementsInRow = props.tableFormat || 2;
-        this.togglePopup = this.togglePopup.bind(this);
-        this.closePopup = this.closePopup.bind(this);
-    };
+        this.maxElementsInRow = props.tableFormat || 2
+        this.togglePopup = this.togglePopup.bind(this)
+        this.closePopup = this.closePopup.bind(this)  
+    }
 
-    
-
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {        
         if (this.props !== prevProps) {
             this.setState({
                data: this.props.apiData,
@@ -292,7 +301,7 @@ const TableFormatButtonContainer = (props) => {
         height: '40px',
         flexDirection: 'column',
         justifyContent: 'center',
-        margin: '1%',
+        margin: '0 10px 0 0',
         cursor: 'pointer',
         borderRadius: '5px',
         border: 'solid 0.5px',
@@ -304,11 +313,78 @@ const TableFormatButtonContainer = (props) => {
 }
 
 
-const SkillTableWithTableFormat = (props) => {
-    const [TableFormat, setTableFormat] = useState(3);
-    const [itemsPerPage, setItemsPerPage] = useState(TableFormat * 2)
+const SkillLevelFilterBadge = (props) => {
+    const [highlight, setHighlight] = useState(false)
 
-    const EndlessTable = EndlessPaginationHoc(SkillTable, `${baseUrl}/${skillApiBaseNameUrl}`, EndOfPageRef, itemsPerPage)
+    const isFilterApplied = () => {
+        return props.appliedLevelFilters.includes(props.filterValue)
+    }
+
+    const toggleHighlight = (e) => {
+        if(!isFilterApplied()){
+            setHighlight(!highlight)
+        }
+    }
+
+    const toggleLevelFilter = (e) => {
+        setHighlight(true)
+        
+        if(isFilterApplied()){
+            props.setAppliedLevelFilters(props.appliedLevelFilters.filter(item => item !== props.filterValue))
+        } else {
+            props.setAppliedLevelFilters([...props.appliedLevelFilters, props.filterValue])
+        }
+    }
+
+    const badgeProps = {
+        margin: '0 10px 0 0',
+        padding: '10px',
+        background: 'linear-gradient(0deg, #dadada, white)',
+        border: '1px solid #bdb4b4',
+        borderRadius: '15px',
+        width: 'fit-content',
+        onMouseEnter: toggleHighlight,
+        onMouseLeave: toggleHighlight,
+        onClick: toggleLevelFilter,
+    }
+
+    if(highlight){
+        badgeProps.background = `linear-gradient(0deg, ${props.levelColor}, white)`
+        badgeProps.cursor = 'pointer'
+    }
+
+    return(
+        <BaseDiv {...badgeProps}>
+            <BaseSpan color={'#494949'} fontFamily={"'Coda Caption', sans-serif"}>{props.name}</BaseSpan>
+        </BaseDiv>
+    )
+}
+
+
+const SkillTablePage = (props) => {
+    const [TableFormat, setTableFormat] = useState(3)
+    const [itemsPerPage, setItemsPerPage] = useState(TableFormat * 2)
+    const [availableLevelFilters, setAvailableLevelFilters] = useState(null)
+    const [appliedLevelFilters, setAppliedLevelFilters] = useState([])
+
+    useEffect(
+        () => {
+            // Set availble level filters
+            if(!availableLevelFilters){
+                getSkillLevelFilters(setAvailableLevelFilters)
+            }
+        }
+    )
+    
+    const EndlessTable = EndlessPaginationHoc(
+        SkillTable,
+        `${baseUrl}/${skillApiBaseNameUrl}`,
+        EndOfPageRef,
+        itemsPerPage,
+        {
+            GET_queryParams : {param1: 1, param2: 2},
+        }
+    )
 
     const changeTableFormat = (newTableformat) => {
         if(newTableformat != TableFormat){ 
@@ -317,18 +393,35 @@ const SkillTableWithTableFormat = (props) => {
         }
     };
 
+
     return (
         <>
-            <StyledRow>
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={2} backgroundColor={TableFormat == 2 ? '#acc2e4' : 'white'}></TableFormatButtonContainer> 
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={3} backgroundColor={TableFormat == 3 ? '#acc2e4' : 'white'}></TableFormatButtonContainer> 
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={4} backgroundColor={TableFormat == 4 ? '#acc2e4' : 'white'}></TableFormatButtonContainer> 
+            <StyledRow padding={'10px'}>
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={2} backgroundColor={TableFormat == 2 ? '#acc2e4' : 'white'}></TableFormatButtonContainer>
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={3} backgroundColor={TableFormat == 3 ? '#acc2e4' : 'white'}></TableFormatButtonContainer>
+                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={4} backgroundColor={TableFormat == 4 ? '#acc2e4' : 'white'}></TableFormatButtonContainer>
+                {availableLevelFilters? 
+                    Object.entries(availableLevelFilters).map(
+                        (levelFilter, n) => {
+                            const _props = {
+                                key: n,
+                                filterValue: levelFilter[0],
+                                name: levelFilter[1].name,
+                                levelColor: levelFilter[1].color,
+                                appliedLevelFilters: appliedLevelFilters,
+                                setAppliedLevelFilters: setAppliedLevelFilters,
+                            }
+
+                            return <SkillLevelFilterBadge {..._props} />
+                        }
+                    ) : null
+                }
             </StyledRow>
-            <EndlessTable tableFormat={TableFormat}></EndlessTable>
+            <EndlessTable tableFormat={TableFormat} />
         </>
     );
 };
 
 
 
-export { SkillTableWithTableFormat };
+export { SkillTablePage };

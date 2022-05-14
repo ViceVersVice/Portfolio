@@ -11,14 +11,17 @@ def snake_case_to_camel_case(raw_data: Union[dict, list]):
         else:
             formatted_data = {}
             for key, val in item.items():
-                split_snake_case = deque(key.split('_'))
-                if len(split_snake_case) > 1:
-                    formatted_words = [split_snake_case.popleft().lower()]
-                    camel_case_words = [word.capitalize() for word in split_snake_case]
-                    formatted_words.extend(camel_case_words)
-                    formatted_key = ''.join(formatted_words)
+                if isinstance(key, str):
+                    split_snake_case = deque(key.split('_'))
+                    if len(split_snake_case) > 1:
+                        formatted_words = [split_snake_case.popleft().lower()]
+                        camel_case_words = [word.capitalize() for word in split_snake_case]
+                        formatted_words.extend(camel_case_words)
+                        formatted_key = ''.join(formatted_words)
+                    else:
+                        formatted_key = key.lower()
                 else:
-                    formatted_key = key.lower()
+                    formatted_key = key
 
                 if isinstance(val, dict):
                     formatted_data[formatted_key] = format_data(val)
