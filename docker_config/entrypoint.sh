@@ -1,5 +1,6 @@
 #!/bin/sh
 
+venv/bin/python3 portfolio/manage.py collectstatic --no-input --clear
 
 if [ "$DATABASE" = "postgres" ]
 then

@@ -42,8 +42,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 COPY docker_config /usr/src/app/docker_config
+COPY gunicorn.conf.py /usr/src/app/
 COPY portfolio /usr/src/app/portfolio
 COPY --from=base /usr/src/app/venv /usr/src/app/venv
 COPY --from=base /usr/src/app/frontend/first_fe_app/dist/main.js /usr/src/app/portfolio/main_app/static/js
 
-ENTRYPOINT ["/usr/src/app/docker_config/db_entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/docker_config/entrypoint.sh"]

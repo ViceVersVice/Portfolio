@@ -3,6 +3,7 @@
 **/env.dev
 .venv
 .env
+env.prod
 
 **/static/js
 **/media

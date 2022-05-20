@@ -30,7 +30,6 @@ try:
 except:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.106']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -87,11 +86,11 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('SQL_DB_NAME', 'portfolio'),
-        'USER': os.environ.get('SQL_USER', 'botadd'),
-        'PASSWORD': os.environ.get('SQL_PASSWORD', 'botadd'),
-        'HOST': os.environ.get('SQL_HOST', ''),
-        'PORT': os.environ.get('SQL_PORT', '5432')
+        'NAME': os.environ.get('SQL_DB_NAME'),
+        'USER': os.environ.get('SQL_USER'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD'),
+        'HOST': os.environ.get('SQL_HOST'),
+        'PORT': os.environ.get('SQL_PORT')
     }
 }
 
@@ -141,6 +140,7 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # CSRF
 CSRF_COOKIE_SAMESITE = 'Strict'

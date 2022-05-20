@@ -7,7 +7,7 @@ const AboutMePage = (props) => {
 		width: '100%',
 		height: '100%',
 		borderRadius: '50%',
-		src: 'http://127.0.0.1:8000/static/photos/hujoto.jpg'
+		src: '/static/photos/hujoto.jpg'
 	}
 
     return (
