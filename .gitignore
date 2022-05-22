@@ -1,14 +1,14 @@
 **/.idea
 **/*.pyc
-**/env.dev
 .venv
-.env
-env.prod
 
 **/static/js
 **/media
 
-portfolio/db_password.txt
+portfolio_secrets
+postgres_password
+postgres_user
+
 local_settings.py
 
 # FE

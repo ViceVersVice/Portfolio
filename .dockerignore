@@ -4,6 +4,11 @@
 .idea
 .gitignore
 *.pyc
+
+portfolio_secrets
+postgres_password
+postgres_user
+
 postgres_data/
 
 shell_scripts

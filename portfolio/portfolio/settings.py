@@ -12,6 +12,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from social_core.pipeline import DEFAULT_AUTH_PIPELINE
+
+
+def get_secret(secret_key):
+    with open(os.environ.get('SECRETS_FILE')) as f:
+        for line in f.readlines():
+            key, val = line.split('=')
+            if key == secret_key:
+                return val.strip()
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -86,11 +97,11 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('SQL_DB_NAME'),
-        'USER': os.environ.get('SQL_USER'),
-        'PASSWORD': os.environ.get('SQL_PASSWORD'),
-        'HOST': os.environ.get('SQL_HOST'),
-        'PORT': os.environ.get('SQL_PORT')
+        'NAME': get_secret('POSTGRES_DB'),
+        'USER': get_secret('POSTGRES_USER'),
+        'PASSWORD': get_secret('POSTGRES_PASSWORD'),
+        'HOST': get_secret('SQL_HOST'),
+        'PORT': 5432,
     }
 }
 
@@ -145,6 +156,26 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # CSRF
 CSRF_COOKIE_SAMESITE = 'Strict'
 SESSION_COOKIE_SAMESITE = 'Strict'
+
+
+# Social
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+]
+
+SOCIAL_AUTH_PIPELINE = DEFAULT_AUTH_PIPELINE + (
+    'accounts.social_auth.pipelines.create_user_profile',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = get_secret('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = get_secret('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email, picture'
+}
+
 
 try:
     from .local_settings import *
