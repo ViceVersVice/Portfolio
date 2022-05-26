@@ -8,6 +8,7 @@ import { BaseDiv } from '../base/styledComponents.js';
 import { LoginStatusContext } from '../login/loginContext.js';
 import { getCurrentUserData } from '../login/currentUserData.js';
 import { ProjectsTablePage } from '../projects/projects.js';
+import { PrivacyPolicy } from '../privacy_policy/privacyPolicy.js';
 
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
                     <Route path="/main-page/about-me/" element={<AboutMePage />}/>
                     <Route path="/main-page/tech/" element={<SkillTablePage />}/>
                     <Route path="/main-page/projects/" element={<ProjectsTablePage />}/>
+                    <Route path="/main-page/privacy-policy/" element={<PrivacyPolicy />}/>
                 </Routes>
             </BaseDiv>
         </LoginStatusContext.Provider>

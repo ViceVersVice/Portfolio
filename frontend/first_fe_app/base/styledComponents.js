@@ -181,11 +181,11 @@ const StyledButton = styled(BaseDiv)`
     display: inline-flex;
     cursor: pointer;
     width: ${props => props.width};
-    justify-content: flex-end;
+    justify-content: ${props => props.justifyContent || 'flex-end'};
     white-space: nowrap;
     background-repeat: no-repeat;
     background-size: ${props => props.backgroundSize || '25px'};
-    background-position: 10%;
+    background-position: ${props => props.backgroundPosition || '10%'};
     background-image: url('${props => props.buttonImage}');
 `
 

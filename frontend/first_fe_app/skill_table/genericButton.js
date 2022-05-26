@@ -27,10 +27,10 @@ class CustomButton extends React.Component {
         const backgrounImageSize = this.props.trackedSize ? `${this.props.trackedSize / backgroundSizeCoefficient}px`: '25px';
 
         const buttonProps = {
-            borderRadius: '20px',
             width: '35%',
             backgroundSize: backgrounImageSize,
             backgroundColor: 'white',
+            padding: '15px 10px 15px 0',
             onMouseEnter: this.highlightButton,
             onMouseLeave: this.unhighlightButton,
             ...this.props
@@ -41,7 +41,7 @@ class CustomButton extends React.Component {
         
         return (
             <StyledButton ref={this.props.trackSizeRef} {...buttonProps}>
-                <BaseSpan fontSize={buttontTextSize} fontFamily={"'Lato', sans-serif"} margin={'5% 10% 5% 0%'}>{this.props.children}</BaseSpan>
+                <BaseSpan fontSize={buttontTextSize} fontFamily={"'Lato', sans-serif"}>{this.props.children}</BaseSpan>
             </StyledButton>
         );
     };

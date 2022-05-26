@@ -119,7 +119,7 @@ const Navbar = (props) => {
 				<LoggedInStatus {...loginCtx} /> :
 				<NavbarButton isClicked={showPopup} onClick={showLoginPopup} text={'Sign in'} />
 			}
-			{showPopup ? <LoginPopup closePopupButton={closeLoginPopupButton}></LoginPopup>: null}
+			{showPopup ? <LoginPopup closePopupButton={closeLoginPopupButton} closeLoginPopup={closeLoginPopup}></LoginPopup>: null}
  		</StyledRow>
  	)
 }
