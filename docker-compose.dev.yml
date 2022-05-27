@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./docker_config/Dockerfile
-#    command: bash -c "venv/bin/python3 portfolio/manage.py runserver 0.0.0.0:8000"
     command: bash -c "venv/bin/gunicorn --chdir /usr/src/app/portfolio portfolio.wsgi:application -c /usr/src/app/gunicorn.conf.py"
     volumes:
       - static_volume:/usr/src/app/portfolio/static/

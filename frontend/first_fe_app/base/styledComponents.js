@@ -47,6 +47,7 @@ const BaseSpan = styled.span`
     ${marginCss};
     ${paddingCss};
     ${backgroundCss};
+    line-height: ${props => props.lineHeight};
 `
 
 const BaseIcon = styled.i`

@@ -15,12 +15,17 @@ import os
 from social_core.pipeline import DEFAULT_AUTH_PIPELINE
 
 
-def get_secret(secret_key):
-    with open(os.environ.get('SECRETS_FILE')) as f:
-        for line in f.readlines():
-            key, val = line.split('=')
-            if key == secret_key:
-                return val.strip()
+def get_secret(secret_key, default=''):
+    secrets_file = os.environ.get('SECRETS_FILE')
+
+    if secrets_file:
+        with open(secrets_file) as f:
+            for line in f.readlines():
+                key, val = line.split('=')
+                if key == secret_key:
+                    return val.strip()
+
+    return default
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,7 +36,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '123456')
+SECRET_KEY = get_secret('SECRET_KEY', '123456')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=1))
@@ -138,14 +143,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Media & Static
-print('DEBUG??', bool(DEBUG))
-if DEBUG:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-else:
-    MEDIA_ROOT = os.environ.get('PROD_MEDIA_ROOT', '')
-
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
@@ -153,6 +150,10 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
+# Media & Static
+if not DEBUG:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # CSRF
 CSRF_COOKIE_SAMESITE = 'Strict'

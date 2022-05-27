@@ -41,6 +41,7 @@ const LoginPopup = (props) => {
         textSizeCoefficient: 25,
         backgroundSizeCoefficient: 10,
         width: '80%',
+        backgroundColor: '#e4ebf0',
         margin: '20px 0px 0px 0px',
         boxShadow: '10px 5px 5px #b3b1b1',
         padding: '25px 20px 25px 0',
