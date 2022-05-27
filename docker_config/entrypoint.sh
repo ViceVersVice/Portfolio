@@ -1,9 +1,6 @@
 #!/bin/sh
 
-if [ "$DEBUG" = 0 ]
-then
-  venv/bin/python3 portfolio/manage.py collectstatic --no-input --clear
-fi
+venv/bin/python3 portfolio/manage.py collectstatic --no-input --clear
 
 if [ "$DATABASE" = "postgres" ]
 then
