@@ -1,8 +1,5 @@
 #!/bin/bash
 
-script_path=$(realpath "$0")
-root_dir=$(dirname "$script_path")
-
 
 # Install docker, docker-compose if not installed
 if ! command -v docker &> /dev/null
@@ -27,39 +24,4 @@ then
 fi
 
 
-# Get repo
-mkdir -p stage
-git clone git@github.com:ViceVersVice/Portfolio.git stage/
-
-# Copy secrets
-cp portfolio_secrets stage/
-cp postgres_password stage/
-cp postgres_user stage/
-
-# Run tests
-run_test() {
-  cd stage/portfolio && pytest
-}
-
-
-if run_test; then
-  echo "TESTS OK"
-  cd "$root_dir"
-
-  if [ -d "build" ]; then
-    cd build && docker-compose down
-    cd "$root_dir"
-    yes | rm -R build
-    echo "DELETD BUILD DIR"
-  fi
-
-  mkdir -p build
-  cp -R stage/* build
-  cd build && docker-compose -f docker-compose.prod.yml up --build
-else
-  echo "TESTS FAILED"
-fi
-
-
-# cleanup
-cd "$root_dir" && yes | rm -R stage
+docker-compose -f docker-compose.prod.yml up --build -d
