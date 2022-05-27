@@ -6,6 +6,7 @@ const backgroundCss = css`
     background-image: ${props => props.backgroundImage};
     background-size: ${props => props.backgroundSize};
     background-repeat: ${props => props.backgroundRepeat};
+    background-origin: ${props => props.backgroundOrigin};
     background: ${props => props.background};
 `
 
@@ -79,4 +80,9 @@ const cursorCss = css`
 `
 
 
-export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss, cursorCss, fitCss};
+const floatCss = css`
+    float: ${props => props.float}
+`
+
+
+export {backgroundCss, borderedCss, marginCss, flexBoxCss, sizeCss, fontStyleCss, paddingCss, cursorCss, fitCss, floatCss};

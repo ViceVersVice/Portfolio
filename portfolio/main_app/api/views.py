@@ -68,8 +68,11 @@ class SkillCommentsViewSet(SnakeCamelViewSet):
         return Comment.objects.all().order_by('-date_added')
 
     def create(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response({'errors': ['Sign in to leave a comment']})
+
         data = request.data.copy()
-        data.update({'profile': UserProfile.objects.get(user=request.user).pk})
+        data.update({'profile': UserProfile.objects.get(user=request.user.id).id})
 
         serializer = SkillCommentSerializer(data=data)
         if serializer.is_valid():

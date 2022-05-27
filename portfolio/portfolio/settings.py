@@ -39,7 +39,7 @@ DEBUG = int(os.environ.get("DEBUG", default=1))
 try:
     ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 except:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.106']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -138,9 +138,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Media
+# Media & Static
+print('DEBUG??', bool(DEBUG))
 if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 else:
     MEDIA_ROOT = os.environ.get('PROD_MEDIA_ROOT', '')
 
@@ -151,7 +153,6 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # CSRF
 CSRF_COOKIE_SAMESITE = 'Strict'
@@ -175,6 +176,35 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'locale': 'ru_RU',
   'fields': 'id, name, email, picture'
 }
+
+
+# Logging
+if not DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+                'style': '{',
+            },
+        },
+        'handlers': {
+            'file': {
+                'level': 'INFO',
+                'class': 'logging.FileHandler',
+                'filename': os.environ.get('LOGS_PATH'),
+                'formatter': 'verbose',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+        },
+    }
 
 
 try:

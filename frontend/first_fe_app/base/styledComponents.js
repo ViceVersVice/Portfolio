@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss, fitCss} from './baseStyles.js';
+import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss, fitCss, floatCss} from './baseStyles.js';
 import {staticFolderUrl} from './baseUrls.js';
 import { Link } from "react-router-dom";
 
@@ -37,6 +37,7 @@ const BaseDiv = styled.div`
     ${sizeCss};
     ${fontStyleCss};
     ${cursorCss};
+    ${floatCss};
 `
 
 
