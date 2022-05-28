@@ -10,6 +10,7 @@ services:
     command: bash -c "venv/bin/gunicorn --chdir /usr/src/app/portfolio portfolio.wsgi:application -c /usr/src/app/gunicorn.conf.py"
     volumes:
       - static_volume:/usr/src/app/portfolio/static/
+      - media_volume:/usr/src/app/portfolio/media/
     environment:
       SECRETS_FILE: /run/secrets/portfolio_secrets
     secrets:
@@ -42,10 +43,12 @@ services:
       - 80:80
     volumes:
       - static_volume:/static/
+      - media_volume:/media/
     depends_on:
       - web
 volumes:
   static_volume:
+  media_volume:
   postgres_data:
 secrets:
   portfolio_secrets:
