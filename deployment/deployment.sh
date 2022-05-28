@@ -24,4 +24,4 @@ then
 fi
 
 
-docker-compose -f docker-compose.prod.yml up --build -d
+cd .. && docker-compose -f docker-compose.prod.yml up --build -d
