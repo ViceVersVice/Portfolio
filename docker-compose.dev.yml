@@ -9,6 +9,11 @@ services:
     command: bash -c "venv/bin/gunicorn --chdir /usr/src/app/portfolio portfolio.wsgi:application -c /usr/src/app/gunicorn.conf.py"
     volumes:
       - static_volume:/usr/src/app/portfolio/static/
+      - media_volume:/usr/src/app/portfolio/media/
+    environment:
+      SECRETS_FILE: /run/secrets/portfolio_secrets
+    secrets:
+      - portfolio_secrets
     expose:
       - 8000
     env_file:
@@ -19,25 +24,38 @@ services:
     container_name: db
     image: postgres:14
     volumes:
-      - ${DB_VOLUME_NAME}:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=${SQL_USER}
-      - POSTGRES_PASSWORD=${SQL_PASSWORD}
-      - POSTGRES_DB=${SQL_DB_NAME}
+      - POSTGRES_DB=portfolio
+      - POSTGRES_USER_FILE=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    secrets:
+      - postgres_user
+      - postgres_password
     ports:
-      - 5432:5432
+      - "5432:5432"
   nginx:
     container_name: nginx
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: ./dev.dockerfile
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - static_volume:/static/
     depends_on:
       - web
 volumes:
-  postgres_data:
   static_volume:
+  media_volume:
+  postgres_data:
+secrets:
+  portfolio_secrets:
+    file: ./portfolio_secrets
+  postgres_password:
+    file: ./postgres_password
+  postgres_user:
+    file: ./postgres_user
 
 
 

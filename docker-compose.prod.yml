@@ -34,13 +34,15 @@ services:
       - postgres_user
       - postgres_password
     ports:
-      - 5432:5432
+      - "5432:5432"
   nginx:
     image: cugehock/portfolio:nginx-v1.0
     container_name: nginx
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: ./prod.dockerfile
     ports:
-      - 443:443
+      - "443:443"
     volumes:
       - static_volume:/static/
       - media_volume:/media/
