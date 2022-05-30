@@ -106,15 +106,9 @@ const Navbar = (props) => {
     return (
     	<StyledRow {...navbarContainerProps}>
 			<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
-			<RouterCustomLink to='/main/about-me/'>
-				<NavbarButton id={1} isClicked={clickedButtonID == 1} text={'About Me'} {...navButtonProps} />
-			</RouterCustomLink>
-			<RouterCustomLink to='/main/tech/'>
-				<NavbarButton id={2} isClicked={clickedButtonID == 2} text={'Technologies'} {...navButtonProps} />
-			</RouterCustomLink>
-			<RouterCustomLink to='/main/projects/'>
-				<NavbarButton id={3} isClicked={clickedButtonID == 3} text={'Projects'} {...navButtonProps} />
-			</RouterCustomLink>
+			<NavbarButton id={1} isClicked={clickedButtonID == 1} text={'About Me'} onClick={(e) => window.location = '/main/about-me/'} {...navButtonProps} />
+			<NavbarButton id={2} isClicked={clickedButtonID == 2} text={'Technologies'} onClick={(e) => window.location = '/main/tech/'} {...navButtonProps} />
+			<NavbarButton id={3} isClicked={clickedButtonID == 3} text={'Projects'} onClick={(e) => window.location = '/main/projects/'} {...navButtonProps} />
 			{
 				loginCtx.username ? 
 				<LoggedInStatus {...loginCtx} /> :

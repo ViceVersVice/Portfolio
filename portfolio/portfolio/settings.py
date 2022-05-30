@@ -208,6 +208,7 @@ if not DEBUG:
 
     SESSION_COOKIE_SECURE = True
     # CSRF
+    CSRF_TRUSTED_ORIGINS = ['https://*.kholiavskyi-portfolio.app']
     CSRF_COOKIE_DOMAIN = '.kholiavskyi-portfolio.app'
     CSRF_COOKIE_SECURE = True
 

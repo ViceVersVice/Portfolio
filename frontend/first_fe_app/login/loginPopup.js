@@ -68,7 +68,7 @@ const LoginPopup = (props) => {
 
     const privacyPolicyProps = {
         onClick: (e) => {
-            window.location = '/privacy-policy/'
+            window.location = '/main/privacy-policy/'
             props.closeLoginPopup(e)
         },
         ...baseButtonProps
