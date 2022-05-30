@@ -178,8 +178,8 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 }
 
 
-# Logging
 if not DEBUG:
+    # Logging
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -205,6 +205,11 @@ if not DEBUG:
             },
         },
     }
+
+    SESSION_COOKIE_SECURE = True
+    # CSRF
+    CSRF_COOKIE_DOMAIN = '.kholiavskyi-portfolio.app'
+    CSRF_COOKIE_SECURE = True
 
 
 try:

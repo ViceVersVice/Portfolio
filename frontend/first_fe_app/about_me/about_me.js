@@ -34,7 +34,7 @@ const AboutMePage = (props) => {
         textSizeCoefficient: 15,
         backgroundSizeCoefficient: 6,
         margin: '0px 20px 0px 0px',
-        boxShadow: '10px 5px 5px #b3b1b1',
+        boxShadow: '0 0 8px #b3b1b1',
         padding: '20px 15px 20px 0',
     }
 

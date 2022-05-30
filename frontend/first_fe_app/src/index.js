@@ -34,11 +34,11 @@ const App = () => {
             <BaseDiv background={'white'}>
                 <Navbar/>
                 <Routes>
-                    <Route path="/main-page/" element={<AboutMePage />}/>
-                    <Route path="/main-page/about-me/" element={<AboutMePage />}/>
-                    <Route path="/main-page/tech/" element={<SkillTablePage />}/>
-                    <Route path="/main-page/projects/" element={<ProjectsTablePage />}/>
-                    <Route path="/main-page/privacy-policy/" element={<PrivacyPolicy />}/>
+                    <Route path="/main/" element={<AboutMePage />}/>
+                    <Route path="/main/about-me/" element={<AboutMePage />}/>
+                    <Route path="/main/tech/" element={<SkillTablePage />}/>
+                    <Route path="/main/projects/" element={<ProjectsTablePage />}/>
+                    <Route path="/main/privacy-policy/" element={<PrivacyPolicy />}/>
                 </Routes>
             </BaseDiv>
         </LoginStatusContext.Provider>

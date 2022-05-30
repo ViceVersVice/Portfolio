@@ -46,16 +46,15 @@ const ProjectTechnologySnippet = (props) => {
         props.togglePopup(props.skill)
     }
 
-    const containerWidth = props.trackedSize / 14
+    const containerWidth = props.trackedSize / 13
 
     const snippetContainerProps = {
         flexDirection: 'column',
-        padding: '0 0 5px 0',
+        padding: '5px',
         margin: '15px 20px 0 0',
-        background: 'linear-gradient(0deg, #dee3de, white)',
         backgroundSize: '100% 100%',
         borderRadius: '15px',
-        boxShadow: '5px 5px 5px #b3b1b1',
+        boxShadow: '0 0 7px #b3b1b1',
         width: `${containerWidth}px`,
         title: props.skill.name,
         cursor: 'pointer',
@@ -76,7 +75,7 @@ const ProjectTechnologySnippet = (props) => {
     const techNameProps = {
         textAlign: 'center',
         fontSize: props.textFontSize,
-        margin: '8px 0 0 0',
+        margin: '5px 0 0 0',
     }
 
 
@@ -99,7 +98,7 @@ const ProjectsList = (props) => {
     const [popupSkillData, setPopupskillData] = useState(null);
     
     const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 35}px` : '30px'
-    const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 60}px` : '25px'
+    const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 70}px` : '25px'
 
     const togglePopup = (skillData) => {
         setShowPopup(!showPopup)
@@ -109,7 +108,7 @@ const ProjectsList = (props) => {
 	if(props.apiData) {
 		const projects = props.apiData.map((data, n) => {
 			return(
-                <StyledRow key={n} flexDirection={'column'} marginTop={'1%'} padding={'0 3% 2% 3%'} boxShadow={'0px 20px 2px -20px black'}>
+                <StyledRow key={n} flexDirection={'column'} marginTop={'1%'} padding={'0 2% 2% 2%'} boxShadow={'0px 20px 2px -20px black'}>
                     <StyledRow>
                         <ProjectImage src={data.image} trackedSize={props.trackedSize} />
                         <StyledRow flexDirection={'column'} margin={'0 0 0 2%'}>

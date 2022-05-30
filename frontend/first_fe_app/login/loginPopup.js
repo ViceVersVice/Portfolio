@@ -12,17 +12,8 @@ import {staticFolderUrl} from '../base/baseUrls.js'
 const PopupContainer = styled(BaseDiv)`
 	display: inline-flex;
 	flex-direction: column;
-	width: 40%;
-	max-height: 40%;
-    padding: 1px;
-    background: #f9f9f9;
     position: fixed;
-    left: 50%;
-	top: 30%;
   	transform: translate(-50%, -30px);
-  	border: 1px solid #9e9e9e;
-  	border-radius: 10px;
-    padding: 10px 40px 40px 40px;
 `
 
 
@@ -36,15 +27,29 @@ const LoginPopup = (props) => {
         console.log('FC click:')
     }
 
+    const popupContainerSize = window.innerWidth / 2
+    const headerFontSize = props.trackedSize > 0 ? props.trackedSize / 25 : 20
+
+    const popupContainerProps = {
+        background: '#f9f9f9',
+        padding: '30px 0 30px 0',
+        maxHeight: `${popupContainerSize}px`,
+        width: `${popupContainerSize}px`,
+        left: '50%',
+        top: '250px',
+        border: '1px solid #9e9e9e',
+  	    borderRadius: '10px',
+    }
+
     const baseButtonProps = {
         justifyContent: 'center',
-        textSizeCoefficient: 25,
-        backgroundSizeCoefficient: 10,
+        textSizeCoefficient: 28,
+        backgroundSizeCoefficient: 12,
         width: '80%',
         backgroundColor: '#e4ebf0',
         margin: '20px 0px 0px 0px',
-        boxShadow: '10px 5px 5px #b3b1b1',
-        padding: '25px 20px 25px 0',
+        boxShadow: '0 0 8px #b3b1b1',
+        padding: '20px 15px 20px 0',
     }
 
     const facebookLoginButtonProps = {
@@ -62,13 +67,16 @@ const LoginPopup = (props) => {
     }
 
     const privacyPolicyProps = {
-        onClick: props.closeLoginPopup,
+        onClick: (e) => {
+            window.location = '/privacy-policy/'
+            props.closeLoginPopup(e)
+        },
         ...baseButtonProps
     }
 
     const headerContainerProps = {
         flex: '1',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         display: 'inline-flex',
         alignItems: 'center',
         height: '100%'
@@ -83,20 +91,17 @@ const LoginPopup = (props) => {
         height: '100%',
     }
 
-    const popupContainerSize = props.trackedSize > 0 ? props.trackedSize * 6 : 400
-    const headerFontSize = props.trackedSize > 0 ? props.trackedSize / 25 : 20
-
     const popup = (
-        <PopupContainer height={`${popupContainerSize}px`} ref={props.trackSizeRef}>
+        <PopupContainer ref={props.trackSizeRef} {...popupContainerProps}>
             <BaseDiv {...headerContainerProps}>
-                <BaseSpan fontFamily={"'Lato', sans-serif"} fontSize={`${Math.max(headerFontSize, 10)}px`}>Please sign in if you want to comment)</BaseSpan>
+                <BaseSpan fontFamily={"'Lato', sans-serif"} fontSize={`${Math.max(headerFontSize, 10)}px`} textAlign={'center'}>Please sign in if you want to comment)</BaseSpan>
                 {props.closePopupButton}
             </BaseDiv>
             <BaseDiv {...buttonsContainerProps} >
                 <GenericButton {...facebookLoginButtonProps}>Sign in with Facebook</GenericButton>
                 <GenericButton {...googleLoginButtonProps}>Sign in with Google</GenericButton>
                 <GenericButton {...privacyPolicyProps}>
-                    <RouterCustomLink to='/main-page/privacy-policy/'>Privacy policy</RouterCustomLink>
+                    <RouterCustomLink to='/main/privacy-policy/'>Privacy policy</RouterCustomLink>
                 </GenericButton>
             </BaseDiv>
         </PopupContainer>

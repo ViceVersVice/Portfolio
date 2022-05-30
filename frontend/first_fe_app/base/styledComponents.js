@@ -38,6 +38,8 @@ const BaseDiv = styled.div`
     ${fontStyleCss};
     ${cursorCss};
     ${floatCss};
+    left: ${props => props.left};
+    top: ${props => props.top};
 `
 
 

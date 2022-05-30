@@ -63,9 +63,9 @@ const LoggedInStatus = (props) => {
 
 const Navbar = (props) => {
 	const navbarPathToButtonIdMap = {
-		'/main-page/about-me/': 1,
-		'/main-page/tech/': 2,
-		'/main-page/projects/': 3,
+		'/main/about-me/': 1,
+		'/main/tech/': 2,
+		'/main/projects/': 3,
 	}
 	const [showPopup, setShowPopup] = useState(false)
 	const [clickedButtonID, setClickedButtonID] = useState(navbarPathToButtonIdMap[window.location.pathname]);
@@ -97,7 +97,7 @@ const Navbar = (props) => {
 	const closeLoginPopupButtonProps = {
 		display: 'inline-flex', 
 		alignSelf: 'center', 
-		marginRight: '5%',
+		marginRight: '2%',
 		onClick: closeLoginPopup, 
 	}
 
@@ -106,13 +106,13 @@ const Navbar = (props) => {
     return (
     	<StyledRow {...navbarContainerProps}>
 			<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
-			<RouterCustomLink to='/main-page/about-me/'>
+			<RouterCustomLink to='/main/about-me/'>
 				<NavbarButton id={1} isClicked={clickedButtonID == 1} text={'About Me'} {...navButtonProps} />
 			</RouterCustomLink>
-			<RouterCustomLink to='/main-page/tech/'>
+			<RouterCustomLink to='/main/tech/'>
 				<NavbarButton id={2} isClicked={clickedButtonID == 2} text={'Technologies'} {...navButtonProps} />
 			</RouterCustomLink>
-			<RouterCustomLink to='/main-page/projects/'>
+			<RouterCustomLink to='/main/projects/'>
 				<NavbarButton id={3} isClicked={clickedButtonID == 3} text={'Projects'} {...navButtonProps} />
 			</RouterCustomLink>
 			{
