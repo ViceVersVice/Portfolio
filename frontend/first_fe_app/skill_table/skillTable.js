@@ -107,7 +107,7 @@ class SkillCard extends React.Component {
                         </BaseSpan>
                         <SKillLevelBadge skillLevel={this.skillData.level} levelColor={this.skillData.levelColor} trackedSize={trackedSize} />
                     </StyledFlexInlineRow>
-                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'1% 0 0 0'}>
+                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'35px 0 0 0'}>
                         <StyledSkillCardImage src={this.skillData.image}></StyledSkillCardImage>
                         <SkillDescripton characteristics={this.skillData.characteristics}>{truncatedDescription}</SkillDescripton>
                     </StyledFlexInlineRow>

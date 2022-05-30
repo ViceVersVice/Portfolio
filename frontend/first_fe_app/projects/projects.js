@@ -25,6 +25,8 @@ const ProjectImage = (props) => {
         minWidth: `${props.trackedSize / 6}px`,
         maxWidth: `${props.trackedSize / 3}px`,
         maxHeight: '100%',
+        cursor: 'pointer',
+        onClick: (e) => window.open(props.projectUrl)
     }
 
     return <BaseDiv {...imageProps} />
@@ -107,14 +109,22 @@ const ProjectsList = (props) => {
 
 	if(props.apiData) {
 		const projects = props.apiData.map((data, n) => {
+            const nameProps = {
+                fontSize: nameFontSize,
+                fontFamily: "'Coda Caption', sans-serif",
+                margin: '0',
+                cursor: 'pointer',
+                onClick: (e) => window.open(data.projectUrl)
+            }
+
 			return(
                 <StyledRow key={n} flexDirection={'column'} marginTop={'1%'} padding={'0 2% 2% 2%'} boxShadow={'0px 20px 2px -20px black'}>
                     <StyledRow>
-                        <ProjectImage src={data.image} trackedSize={props.trackedSize} />
+                        <ProjectImage src={data.image} trackedSize={props.trackedSize} projectUrl={data.projectUrl} />
                         <StyledRow flexDirection={'column'} margin={'0 0 0 2%'}>
-                            <BaseParagraph fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} margin={'0'}>
+                            <BaseSpan {...nameProps}>
                                 <b>{data.name}</b>
-                            </BaseParagraph>
+                            </BaseSpan>
                             <BaseParagraph fontSize={textFontSize} margin={'10px 10px 10px 0'}>
                                 <b>Duration: </b>
                                 {data.duration}

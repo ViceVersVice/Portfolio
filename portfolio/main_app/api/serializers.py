@@ -72,7 +72,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['name', 'text', 'duration', 'start_date', 'image', 'technologies']
+        fields = ['name', 'text', 'duration', 'start_date', 'image', 'technologies', 'project_url']
 
     def get_duration(self, obj: Project):
         if (days := getattr(obj.duration, 'days', 0)) and days >= 30:

@@ -55,6 +55,7 @@ class Project(models.Model):
     text = models.TextField(max_length=500)
     duration = models.DurationField()
     start_date = models.DateTimeField()
+    project_url = models.CharField(max_length=60, null=True)
     image = models.FileField(upload_to='projects_images/', blank=True, null=True)
     technologies = models.ManyToManyField(Skill, related_name='projects')
 

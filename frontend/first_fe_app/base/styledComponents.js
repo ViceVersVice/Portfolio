@@ -49,6 +49,7 @@ const BaseSpan = styled.span`
     ${marginCss};
     ${paddingCss};
     ${backgroundCss};
+    ${cursorCss};
     text-align: ${props => props.textAlign};
     line-height: ${props => props.lineHeight};
     word-break: break-word;
