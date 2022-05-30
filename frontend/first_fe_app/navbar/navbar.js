@@ -28,7 +28,7 @@ const NavbarButton = (props) => {
 	}
 
 	const navButtonProps = {
-		marginRight: '55px',
+		marginRight: '45px',
 		maxWidth: '200px', 
 		justifyContent: 'center', 
 		alignItems: 'center',
@@ -50,6 +50,7 @@ const NavbarButton = (props) => {
 
 const LoggedInStatus = (props) => {
 	const imageProps = {
+		margin: '0 45px 0 0',
 		padding: '15px',
 		borderRadius: '50%',
 		cursor: 'pointer',

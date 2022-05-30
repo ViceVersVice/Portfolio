@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { baseUrl, skillProjectsBaseUrl } from '../base/baseUrls.js'
-import { BaseDiv, BaseParagraph, StyledRow, StyledFlexInlineRow, BaseImg } from '../base/styledComponents.js'
+import { BaseDiv, BaseParagraph, StyledRow, StyledFlexInlineRow, BaseImg, BaseSpan } from '../base/styledComponents.js'
 import { EndlessPaginationHoc } from '../skill_table/endlessPagination.js'
 import { SizeTrackerHoc } from '../skill_table/sizeTracker.js'
 import { SkillPopup } from '../skill_table/skillPopup.js'
@@ -22,8 +22,8 @@ const ProjectImage = (props) => {
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         objectFit: 'fill',
-        minWidth: `${props.trackedSize / 8}px`,
-        maxWidth: `${props.trackedSize / 4}px`,
+        minWidth: `${props.trackedSize / 6}px`,
+        maxWidth: `${props.trackedSize / 3}px`,
         maxHeight: '100%',
     }
 
@@ -46,25 +46,51 @@ const ProjectTechnologySnippet = (props) => {
         props.togglePopup(props.skill)
     }
 
-    const snippetProps = {
-        padding: '5%',
-        margin: '0 5% 0 0',
+    const containerWidth = props.trackedSize / 14
+
+    const snippetContainerProps = {
+        flexDirection: 'column',
+        padding: '0 0 5px 0',
+        margin: '15px 20px 0 0',
         background: 'linear-gradient(0deg, #dee3de, white)',
+        backgroundSize: '100% 100%',
         borderRadius: '15px',
-        width: `${props.trackedSize / 40}px`,
-        cursor: 'pointer',
+        boxShadow: '5px 5px 5px #b3b1b1',
+        width: `${containerWidth}px`,
         title: props.skill.name,
-        src: props.skill.image,
+        cursor: 'pointer',
         onMouseEnter: toHighlight,
         onMouseLeave: unHighlight,
         onClick: onClick,
     }
 
-    if(highlight){
-        snippetProps.background = 'linear-gradient(0deg, #eff797, white)'
+    const snippetImageProps = {
+        backgroundPosition: '50% 50%',
+        backgroundSize: '100% 100%',
+        height: `${containerWidth - 10}px`,
+        width: '100%',
+		backgroundImage: `url('${props.skill.image}')`,
+        borderRadius: '15px',
     }
 
-    return <BaseImg {...snippetProps} />
+    const techNameProps = {
+        textAlign: 'center',
+        fontSize: props.textFontSize,
+        margin: '8px 0 0 0',
+    }
+
+
+    if(highlight){
+        snippetContainerProps.background = 'linear-gradient(0deg, #eff797, white)'
+    }
+
+    return(
+        <StyledRow {...snippetContainerProps}>
+            <BaseDiv {...snippetImageProps} />
+            <BaseSpan {...techNameProps}>{props.skill.name}</BaseSpan>
+        </StyledRow>
+        
+    )
 }
 
 
@@ -72,8 +98,8 @@ const ProjectsList = (props) => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupSkillData, setPopupskillData] = useState(null);
     
-    const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 45}px` : '30px'
-    const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 70}px` : '25px'
+    const nameFontSize = props.trackedSize > 0 ? `${props.trackedSize / 35}px` : '30px'
+    const textFontSize = props.trackedSize > 0 ? `${props.trackedSize / 60}px` : '25px'
 
     const togglePopup = (skillData) => {
         setShowPopup(!showPopup)
@@ -83,18 +109,18 @@ const ProjectsList = (props) => {
 	if(props.apiData) {
 		const projects = props.apiData.map((data, n) => {
 			return(
-                <StyledRow key={n} flexDirection={'column'} marginTop={'1%'} padding={'0 0 0 2%'} boxShadow={'0px 20px 2px -20px black'}>
+                <StyledRow key={n} flexDirection={'column'} marginTop={'1%'} padding={'0 3% 2% 3%'} boxShadow={'0px 20px 2px -20px black'}>
                     <StyledRow>
                         <ProjectImage src={data.image} trackedSize={props.trackedSize} />
                         <StyledRow flexDirection={'column'} margin={'0 0 0 2%'}>
                             <BaseParagraph fontSize={nameFontSize} fontFamily={"'Coda Caption', sans-serif"} margin={'0'}>
                                 <b>{data.name}</b>
                             </BaseParagraph>
-                            <BaseParagraph fontSize={textFontSize}>
+                            <BaseParagraph fontSize={textFontSize} margin={'10px 10px 10px 0'}>
                                 <b>Duration: </b>
                                 {data.duration}
                             </BaseParagraph>
-                            <StyledRow>
+                            <StyledRow flexWrap={'wrap'}>
                                 {
                                     data.technologies.length ? 
                                     data.technologies.map((skill, n) => {
@@ -102,6 +128,7 @@ const ProjectsList = (props) => {
                                             key: n,
                                             skill: skill,
                                             trackedSize: props.trackedSize,
+                                            textFontSize: textFontSize,
                                             togglePopup: togglePopup,
                                         }
                                         return <ProjectTechnologySnippet {...snippetProps} />
@@ -110,8 +137,8 @@ const ProjectsList = (props) => {
                             </StyledRow>
                         </StyledRow>
                     </StyledRow>
-                    <StyledRow>
-                        <BaseParagraph fontSize={textFontSize}>{data.text}</BaseParagraph>
+                    <StyledRow margin={'2% 0 0 0'}>
+                        <BaseSpan fontSize={textFontSize} >{data.text}</BaseSpan>
                     </StyledRow>
                 </StyledRow>
 			)

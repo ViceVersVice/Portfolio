@@ -18,13 +18,13 @@ const AboutMePage = (props) => {
         float: 'right',
         justifyContent: 'center',
         flex: '2',
-        padding: '2%',
-		borderRadius: '50%',
-        width: `${imageSize * 0.9}px`,
+        margin: '0 0 0 3%',
+        width: `${imageSize * 0.8}px`,
         height: `${imageSize}px`,
         backgroundPosition: '50% 50%',
         backgroundSize: '100% 100%',
-		backgroundImage: "url('/static/photos/hujoto.jpg')"
+		backgroundImage: "url('/static/photos/hujoto.jpg')",
+        borderRadius: '15%',
 	}
 
     const baseButtonProps = {
@@ -69,7 +69,7 @@ const AboutMePage = (props) => {
                         In this app you can find in interactive manner my skills and projects. 
                     </BaseParagraph>
                 </StyledFlexInlineRow>
-                <StyledFlexInlineRow>
+                <StyledFlexInlineRow margin={'1% 0 0 0'}>
                     <GenericButton {...githubProps}>
                         GitHub
                     </GenericButton>

@@ -65,6 +65,7 @@ const flexBoxCss = css`
     align-self: ${props => props.alignSelf || 'auto'};
     align-items: ${props => props.alignItems || 'stretch'};
     flex-direction: ${props => props.flexDirection || 'row'};
+    flex-wrap: ${props => props.flexWrap};
     overflow: ${props => props.overflow || ''};
     overflow-x: ${props => props.overflowX || ''};
     overflow-y: ${props => props.overflowY || ''};

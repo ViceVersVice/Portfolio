@@ -80,15 +80,16 @@ class SkillCard extends React.Component {
 
     getProps() {
         return {
-           borderStyle: '0.2rem solid #d8e1f4',
-           borderRadius: '5px',
-           justifyContent: 'space-evenly', 
-           flex: '1',
-           boxShadow: this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5',
-           onClick: this.togglePopup,
-           onMouseEnter: this.highlightCard,
-           onMouseLeave: this.unHighlightCard,
-           ref: this.props.trackSizeRef,
+            justifyContent: 'space-evenly',
+            flex: '1',
+            padding: '1%',
+            borderStyle: '0.2rem solid #d8e1f4',
+            borderRadius: '5px',
+            boxShadow: this.state.highlight ? '20px 20px 4px 1px #e5e5e5': '10px 10px 4px 1px #e5e5e5',
+            onClick: this.togglePopup,
+            onMouseEnter: this.highlightCard,
+            onMouseLeave: this.unHighlightCard,
+            ref: this.props.trackSizeRef,
         };
     };
 
@@ -100,19 +101,19 @@ class SkillCard extends React.Component {
         return (
             <StyledFlexCardInlineRow {...this.getProps()}>
                 <StyledFlexInlineRow flexDirection={'column'} justifyContent={'space-evenly'} flex={'1'}>
-                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-between"} margin={'0% 0% 2% 0%'} padding={'3%'}>
+                    <StyledFlexInlineRow flex={'1'} justifyContent={"space-between"}>
                         <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={nameFontSize} fontWeight={'bold'}>
                             {this.skillData.name}
                         </BaseSpan>
                         <SKillLevelBadge skillLevel={this.skillData.level} levelColor={this.skillData.levelColor} trackedSize={trackedSize} />
                     </StyledFlexInlineRow>
-                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'0% 2% 0% 2%'}>
+                    <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'1% 0 0 0'}>
                         <StyledSkillCardImage src={this.skillData.image}></StyledSkillCardImage>
-                        <SkillDescripton margin={'5%'} characteristics={this.skillData.characteristics}>{truncatedDescription}</SkillDescripton>
+                        <SkillDescripton characteristics={this.skillData.characteristics}>{truncatedDescription}</SkillDescripton>
                     </StyledFlexInlineRow>
                     {/* Abusing box-shadow to create borders....*/}
                     <StyledFlexInlineRow flex={'1'} justifyContent={'flex-start'}>
-                        <GenericButton margin={'2% 0% 2% 3%'} display={'inline-flex'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{this.skillData.commentsCount || 0}</b> Comments</GenericButton>
+                        <GenericButton display={'inline-flex'} buttonImage={`${staticFolderUrl}icons/comment.svg`}><b>{this.skillData.commentsCount || 0}</b> Comments</GenericButton>
                     </StyledFlexInlineRow>
                 </StyledFlexInlineRow>
             </StyledFlexCardInlineRow>

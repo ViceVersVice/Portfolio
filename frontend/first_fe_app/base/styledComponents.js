@@ -47,7 +47,9 @@ const BaseSpan = styled.span`
     ${marginCss};
     ${paddingCss};
     ${backgroundCss};
+    text-align: ${props => props.textAlign};
     line-height: ${props => props.lineHeight};
+    word-break: break-word;
 `
 
 const BaseIcon = styled.i`
@@ -142,8 +144,8 @@ const StyledEndOfPage = styled(BaseDiv)`
 
 
 const StyledSkillCardImage = styled.img`
-    margin: 5%;
-    max-width: 30%;
+    margin: 0 1% 0 0;
+    max-width: 45%;
     max-height: 60%;
 `
 
