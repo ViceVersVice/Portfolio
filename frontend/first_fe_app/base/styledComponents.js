@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import {backgroundCss, borderedCss, marginCss, flexBoxCss, fontStyleCss, paddingCss, sizeCss, cursorCss, fitCss, floatCss} from './baseStyles.js';
-import {staticFolderUrl} from './baseUrls.js';
 import { Link } from "react-router-dom";
 
 
@@ -104,6 +103,7 @@ const BaseInput = styled.input`
 
 const StyledRow = styled(BaseDiv)`
     display: flex;
+    animation: ${appearElement} 0.5s linear;
 `
 
 

@@ -1,9 +1,9 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext } from 'react';
 import {NavbarLogo, Button, NavbarText } from './styledComponents.js';
-import {StyledRow, StyledCloseButton, RouterCustomLink, BaseImg} from '../base/styledComponents.js'
+import {BaseDiv, StyledCloseButton, BaseImg} from '../base/styledComponents.js'
 import {LoginPopup} from '../login/loginPopup.js'
 import {LoginStatusContext} from '../login/loginContext.js'
-import {baseUrl, staticFolderUrl} from '../base/baseUrls.js';
+import {staticFolderUrl} from '../base/baseUrls.js';
 
 
 const NavbarButton = (props) => {
@@ -73,6 +73,7 @@ const Navbar = (props) => {
 	const loginCtx = useContext(LoginStatusContext)
 
 	const navbarContainerProps = {
+		display: 'flex',
 		background: 'linear-gradient(-180deg, #303030 15%, #767676)',
 		borderRadius: '0px 0px 10px 10px',
 		justifyContent: 'flex-end',
@@ -104,7 +105,7 @@ const Navbar = (props) => {
 	const closeLoginPopupButton = <StyledCloseButton {...closeLoginPopupButtonProps}></StyledCloseButton>
 
     return (
-    	<StyledRow {...navbarContainerProps}>
+    	<BaseDiv {...navbarContainerProps}>
 			<NavbarLogo src={`${staticFolderUrl}`}></NavbarLogo>
 			<NavbarButton id={1} isClicked={clickedButtonID == 1} text={'About Me'} onClick={(e) => window.location = '/main/about-me/'} {...navButtonProps} />
 			<NavbarButton id={2} isClicked={clickedButtonID == 2} text={'Technologies'} onClick={(e) => window.location = '/main/tech/'} {...navButtonProps} />
@@ -115,7 +116,7 @@ const Navbar = (props) => {
 				<NavbarButton isClicked={showPopup} onClick={showLoginPopup} text={'Sign in'} />
 			}
 			{showPopup ? <LoginPopup closePopupButton={closeLoginPopupButton} closeLoginPopup={closeLoginPopup}></LoginPopup>: null}
- 		</StyledRow>
+ 		</BaseDiv>
  	)
 }
 

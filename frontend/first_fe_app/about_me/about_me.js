@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     BaseDiv, BaseParagraph, StyledRow, StyledFlexInlineRow,
-    BaseImg, BaseSpan, RouterCustomLink 
+    BaseSpan
 } from '../base/styledComponents.js'
 import {staticFolderUrl} from '../base/baseUrls.js'
 import {GenericButton} from '../skill_table/genericButton.js';

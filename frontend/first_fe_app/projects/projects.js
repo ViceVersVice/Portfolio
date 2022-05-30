@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { baseUrl, skillProjectsBaseUrl } from '../base/baseUrls.js'
-import { BaseDiv, BaseParagraph, StyledRow, StyledFlexInlineRow, BaseImg, BaseSpan } from '../base/styledComponents.js'
+import { BaseDiv, BaseParagraph, StyledRow, BaseSpan } from '../base/styledComponents.js'
 import { EndlessPaginationHoc } from '../skill_table/endlessPagination.js'
 import { SizeTrackerHoc } from '../skill_table/sizeTracker.js'
 import { SkillPopup } from '../skill_table/skillPopup.js'
