@@ -18,6 +18,7 @@ function EndlessPaginationHoc(
             super(props);
             this.hocRef = React.createRef(null);
             this.getAPIData = this.getAPIData.bind(this);
+            this.isInViewport = this.isInViewport.bind(this);
             this.blockDataLoading = this.blockDataLoading.bind(this);
             this.unBlockDataLoading = this.unBlockDataLoading.bind(this);
 
@@ -41,6 +42,16 @@ function EndlessPaginationHoc(
                 blockLoading: false
             };
         };
+
+        isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
 
         getAPIData(getNextPage) {
             // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
@@ -83,13 +94,17 @@ function EndlessPaginationHoc(
         handlePaginationObserver(entities, observer) {
             // Tracks visibility of EndOfPage element and fetches additional data if EndOfPage becomes visible
             const dataLength = this.state.data.length;
-            if (!this.state.blockLoading
+            
+            if(!this.state.blockLoading
                 && dataLength 
-                && dataLength < this.state.totalItems 
-                && entities.length 
-                && entities[0].isIntersecting) {
-                this.getAPIData(true);
-            };
+                && dataLength < this.state.totalItems
+                && entities.length
+                && entities[0].isIntersecting
+            ){
+                this.getAPIData(true)
+            } else if(!this.state.blockLoading && this.hocRef.current && this.isInViewport(this.hocRef.current)){
+                this.getAPIData(true)
+            }
         }; 
 
         componentDidMount() {

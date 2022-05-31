@@ -19,7 +19,7 @@ SKILL_LEVEL_CHOICES = [
 
 class Skill(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
-    description = models.TextField(max_length=500, blank=True)
+    description = models.TextField(blank=True)
     image = models.FileField(upload_to='skill_images/', blank=True, null=True)
     level = models.IntegerField(choices=SKILL_LEVEL_CHOICES, default=ENTRY)
 
@@ -52,7 +52,7 @@ class Comment(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=60)
-    text = models.TextField(max_length=500)
+    text = models.TextField()
     duration = models.DurationField()
     start_date = models.DateTimeField()
     project_url = models.CharField(max_length=60, null=True)

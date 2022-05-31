@@ -51,6 +51,7 @@ const BaseSpan = styled.span`
     ${cursorCss};
     text-align: ${props => props.textAlign};
     line-height: ${props => props.lineHeight};
+    overflow: ${props => props.overflow};
     word-break: break-word;
 `
 
@@ -128,8 +129,9 @@ const StyledFlexCardInlineRow = styled(BaseDiv)`
 `
 
 
-const StyledSkillCardText = styled(BaseParagraph)`
+const StyledSkillCardText = styled(BaseSpan)`
     font-family: 'Lato', sans-serif;
+    overflow: scroll;
 `
 
 

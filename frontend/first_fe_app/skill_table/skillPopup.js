@@ -9,6 +9,7 @@ import {MainCommentForm} from './commentForms.js';
 import {getSkillCommentsCount, SkillCommentList} from './skillComments.js';
 import {GenericButton} from './genericButton.js';
 import {EndlessPaginationHoc} from './endlessPagination.js'
+import {SKillLevelBadge} from './skillTable.js'
 import {baseUrl, skillApiBaseNameUrl, staticFolderUrl} from '../base/baseUrls.js'
 
 
@@ -16,12 +17,12 @@ const PopupContainer = styled(BaseDiv)`
 	display: inline-flex;
 	flex-direction: column;
 	width: 80%;
-	max-height: 90%;
+	max-height: 80%;
     padding: 1px;
     background: #ececf1;
     position: fixed;
     left: 50%;
-	top: 15%;
+	top: 110px;
   	transform: translate(-50%, -30px);
   	border: 1px solid #9e9e9e;
   	border-radius: 10px;
@@ -115,6 +116,7 @@ class SkillPopup extends React.Component {
 		): null;
 		
 		const commentButtonProps = {
+			margin: '15px 0 0 0',
 			backgroundColor: '#ececf1',
 			highlightColor: this.state.showCommentForm ? '#dbb2b2': '#a3f590',
 			width: '12%',
@@ -132,11 +134,14 @@ class SkillPopup extends React.Component {
 				<BaseDiv padding={'20px'} borderRadius={'10px'} backgroundColor={'white'}>
 					<BaseDiv>
 						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'}>
-							<BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={'40px'}>{this.props.data.name}</BaseSpan>
+							<BaseDiv>
+								<BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={'40px'}>{this.props.data.name}</BaseSpan>
+								<SKillLevelBadge skillLevel={this.props.data.level} levelColor={this.props.data.levelColor} fontSize={'25px'} margin={'0 0 0 10px'} />
+							</BaseDiv>
 							<ClosePopupButton onClick={this.props.closePopup} />
 						</BaseDiv>
 						<BaseDiv display={'inline-flex'} justifyContent={'space-between'} width={'100%'} margin={'20px 0px 0px 0px'}>
-							<BaseDiv display={'inline-flex'} flex={4}>
+							<BaseDiv display={'inline-flex'} maxHeight={'200px'} flex={4}>
 								<StyledSkillCardText marginBlockStart={'0em'} fontSize={`${Math.max(fontSize, 10)}px`}>{this.props.data.description}</StyledSkillCardText>
 							</BaseDiv>
 						</BaseDiv>

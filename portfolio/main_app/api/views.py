@@ -23,7 +23,7 @@ class SkillViewSet(SnakeCamelViewSet):
         if level_filters := self.request.query_params.get('levelFilters'):
             filter_query |= Q(level__in=level_filters.split(','))
 
-        return Skill.objects.filter(filter_query)
+        return Skill.objects.filter(filter_query).order_by('-level')
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, args, kwargs)

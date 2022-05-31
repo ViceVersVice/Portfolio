@@ -40,11 +40,11 @@ const SKillLevelBadge = (props) => {
     const badgeProps = {
         fontFamily: "'Coda Caption', sans-serif",
         color: '#494949',
-        fontSize: props.trackedSize > 0 ? `${props.trackedSize / 20}px` : '20px',
-        padding: '2%',
+        padding: '10px',
         border: '1px solid #bdb4b4',
         borderRadius: '15px',
         background: `linear-gradient(0deg, ${props.levelColor}, white)`,
+        ...props
     }
 
     return <BaseSpan {...badgeProps}>{props.skillLevel}</BaseSpan>
@@ -105,7 +105,7 @@ class SkillCard extends React.Component {
                         <BaseSpan fontFamily={"'Coda Caption', sans-serif"} fontSize={nameFontSize} fontWeight={'bold'}>
                             {this.skillData.name}
                         </BaseSpan>
-                        <SKillLevelBadge skillLevel={this.skillData.level} levelColor={this.skillData.levelColor} trackedSize={trackedSize} />
+                        <SKillLevelBadge skillLevel={this.skillData.level} levelColor={this.skillData.levelColor} fontSize={trackedSize > 0 ? `${trackedSize / 20}px` : '20px'} />
                     </StyledFlexInlineRow>
                     <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'35px 0 0 0'}>
                         <StyledSkillCardImage src={this.skillData.image}></StyledSkillCardImage>
@@ -425,4 +425,4 @@ const SkillTablePage = (props) => {
 
 
 
-export { SkillTablePage };
+export { SkillTablePage, SKillLevelBadge };

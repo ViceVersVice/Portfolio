@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/main/')),
     path('admin/', admin.site.urls),
     path('skill_api/', include('main_app.api.urls')),
     path('main/', include('main_app.urls')),
