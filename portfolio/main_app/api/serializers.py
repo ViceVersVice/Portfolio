@@ -42,6 +42,7 @@ class SkillSerializer(serializers.ModelSerializer):
 class SkillCommentSerializer(serializers.ModelSerializer):
     comment_text = serializers.CharField(source='text')
     username = serializers.CharField(read_only=True, source='profile.username')
+    avatar = serializers.CharField(read_only=True, source='profile.avatar')
     date_added = serializers.SerializerMethodField(read_only=True)
 
     def get_date_added(self, obj: Comment):
@@ -62,7 +63,7 @@ class SkillCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['skill', 'comment_text', 'username', 'date_added', 'profile']
+        fields = ['skill', 'comment_text', 'username', 'avatar', 'date_added', 'profile']
 
 
 class ProjectSerializer(serializers.ModelSerializer):

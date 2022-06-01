@@ -11,7 +11,7 @@ def get_profile_image_upload_path(instance, filename):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to=get_profile_image_upload_path, blank=True, null=True)
+    avatar = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return f'Profile: {self.user.email}'

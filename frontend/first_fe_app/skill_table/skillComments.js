@@ -30,7 +30,7 @@ const MainComment = (props) => {
 		width: '100%',
 		height: '100%',
 		borderRadius: '50%',
-		src: '/static/icons/profile.png'
+		src: props.data.avatar || '/static/icons/profile.png',
 	}
 
 	return (
