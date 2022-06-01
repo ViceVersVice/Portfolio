@@ -176,7 +176,8 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'locale': 'ru_RU',
   'fields': 'id, name, email, picture'
 }
-
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/main/'
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 if not DEBUG:
     # Logging
@@ -207,6 +208,7 @@ if not DEBUG:
     }
 
     SESSION_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # CSRF
     CSRF_TRUSTED_ORIGINS = ['https://*.kholiavskyi-portfolio.app']
     CSRF_COOKIE_DOMAIN = '.kholiavskyi-portfolio.app'
