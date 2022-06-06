@@ -94,7 +94,6 @@ class SkillCard extends React.Component {
     };
 
     render() {
-        const truncatedDescription = `${this.skillData.description.slice(0, 160)}...`
         const trackedSize = this.props.trackedSize
         const nameFontSize = trackedSize > 0 ? `${trackedSize / 15}px` : '30px'
 
@@ -109,7 +108,7 @@ class SkillCard extends React.Component {
                     </StyledFlexInlineRow>
                     <StyledFlexInlineRow  flex={'5'} justifyContent={'space-evenely'} borderRadius={'10px'} margin={'35px 0 0 0'}>
                         <StyledSkillCardImage src={this.skillData.image}></StyledSkillCardImage>
-                        <SkillDescripton characteristics={this.skillData.characteristics}>{truncatedDescription}</SkillDescripton>
+                        <SkillDescripton description={this.skillData.description} />
                     </StyledFlexInlineRow>
                     {/* Abusing box-shadow to create borders....*/}
                     <StyledFlexInlineRow flex={'1'} justifyContent={'flex-start'}>
@@ -127,12 +126,13 @@ const TrackedSizeSkillCard = SizeTrackerHoc(SkillCard)
 
 const SkillDescripton = SizeTrackerHoc(
     (props) => {
-        const fontSize = props.trackedSize > 0 ? props.trackedSize / 20: 20;
+        const truncatedDescription = `${props.description.slice(0, 160)}...`
+        const fontSize = props.trackedSize > 0 ? Math.round(props.trackedSize / 20): 20;
         
         const containerProps_ = {
             ref: props.trackSizeRef,
             width: '100%',
-            paddingLeft: '10px',
+            paddingLeft: '20px',
             ...props
         }
 
@@ -144,7 +144,7 @@ const SkillDescripton = SizeTrackerHoc(
 
         return(
             <BaseDiv key={1} {...containerProps_}>
-                <StyledSkillCardText {...textProps}></StyledSkillCardText>
+                <StyledSkillCardText {...textProps}>{truncatedDescription}</StyledSkillCardText>
             </BaseDiv>
         )
     }
@@ -244,7 +244,7 @@ class SkillTable extends React.Component {
                 };
                 
                 rows.push(
-                    <BaseDiv minHeight={'300px'} key={rowNumber} display={'flex'}>
+                    <BaseDiv minHeight={'400px'} key={rowNumber} display={'flex'}>
                         {columns}
                     </BaseDiv>
                 );
@@ -363,13 +363,30 @@ const SkillLevelFilterBadge = (props) => {
 
 
 const SkillTablePage = (props) => {
-    const [TableFormat, setTableFormat] = useState(3)
-    const [itemsPerPage, setItemsPerPage] = useState(TableFormat * 2)
+    const screenWidth = window.screen.availWidth
+    const [activeTableFormat, setActiveTableFormat] = useState(screenWidth < 800 ? 1 : screenWidth < 1200 ? 2 : 3)
+    const [availableTableFormats, setAvailableTableFormats] = useState([])
+    const [itemsPerPage, setItemsPerPage] = useState(activeTableFormat * 3)
     const [availableLevelFilters, setAvailableLevelFilters] = useState(null)
     const [appliedLevelFilters, setAppliedLevelFilters] = useState([])
 
     useEffect(
         () => {
+            if(!availableTableFormats.length){
+                let _availableTableFormats = [1]
+
+                if(screenWidth >= 800 && screenWidth < 1200){
+                    _availableTableFormats = [1, 2]
+                }
+                
+                if(screenWidth >= 1200){
+                    _availableTableFormats = [2, 3]
+                }
+
+                setAvailableTableFormats(_availableTableFormats)
+            }
+            
+
             // Set availble level filters
             if(!availableLevelFilters){
                 getSkillLevelFilters(setAvailableLevelFilters)
@@ -388,19 +405,21 @@ const SkillTablePage = (props) => {
     )
 
     const changeTableFormat = (newTableformat) => {
-        if(newTableformat != TableFormat){ 
-            setTableFormat(newTableformat)
-            setItemsPerPage(newTableformat * 2)   
+        if(newTableformat != activeTableFormat){ 
+            setActiveTableFormat(newTableformat)
+            setItemsPerPage(newTableformat * 3)   
         }
-    };
-
+    }; 
 
     return (
         <>
-            <StyledRow padding={'10px'}>
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={2} backgroundColor={TableFormat == 2 ? '#acc2e4' : 'white'}></TableFormatButtonContainer>
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={3} backgroundColor={TableFormat == 3 ? '#acc2e4' : 'white'}></TableFormatButtonContainer>
-                <TableFormatButtonContainer parentOnClick={changeTableFormat} columnsNumber={4} backgroundColor={TableFormat == 4 ? '#acc2e4' : 'white'}></TableFormatButtonContainer>
+            <StyledRow padding={'10px'}> 
+                {
+                    availableTableFormats.length > 1 ? 
+                    availableTableFormats.map(
+                        (tableFormat) => <TableFormatButtonContainer key={tableFormat} parentOnClick={changeTableFormat} columnsNumber={tableFormat} backgroundColor={activeTableFormat == tableFormat ? '#acc2e4' : 'white'} />
+                    ) : null
+                }
                 {availableLevelFilters? 
                     Object.entries(availableLevelFilters).map(
                         (levelFilter, n) => {
@@ -418,7 +437,7 @@ const SkillTablePage = (props) => {
                     ) : null
                 }
             </StyledRow>
-            <EndlessTable tableFormat={TableFormat} />
+            <EndlessTable tableFormat={activeTableFormat} />
         </>
     );
 };

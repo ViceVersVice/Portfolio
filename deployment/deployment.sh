@@ -23,5 +23,16 @@ then
   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 fi
 
+if [ -d "build" ]; then
+  cd build
+  sudo docker compose -f docker-compose.prod.yml down
+  cd ..
+  yes | rm -R build/
+fi
 
-cd .. && docker-compose -f docker-compose.prod.yml up --build -d
+git clone https://github.com/ViceVersVice/Portfolio.git ./build
+sudo cp cert/fullchain.pem build/nginx/
+sudo cp cert/privkey.pem build/nginx/
+cp secrets/* build/
+cd build
+sudo docker compose -f docker-compose.prod.yml up --build -d

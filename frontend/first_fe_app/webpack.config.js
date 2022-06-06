@@ -10,7 +10,10 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: "babel-loader",
-                options: { presets: ["@babel/preset-react"] }
+                options: { 
+                    presets: ["@babel/preset-react"],
+                    plugins: ["@babel/plugin-transform-runtime"]
+                }
             },
             {
                 test: /\.css$/,

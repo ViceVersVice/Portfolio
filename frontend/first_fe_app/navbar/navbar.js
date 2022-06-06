@@ -51,10 +51,10 @@ const NavbarButton = (props) => {
 const LoggedInStatus = (props) => {
 	const imageProps = {
 		margin: '0 45px 0 0',
-		padding: '15px',
+		padding: '10px',
 		borderRadius: '50%',
 		cursor: 'pointer',
-		src: `${staticFolderUrl}icons/profile.png`,
+		src: props.avatar || `${staticFolderUrl}icons/profile.png`,
 	}
 
 	return <BaseImg title={`${props.firstName} ${props.lastName}`} {...imageProps} />

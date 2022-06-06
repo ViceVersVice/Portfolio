@@ -21,9 +21,14 @@ function SizeTrackerHoc(WrappedComponent) {
         }
     
         setSize() {
-            if(this.trackElementRef.current){
+            if(
+                this.trackElementRef.current
+                && Math.round(this.trackElementRef.current.clientWidth) != this.state.elementWidth
+            ){
+                const width = Math.round(this.trackElementRef.current.clientWidth)
+                
                 this.setState({
-                    elementWidth: this.trackElementRef.current.clientWidth
+                    elementWidth: width
                 })
             }
         }

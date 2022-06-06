@@ -131,7 +131,7 @@ const StyledFlexCardInlineRow = styled(BaseDiv)`
 
 const StyledSkillCardText = styled(BaseSpan)`
     font-family: 'Lato', sans-serif;
-    overflow: scroll;
+    overflow-y: scroll;
 `
 
 

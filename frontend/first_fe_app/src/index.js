@@ -18,7 +18,7 @@ const App = () => {
     const getContextData = (response) => {
         response.json().then(data => {
             if(data.username){
-                setUserCtx({'username': data.username, 'firstName': data.firstName, 'lastName': data.lastName})
+                setUserCtx(data)
             }
         })
 

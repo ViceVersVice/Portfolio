@@ -53,7 +53,7 @@ function EndlessPaginationHoc(
             );
         }
 
-        getAPIData(getNextPage) {
+        async getAPIData(getNextPage) {
             // If nextPage is requested, it just adds next page data to actual data --> not refetches all data
             this.setState({...this.state, dataIsLoading: true });
             const start = getNextPage ? this.state.dataCountStart + itemsPerPage: this.state.dataCountStart;
@@ -65,49 +65,47 @@ function EndlessPaginationHoc(
                 }
             }
 
-            fetch(fetchUrlWithParams)
-                .then(response => response.json())
-                .then(data => {
-                    const updState = {
-                        data: [...this.state.data, ...data.data],
-                        dataCountStart: start,
-                        dataIsLoading: false
-                    }
-                    // Will be needed to prevent redundant requests when all items are obtained
-                    if(!getNextPage){
-                        updState.totalItems = data.totalItems || -1;
-                    };
-                    
-                    if(extraResponseDataKeys){
-                        const extraResponseData = {}
-                        for(const key of extraResponseDataKeys){
-                            extraResponseData[key] = data[key]
-                        }
-                        
-                        updState.extraResponseData = extraResponseData
-                    }
+            let response = await fetch(fetchUrlWithParams)
+            let data = await response.json()
+            
+            const updState = {
+                data: [...this.state.data, ...data.data],
+                dataCountStart: start,
+                dataIsLoading: false
+            }
+            // Will be needed to prevent redundant requests when all items are obtained
+            if(!getNextPage){
+                updState.totalItems = data.totalItems || -1;
+            };
+            
+            if(extraResponseDataKeys){
+                const extraResponseData = {}
+                for(const key of extraResponseDataKeys){
+                    extraResponseData[key] = data[key]
+                }
+                
+                updState.extraResponseData = extraResponseData
+            }
 
-                    this.setState(updState)
-                });
+            this.setState(updState)
         };
 
-        handlePaginationObserver(entities, observer) {
+        async handlePaginationObserver(entities, observer) {
             // Tracks visibility of EndOfPage element and fetches additional data if EndOfPage becomes visible
             const dataLength = this.state.data.length;
             
-            if(!this.state.blockLoading
+            if(
+                !this.state.blockLoading
                 && dataLength 
                 && dataLength < this.state.totalItems
                 && entities.length
                 && entities[0].isIntersecting
             ){
-                this.getAPIData(true)
-            } else if(!this.state.blockLoading && this.hocRef.current && this.isInViewport(this.hocRef.current)){
-                this.getAPIData(true)
+                await this.getAPIData(true)
             }
         }; 
 
-        componentDidMount() {
+        async componentDidMount() {
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
@@ -124,7 +122,7 @@ function EndlessPaginationHoc(
             };
 
             if(!this.state.blockLoading){
-                this.getAPIData();
+                await this.getAPIData();
             } 
         };
         
