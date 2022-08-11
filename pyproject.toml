@@ -6,7 +6,7 @@ authors = ["bot <kotohawk@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "^4.0.3"
+Django = "^4.0.7"
 djangorestframework = "^3.13.1"
 Markdown = "^3.3.6"
 django-filter = "^21.1"
