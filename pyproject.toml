@@ -17,7 +17,7 @@ social-auth-app-django = "^5.0.0"
 pytest = "^7.1.1"
 pytest-django = "^4.5.2"
 fontawesomefree = "^6.1.1"
-Pillow = "^9.0.1"
+Pillow = "^9.3.0"
 freezegun = "^1.2.1"
 
 [tool.poetry.dev-dependencies]
