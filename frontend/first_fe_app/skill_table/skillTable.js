@@ -28,7 +28,7 @@ const EndOfPageRef = React.forwardRef((props, ref) => {
 })
 
 const getSkillLevelFilters = (updStateCallback) => {
-	fetch(`${baseUrl}/${skillApiBaseNameUrl}/level_filters/`)
+	fetch(`${baseUrl}/${skillApiBaseNameUrl}/filters/`)
 		.then(response => response.json())
 		.then(data => {
 			updStateCallback(data.levelfilters)

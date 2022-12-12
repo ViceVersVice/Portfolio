@@ -1,4 +1,3 @@
-from django.db.models import Q
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -8,8 +7,9 @@ from rest_framework.request import Request
 from accounts.models import UserProfile
 from base.views import SnakeCamelViewSet, SnakeCamelListView
 from .pagination import StartCountPagination
+from .query_builder import SkillQueryBuilder
 from .serializers import SkillSerializer, SkillCommentSerializer, ProjectSerializer, LEVEL_TO_COLOR_MAP
-from main_app.models import Skill, Comment, Project, SKILL_LEVEL_CHOICES
+from main_app.models import Skill, Comment, Project, SKILL_LEVEL_CHOICES, SKILL_CATEGORIES
 
 
 class SkillViewSet(SnakeCamelViewSet):
@@ -19,11 +19,9 @@ class SkillViewSet(SnakeCamelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        filter_query = Q()
-        if level_filters := self.request.query_params.get('levelFilters'):
-            filter_query |= Q(level__in=level_filters.split(','))
+        builder = SkillQueryBuilder(self.request.query_params)
 
-        return Skill.objects.filter(filter_query).order_by('-level')
+        return Skill.objects.filter(builder.build()).order_by('-level', '-priority')
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, args, kwargs)
@@ -43,13 +41,17 @@ class SkillViewSet(SnakeCamelViewSet):
 
         return self.paginator.get_paginated_response(serializer.data)
 
-    @action(detail=False, methods=['get'], basename='level-filters')
-    def level_filters(self, request: Request, *args, **kwargs):
+    @action(detail=False, methods=['get'], basename='filters')
+    def filters(self, request: Request, *args, **kwargs):
         return Response(
             {
                 'levelFilters': {
                     level: {'name': name, 'color': LEVEL_TO_COLOR_MAP.get(level)}
                     for level, name in SKILL_LEVEL_CHOICES
+                },
+                'categoryFilters': {
+                    id_name[0]: id_name[1]
+                    for id_name in SKILL_CATEGORIES
                 }
             }
         )

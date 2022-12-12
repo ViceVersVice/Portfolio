@@ -102,9 +102,9 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_secret('POSTGRES_DB'),
-        'USER': get_secret('POSTGRES_USER'),
-        'PASSWORD': get_secret('POSTGRES_PASSWORD'),
+        'NAME': get_secret('POSTGRES_DB', 'portfolio'),
+        'USER': get_secret('POSTGRES_USER', 'bot'),
+        'PASSWORD': get_secret('POSTGRES_PASSWORD', 'bot'),
         'HOST': get_secret('SQL_HOST'),
         'PORT': 5432,
     }

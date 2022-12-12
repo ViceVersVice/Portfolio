@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Skill, Comment, SkillCharacteristic, Project
+from .models import Skill, Comment, Project
 
 
 class SkillAdmin(admin.ModelAdmin):
@@ -23,5 +23,4 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Skill, SkillAdmin)
 admin.site.register(Comment, CommentAdmin)
-admin.site.register(SkillCharacteristic, SkillCharacteristicAdmin)
 admin.site.register(Project, ProjectAdmin)

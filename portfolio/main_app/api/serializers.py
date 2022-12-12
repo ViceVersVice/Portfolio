@@ -2,7 +2,7 @@ from django.utils import timezone
 
 from rest_framework import serializers
 
-from main_app.models import Skill, Comment, SkillCharacteristic, Project, ENTRY, MIDDLE, CONFIDENT, FLUENT, PRO
+from main_app.models import Skill, Comment, Project, ENTRY, MIDDLE, CONFIDENT, FLUENT, PRO
 
 
 LEVEL_TO_COLOR_MAP = {
@@ -14,15 +14,8 @@ LEVEL_TO_COLOR_MAP = {
 }
 
 
-class SkillCharacteristicSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SkillCharacteristic
-        fields = ['name', 'level']
-
-
 class SkillSerializer(serializers.ModelSerializer):
     comments_count = serializers.SerializerMethodField()
-    characteristics = SkillCharacteristicSerializer(many=True)
     level = serializers.CharField(source='get_level_display')
     level_color = serializers.SerializerMethodField()
 
@@ -35,7 +28,7 @@ class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
         fields = [
-            'id', 'name', 'description', 'image', 'comments_count', 'characteristics', 'level', 'level_color',
+            'id', 'name', 'description', 'image', 'comments_count', 'level', 'level_color',
         ]
 
 

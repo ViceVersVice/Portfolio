@@ -20,8 +20,7 @@ def user_factory():
 def user_profile_factory(user_factory):
     def _create(**kwargs) -> UserProfile:
         user = kwargs.pop('user', None) or user_factory()
-        date_of_birth = kwargs.pop('user', None) or timezone.now()
-        return UserProfile.objects.create(user=user, date_of_birth=date_of_birth, **kwargs)
+        return UserProfile.objects.create(user=user, **kwargs)
 
     return _create
 

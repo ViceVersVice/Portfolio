@@ -17,26 +17,32 @@ SKILL_LEVEL_CHOICES = [
 ]
 
 
+FRONTEND = 1
+BACKEND = 2
+DEV_OPS = 3
+TESTING = 4
+
+SKILL_CATEGORIES = [
+    (FRONTEND, 'Frontend'),
+    (BACKEND, 'Backend'),
+    (DEV_OPS, 'DevOps'),
+    (TESTING, 'Testing tools'),
+]
+
+
 class Skill(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(blank=True)
     image = models.FileField(upload_to='skill_images/', blank=True, null=True)
     level = models.IntegerField(choices=SKILL_LEVEL_CHOICES, default=ENTRY)
+    priority = models.IntegerField(default=0, blank=False)
+    category = models.IntegerField(choices=SKILL_CATEGORIES, default=BACKEND, null=False)
 
     def __str__(self):
         return f'{self.name}'
 
     class Meta:
         ordering = ['pk']
-
-
-class SkillCharacteristic(models.Model):
-    skill = models.ForeignKey(Skill, related_name='characteristics', null=False, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, null=False, blank=False)
-    level = models.IntegerField(choices=SKILL_LEVEL_CHOICES, default=ENTRY)
-
-    def __str__(self):
-        return f'{self.skill.name} - {self.name}'
 
 
 class Comment(models.Model):

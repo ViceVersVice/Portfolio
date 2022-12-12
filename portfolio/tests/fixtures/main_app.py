@@ -1,6 +1,6 @@
 import pytest
 
-from main_app.models import Skill, SkillCharacteristic, Comment
+from main_app.models import Skill, Comment
 
 
 @pytest.fixture
@@ -9,15 +9,6 @@ def skill_factory():
         return Skill.objects.create(**kwargs)
 
     return _create_skill
-
-
-@pytest.fixture
-def skill_characteristic_factory(skill_factory):
-    def _create(**kwargs):
-        skill = kwargs.pop('skill', None) or skill_factory(name='Skill')
-        return SkillCharacteristic.objects.create(skill=skill, **kwargs)
-
-    return _create
 
 
 @pytest.fixture
